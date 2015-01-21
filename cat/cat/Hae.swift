@@ -29,7 +29,8 @@ class Hae: SKNode {
     
     var delegate: HaeDelegate! = nil
     
-    let sp = SKSpriteNode(texture: nil, color: UIColor.redColor(), size: CGSize(width:100,height:100))
+    //let sp = SKSpriteNode(texture: nil, color: UIColor.redColor(), size: CGSize(width:100,height:100))
+    let sp = SKSpriteNode(imageNamed: "hae_1.png")
 
     override init() {
         

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A93A9EDB1A61588F0074EC00 /* Hae.swift in Sources */ = {isa = PBXBuildFile; fileRef = A93A9EDA1A61588F0074EC00 /* Hae.swift */; };
+		A94B81E41A70022A002243CD /* hae_1.png in Resources */ = {isa = PBXBuildFile; fileRef = A94B81E31A70022A002243CD /* hae_1.png */; };
 		A997B20C1A5AD8FC00E0319A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A997B20B1A5AD8FC00E0319A /* AppDelegate.swift */; };
 		A997B20E1A5AD8FC00E0319A /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = A997B20D1A5AD8FC00E0319A /* GameScene.sks */; };
 		A997B2121A5AD8FC00E0319A /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A997B2111A5AD8FC00E0319A /* GameViewController.swift */; };
@@ -16,6 +17,7 @@
 		A997B21A1A5AD8FC00E0319A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = A997B2181A5AD8FC00E0319A /* LaunchScreen.xib */; };
 		A997B2261A5AD8FC00E0319A /* catTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A997B2251A5AD8FC00E0319A /* catTests.swift */; };
 		A9A7DEB31A6197FC0086A830 /* coin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A9A7DEB21A6197FC0086A830 /* coin.mp3 */; };
+		A9BEFC4B1A657D78001B8F13 /* RetryBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BEFC4A1A657D78001B8F13 /* RetryBtn.swift */; };
 		A9E375EF1A6241BB00274A8F /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A997B20F1A5AD8FC00E0319A /* GameScene.swift */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +33,7 @@
 
 /* Begin PBXFileReference section */
 		A93A9EDA1A61588F0074EC00 /* Hae.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hae.swift; sourceTree = "<group>"; };
+		A94B81E31A70022A002243CD /* hae_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hae_1.png; sourceTree = "<group>"; };
 		A997B2061A5AD8FC00E0319A /* cat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A997B20A1A5AD8FC00E0319A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A997B20B1A5AD8FC00E0319A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -44,6 +47,7 @@
 		A997B2241A5AD8FC00E0319A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A997B2251A5AD8FC00E0319A /* catTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = catTests.swift; sourceTree = "<group>"; };
 		A9A7DEB21A6197FC0086A830 /* coin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = coin.mp3; sourceTree = "<group>"; };
+		A9BEFC4A1A657D78001B8F13 /* RetryBtn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RetryBtn.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +68,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A94B81E21A7001CD002243CD /* images */ = {
+			isa = PBXGroup;
+			children = (
+				A94B81E31A70022A002243CD /* hae_1.png */,
+			);
+			name = images;
+			sourceTree = "<group>";
+		};
 		A997B1FD1A5AD8FC00E0319A = {
 			isa = PBXGroup;
 			children = (
@@ -85,6 +97,7 @@
 		A997B2081A5AD8FC00E0319A /* cat */ = {
 			isa = PBXGroup;
 			children = (
+				A94B81E21A7001CD002243CD /* images */,
 				A9A7DEB11A6197F20086A830 /* sound */,
 				A997B20B1A5AD8FC00E0319A /* AppDelegate.swift */,
 				A997B20D1A5AD8FC00E0319A /* GameScene.sks */,
@@ -95,6 +108,7 @@
 				A997B2181A5AD8FC00E0319A /* LaunchScreen.xib */,
 				A997B2091A5AD8FC00E0319A /* Supporting Files */,
 				A93A9EDA1A61588F0074EC00 /* Hae.swift */,
+				A9BEFC4A1A657D78001B8F13 /* RetryBtn.swift */,
 			);
 			path = cat;
 			sourceTree = "<group>";
@@ -214,6 +228,7 @@
 			files = (
 				A997B21A1A5AD8FC00E0319A /* LaunchScreen.xib in Resources */,
 				A9A7DEB31A6197FC0086A830 /* coin.mp3 in Resources */,
+				A94B81E41A70022A002243CD /* hae_1.png in Resources */,
 				A997B2171A5AD8FC00E0319A /* Images.xcassets in Resources */,
 				A997B20E1A5AD8FC00E0319A /* GameScene.sks in Resources */,
 				A997B2151A5AD8FC00E0319A /* Main.storyboard in Resources */,
@@ -236,6 +251,7 @@
 			files = (
 				A997B2121A5AD8FC00E0319A /* GameViewController.swift in Sources */,
 				A93A9EDB1A61588F0074EC00 /* Hae.swift in Sources */,
+				A9BEFC4B1A657D78001B8F13 /* RetryBtn.swift in Sources */,
 				A9E375EF1A6241BB00274A8F /* GameScene.swift in Sources */,
 				A997B20C1A5AD8FC00E0319A /* AppDelegate.swift in Sources */,
 			);

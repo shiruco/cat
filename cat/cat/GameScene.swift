@@ -8,15 +8,16 @@
 
 import SpriteKit
 
-class GameScene: SKScene, HaeDelegate {
+class GameScene: SKScene, HaeDelegate, RetryDelegate {
     
     var score = 0
-    let remainTime = 30
-    var currentRemainTime = 30
+    let remainTime = 10
+    var currentRemainTime = 10
+    var currentScore = 0
     let scoreLabel = SKLabelNode(fontNamed:"Verdana-Bold")
     let timeLabel = SKLabelNode(fontNamed:"Verdana-Bold")
     let gameoverLabel = SKLabelNode(fontNamed:"Verdana-Bold")
-    let retryLabel = SKLabelNode(fontNamed:"Verdana-Bold")
+    let retryLabel = RetryBtn()
     let sound = SKAction.playSoundFileNamed("coin.mp3", waitForCompletion: false)
     let deviceWidth = UIScreen.mainScreen().nativeBounds.width
     
@@ -41,23 +42,19 @@ class GameScene: SKScene, HaeDelegate {
         gameoverLabel.text = "GAME OVER"
         gameoverLabel.fontSize = 90
         gameoverLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
-        gameoverLabel.hidden = true
-        self.addChild(gameoverLabel)
+        //self.addChild(gameoverLabel)
         
         //retry
-        retryLabel.text = "RETRY?"
-        retryLabel.fontSize = 70
         retryLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) - 100)
-        retryLabel.hidden = true
-        self.addChild(retryLabel)
+        retryLabel.delegate = self
+        retryLabel.zPosition = 1
+        //self.addChild(retryLabel)
         
         //タイマー
         gameTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "onTimerTrigger:", userInfo: nil, repeats: true)
         
         createTimer = NSTimer.scheduledTimerWithTimeInterval(0.7, target: self, selector: "createHae:", userInfo: nil, repeats: true)
         
-        
-        println(UIScreen.mainScreen().nativeBounds.width)
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -77,6 +74,7 @@ class GameScene: SKScene, HaeDelegate {
 //            sprite.runAction(SKAction.repeatActionForever(action))
 //            
 //            self.addChild(sprite)
+
         }
     }
    
@@ -123,6 +121,7 @@ class GameScene: SKScene, HaeDelegate {
             _x = (Int(self.frame.width) - Int(deviceWidth))/2 - 200
         }else{
             hae.dir = 1
+            hae.xScale = -1
             _x = (Int(self.frame.width) - Int(deviceWidth))/2 + Int(deviceWidth) + 200
             println(_x)
         }
@@ -137,10 +136,11 @@ class GameScene: SKScene, HaeDelegate {
         //time
         currentRemainTime -= 1
         if(currentRemainTime < 0){
-            currentRemainTime = 60
+            currentRemainTime = remainTime
             timeLabel.text = "0"
-            gameoverLabel.hidden = false
-            retryLabel.hidden = false
+            
+            self.addChild(gameoverLabel)
+            self.addChild(retryLabel)
             
             gameTimer!.invalidate()
             createTimer!.invalidate()
@@ -163,8 +163,51 @@ class GameScene: SKScene, HaeDelegate {
     }
     
     func haeTouched(hae:Hae){
-        score += 100
-        scoreLabel.text = String(score)
+        score += Int(100 * hae.xs / 2)
+        currentScore += score
+        
+        let pointLabel = SKLabelNode(fontNamed:"Verdana-Bold")
+        pointLabel.text = "+" + String(score)
+        pointLabel.fontSize = 50
+        pointLabel.position = CGPoint(x:hae.position.x, y:hae.position.y)
+        
+        let a1 = SKAction.fadeAlphaTo(0, duration: 1)
+        let a2 = SKAction.moveToY(hae.position.y + 100, duration: 1)
+        let ag = SKAction.group([a1, a2])
+        pointLabel.runAction(ag, completion: { () -> Void in
+            println("callback")
+            pointLabel.removeFromParent()
+        })
+        
+        self.addChild(pointLabel)
+        
+        scoreLabel.text = String(currentScore)
         runAction(sound)
+    }
+    
+    func retryTouched(){
+        for node : AnyObject in self.children{
+            
+            if((node as SKNode).name != nil && node.name == "hae"){
+                //Nodes.append(Node as SKNode)
+                var _node = node as Hae
+                _node.removeFromParent()
+                
+            }
+            
+        }
+        
+        gameoverLabel.removeFromParent()
+        retryLabel.removeFromParent()
+        
+        score = 0
+        currentScore = 0
+        scoreLabel.text = "0"
+        timeLabel.text = String(remainTime)
+        
+        gameTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "onTimerTrigger:", userInfo: nil, repeats: true)
+        
+        createTimer = NSTimer.scheduledTimerWithTimeInterval(0.7, target: self, selector: "createHae:", userInfo: nil, repeats: true)
+        
     }
 }
