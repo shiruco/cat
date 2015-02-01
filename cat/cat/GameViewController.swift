@@ -25,10 +25,33 @@ extension SKNode {
     }
 }
 
-class GameViewController: UIViewController {
+class GameViewController: UIViewController, GADBannerViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        var bannerView:GADBannerView = GADBannerView()
+        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+        bannerView.adUnitID = "ca-app-pub-7252416243361625/9591345191"
+        bannerView.frame.origin = CGPointMake(0, self.view.frame.size.height-50)
+        bannerView.frame.size = CGSizeMake(self.view.frame.size.width,50)
+        bannerView.rootViewController = self
+        bannerView.delegate = self
+        
+        bannerView.frame = CGRectMake(
+            (self.view.bounds.size.width - bannerView.bounds.size.width) / 2,
+            self.view.bounds.size.height - bannerView.bounds.size.height,
+            bannerView.bounds.size.width,
+            bannerView.bounds.size.height
+        )
+        
+        self.view.addSubview(bannerView)
+        
+        //test
+        var request:GADRequest = GADRequest()
+        request.testDevices = [GAD_SIMULATOR_ID]
+        
+        bannerView.loadRequest(request)
 
         if let scene = GameScene.unarchiveFromFile("GameScene") as? GameScene {
             // Configure the view.
@@ -66,5 +89,24 @@ class GameViewController: UIViewController {
 
     override func prefersStatusBarHidden() -> Bool {
         return true
+    }
+    
+    func adViewDidReceiveAd(adView: GADBannerView){
+        println("adViewDidReceiveAd:\(adView)")
+    }
+    func adView(adView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError){
+        println("error:\(error)")
+    }
+    func adViewWillPresentScreen(adView: GADBannerView){
+        println("adViewWillPresentScreen")
+    }
+    func adViewWillDismissScreen(adView: GADBannerView){
+        println("adViewWillDismissScreen")
+    }
+    func adViewDidDismissScreen(adView: GADBannerView){
+        println("adViewDidDismissScreen")
+    }
+    func adViewWillLeaveApplication(adView: GADBannerView){
+        println("adViewWillLeaveApplication")
     }
 }

@@ -27,10 +27,15 @@ class Hae: SKNode {
     //x軸方向へのスピード
     var xs:CGFloat = 2.0
     
+    var isDead:Bool = false
+    
     var delegate: HaeDelegate! = nil
     
     //let sp = SKSpriteNode(texture: nil, color: UIColor.redColor(), size: CGSize(width:100,height:100))
-    let sp = SKSpriteNode(imageNamed: "hae_1.png")
+    //let sp = SKSpriteNode(imageNamed: "hae_1.png")
+    
+    let sp:SKSpriteNode! = nil
+    let spHit:SKSpriteNode! = nil
 
     override init() {
         
@@ -38,7 +43,17 @@ class Hae: SKNode {
         
         self.userInteractionEnabled = true
         
+        let atlas = SKTextureAtlas(named: "hae")
+        let hae1 = atlas.textureNamed("hae_1.png")
+        let hae2 = atlas.textureNamed("hae_2.png")
+        
+        sp = SKSpriteNode(texture: hae1)
+        let haneAction = SKAction.animateWithTextures([hae1,hae2], timePerFrame: 0.01)
+        let flyAction = SKAction.repeatActionForever(haneAction)
+        sp.runAction(flyAction)
         self.addChild(sp)
+        
+        spHit = SKSpriteNode(imageNamed: "hae_hit.png")
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -46,13 +61,18 @@ class Hae: SKNode {
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        /* Called when a touch begins */
-        println(self)
+        
+        if(self.isDead){
+            return
+        }
+        
         self.delegate!.haeTouched(self)
         
         for touch: AnyObject in touches {
             sp.removeFromParent()
-            self.removeFromParent()
+            //self.removeFromParent()
+            self.addChild(spHit)
+            self.isDead = true
         }
     }
 

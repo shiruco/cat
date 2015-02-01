@@ -11,20 +11,25 @@ import SpriteKit
 class GameScene: SKScene, HaeDelegate, RetryDelegate {
     
     var score = 0
-    let remainTime = 10
-    var currentRemainTime = 10
+    let remainTime = 30
+    var currentRemainTime = 30
     var currentScore = 0
+    let bg = SKSpriteNode(imageNamed: "room.png")
     let scoreLabel = SKLabelNode(fontNamed:"Verdana-Bold")
     let timeLabel = SKLabelNode(fontNamed:"Verdana-Bold")
     let gameoverLabel = SKLabelNode(fontNamed:"Verdana-Bold")
     let retryLabel = RetryBtn()
-    let sound = SKAction.playSoundFileNamed("coin.mp3", waitForCompletion: false)
+    let sound = SKAction.playSoundFileNamed("hit.mp3", waitForCompletion: false)
     let deviceWidth = UIScreen.mainScreen().nativeBounds.width
     
     var gameTimer:NSTimer? = nil
     var createTimer:NSTimer? = nil
     
     override func didMoveToView(view: SKView) {
+        
+        //bg
+        bg.position = CGPoint(x:CGRectGetMidX(self.frame) - 200, y:CGRectGetHeight(self.frame) - 350)
+        self.addChild(bg)
         
         //time
         timeLabel.text = String(remainTime)
@@ -39,7 +44,7 @@ class GameScene: SKScene, HaeDelegate, RetryDelegate {
         self.addChild(scoreLabel)
         
         //gameover
-        gameoverLabel.text = "GAME OVER"
+        gameoverLabel.text = "TIME OVER"
         gameoverLabel.fontSize = 90
         gameoverLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
         //self.addChild(gameoverLabel)
@@ -53,7 +58,7 @@ class GameScene: SKScene, HaeDelegate, RetryDelegate {
         //タイマー
         gameTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "onTimerTrigger:", userInfo: nil, repeats: true)
         
-        createTimer = NSTimer.scheduledTimerWithTimeInterval(0.7, target: self, selector: "createHae:", userInfo: nil, repeats: true)
+        createTimer = NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: "createHae:", userInfo: nil, repeats: true)
         
     }
     
@@ -90,8 +95,10 @@ class GameScene: SKScene, HaeDelegate, RetryDelegate {
             else{
                 if(node.name == "hae"){
                     //Nodes.append(Node as SKNode)
-                    var _node = node as Hae
-                    _node.update()
+                    var hae = node as Hae
+                    if(!hae.isDead){
+                        hae.update()
+                    }
 
                 }
                 
@@ -114,7 +121,7 @@ class GameScene: SKScene, HaeDelegate, RetryDelegate {
         var _y = getRandomNumber(Min:240,Max:700)
         
         hae.range = CGFloat(getRandomNumber(Min:1,Max:12))
-        hae.xs = CGFloat(getRandomNumber(Min:2,Max:15))
+        hae.xs = CGFloat(getRandomNumber(Min:2,Max:10))
         
         if(_y % 2 == 1){
             hae.dir = 0
@@ -123,7 +130,6 @@ class GameScene: SKScene, HaeDelegate, RetryDelegate {
             hae.dir = 1
             hae.xScale = -1
             _x = (Int(self.frame.width) - Int(deviceWidth))/2 + Int(deviceWidth) + 200
-            println(_x)
         }
         
         hae.position = CGPoint(x:_x,y:_y)
@@ -163,7 +169,8 @@ class GameScene: SKScene, HaeDelegate, RetryDelegate {
     }
     
     func haeTouched(hae:Hae){
-        score += Int(100 * hae.xs / 2)
+        
+        score = Int(100 * hae.xs / 2)
         currentScore += score
         
         let pointLabel = SKLabelNode(fontNamed:"Verdana-Bold")
@@ -175,7 +182,6 @@ class GameScene: SKScene, HaeDelegate, RetryDelegate {
         let a2 = SKAction.moveToY(hae.position.y + 100, duration: 1)
         let ag = SKAction.group([a1, a2])
         pointLabel.runAction(ag, completion: { () -> Void in
-            println("callback")
             pointLabel.removeFromParent()
         })
         
@@ -183,6 +189,9 @@ class GameScene: SKScene, HaeDelegate, RetryDelegate {
         
         scoreLabel.text = String(currentScore)
         runAction(sound)
+        
+        let a3 = SKAction.fadeAlphaTo(0, duration: 0.5)
+        hae.runAction(a3)
     }
     
     func retryTouched(){
