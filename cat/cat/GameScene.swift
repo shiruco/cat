@@ -15,7 +15,10 @@ class GameScene: SKScene, HaeDelegate, RetryDelegate {
     var currentRemainTime = 30
     var currentScore = 0
     let bg = SKSpriteNode(imageNamed: "room.png")
+    let uiContainer = SKNode()
     let scoreLabel = SKLabelNode(fontNamed:"Verdana-Bold")
+    let timeBg = SKSpriteNode(imageNamed: "remain.png")
+    let ptBg = SKSpriteNode(imageNamed: "pt_bg.png")
     let timeLabel = SKLabelNode(fontNamed:"Verdana-Bold")
     let gameoverLabel = SKLabelNode(fontNamed:"Verdana-Bold")
     let retryLabel = RetryBtn()
@@ -27,21 +30,34 @@ class GameScene: SKScene, HaeDelegate, RetryDelegate {
     
     override func didMoveToView(view: SKView) {
         
-        //bg
-        bg.position = CGPoint(x:CGRectGetMidX(self.frame) - 200, y:CGRectGetHeight(self.frame) - 350)
+        //bg 350
+        bg.position = CGPoint(x:CGRectGetMidX(self.frame) - 200, y:CGRectGetHeight(self.frame) - 650)
         self.addChild(bg)
         
-        //time
-        timeLabel.text = String(remainTime)
-        timeLabel.fontSize = 50
-        timeLabel.position = CGPoint(x:CGRectGetMidX(self.frame) - 200, y:CGRectGetHeight(self.frame) - 70)
-        self.addChild(timeLabel)
+        //UI
+        uiContainer.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetHeight(self.frame) - 70)
+        self.addChild(uiContainer)
         
         //score
+        ptBg.position = CGPoint(x:150,y:0)
+        uiContainer.addChild(ptBg)
+        
         scoreLabel.text = "0"
-        scoreLabel.fontSize = 50
-        scoreLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetHeight(self.frame) - 70)
-        self.addChild(scoreLabel)
+        scoreLabel.fontSize = 40
+        scoreLabel.fontColor = SKColor(red: 0.19, green: 0.40, blue: 0.00, alpha: 1)
+        scoreLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Right
+        scoreLabel.position = CGPoint(x:80, y:-20)
+        ptBg.addChild(scoreLabel)
+        
+        //time
+        timeBg.position = CGPoint(x:0, y:0)
+        uiContainer.addChild(timeBg)
+        
+        timeLabel.text = String(remainTime)
+        timeLabel.fontSize = 50
+        timeLabel.fontColor = SKColor(red: 0.19, green: 0.40, blue: 0.00, alpha: 1)
+        timeLabel.position = CGPoint(x:0, y:-20)
+        timeBg.addChild(timeLabel)
         
         //gameover
         gameoverLabel.text = "TIME OVER"
@@ -66,19 +82,7 @@ class GameScene: SKScene, HaeDelegate, RetryDelegate {
         /* Called when a touch begins */
         
         for touch: AnyObject in touches {
-//            let location = touch.locationInNode(self)
-//            
-//            let sprite = SKSpriteNode(imageNamed:"Spaceship")
-//            
-//            sprite.xScale = 0.5
-//            sprite.yScale = 0.5
-//            sprite.position = location
-//            
-//            let action = SKAction.rotateByAngle(CGFloat(M_PI), duration:1)
-//            
-//            sprite.runAction(SKAction.repeatActionForever(action))
-//            
-//            self.addChild(sprite)
+            //do something
 
         }
     }
@@ -163,6 +167,7 @@ class GameScene: SKScene, HaeDelegate, RetryDelegate {
             }
             
         }else{
+            println(currentRemainTime)
             timeLabel.text = String(currentRemainTime)
         }
         
@@ -174,8 +179,9 @@ class GameScene: SKScene, HaeDelegate, RetryDelegate {
         currentScore += score
         
         let pointLabel = SKLabelNode(fontNamed:"Verdana-Bold")
+        pointLabel.fontColor = SKColor(red: 0.19, green: 0.40, blue: 0.00, alpha: 1)
         pointLabel.text = "+" + String(score)
-        pointLabel.fontSize = 50
+        pointLabel.fontSize = 40
         pointLabel.position = CGPoint(x:hae.position.x, y:hae.position.y)
         
         let a1 = SKAction.fadeAlphaTo(0, duration: 1)
