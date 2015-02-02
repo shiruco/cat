@@ -14,6 +14,13 @@ class GameScene: SKScene, HaeDelegate, RetryDelegate {
     let remainTime = 30
     var currentRemainTime = 30
     var currentScore = 0
+    
+    //layers
+    var contentLayer:SKNode? = nil
+    var bgLayer:SKNode? = nil
+    var haeLayer:SKNode? = nil
+    var uiLayer:SKNode? = nil
+    
     let bg = SKSpriteNode(imageNamed: "room.png")
     let uiContainer = SKNode()
     let scoreLabel = SKLabelNode(fontNamed:"Verdana-Bold")
@@ -30,13 +37,20 @@ class GameScene: SKScene, HaeDelegate, RetryDelegate {
     
     override func didMoveToView(view: SKView) {
         
+        //layer
+        contentLayer = childNodeWithName("contentLayer")
+        bgLayer = contentLayer!.childNodeWithName("bgLayer")
+        haeLayer = bgLayer!.childNodeWithName("haeLayer")
+        uiLayer = haeLayer!.childNodeWithName("uiLayer")
+        
         //bg 350
         bg.position = CGPoint(x:CGRectGetMidX(self.frame) - 200, y:CGRectGetHeight(self.frame) - 650)
-        self.addChild(bg)
+        bgLayer!.addChild(bg)
         
         //UI
         uiContainer.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetHeight(self.frame) - 70)
-        self.addChild(uiContainer)
+        uiContainer.hidden = true
+        uiLayer!.addChild(uiContainer)
         
         //score
         ptBg.position = CGPoint(x:150,y:0)
@@ -69,13 +83,18 @@ class GameScene: SKScene, HaeDelegate, RetryDelegate {
         retryLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) - 100)
         retryLabel.delegate = self
         retryLabel.zPosition = 1
-        //self.addChild(retryLabel)
         
-        //タイマー
-        gameTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "onTimerTrigger:", userInfo: nil, repeats: true)
-        
-        createTimer = NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: "createHae:", userInfo: nil, repeats: true)
-        
+        let contentDownAction = SKAction.moveToY(300, duration: 0.7)
+        contentDownAction.timingMode = SKActionTimingMode.EaseInEaseOut
+        contentLayer?.runAction(contentDownAction,completion: { () -> Void in
+            self.uiContainer.hidden = false
+            let uiDownAction = SKAction.moveToY(CGRectGetHeight(self.frame) - 370, duration: 0.7)
+            uiDownAction.timingMode = SKActionTimingMode.EaseIn
+            self.uiContainer.runAction(uiDownAction,completion: { () -> Void in
+                self.start()
+            })
+            
+        })
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -89,9 +108,7 @@ class GameScene: SKScene, HaeDelegate, RetryDelegate {
    
     override func update(currentTime: CFTimeInterval) {
         
-        //println(self.childNodeWithName("hae"))
-        
-        for node : AnyObject in self.children{
+        for node : AnyObject in haeLayer!.children{
             
             if (node as SKNode).name == nil  {
                 //println("name is nil")
@@ -111,6 +128,14 @@ class GameScene: SKScene, HaeDelegate, RetryDelegate {
         }
     }
     
+    func start() {
+        
+        //タイマー
+        gameTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "onTimerTrigger:", userInfo: nil, repeats: true)
+        
+        createTimer = NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: "createHae:", userInfo: nil, repeats: true)
+    }
+    
     func getRandomNumber(Min _Min : Int, Max _Max : Int)->Int {
         return Int(arc4random_uniform(UInt32(_Max))) + _Min
     }
@@ -122,7 +147,7 @@ class GameScene: SKScene, HaeDelegate, RetryDelegate {
         
         var _dir = 0 //0:left 1:right
         var _x = 0
-        var _y = getRandomNumber(Min:240,Max:700)
+        var _y = getRandomNumber(Min:0,Max:400)
         
         hae.range = CGFloat(getRandomNumber(Min:1,Max:12))
         hae.xs = CGFloat(getRandomNumber(Min:2,Max:10))
@@ -138,7 +163,7 @@ class GameScene: SKScene, HaeDelegate, RetryDelegate {
         
         hae.position = CGPoint(x:_x,y:_y)
         hae.delegate = self
-        self.addChild(hae)
+        haeLayer!.addChild(hae)
     }
     
     func onTimerTrigger(timer : NSTimer){
@@ -149,8 +174,8 @@ class GameScene: SKScene, HaeDelegate, RetryDelegate {
             currentRemainTime = remainTime
             timeLabel.text = "0"
             
-            self.addChild(gameoverLabel)
-            self.addChild(retryLabel)
+            uiLayer!.addChild(gameoverLabel)
+            uiLayer!.addChild(retryLabel)
             
             gameTimer!.invalidate()
             createTimer!.invalidate()
@@ -167,7 +192,6 @@ class GameScene: SKScene, HaeDelegate, RetryDelegate {
             }
             
         }else{
-            println(currentRemainTime)
             timeLabel.text = String(currentRemainTime)
         }
         
@@ -191,7 +215,7 @@ class GameScene: SKScene, HaeDelegate, RetryDelegate {
             pointLabel.removeFromParent()
         })
         
-        self.addChild(pointLabel)
+        haeLayer!.addChild(pointLabel)
         
         scoreLabel.text = String(currentScore)
         runAction(sound)
