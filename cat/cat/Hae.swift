@@ -33,6 +33,7 @@ class Hae: SKNode {
     
     let sp:SKSpriteNode! = nil
     let spHit:SKSpriteNode! = nil
+    let hitArea:SKSpriteNode! = nil
 
     override init() {
         
@@ -51,6 +52,9 @@ class Hae: SKNode {
         self.addChild(sp)
         
         spHit = SKSpriteNode(imageNamed: "hae_hit.png")
+        
+        hitArea = SKSpriteNode(color: UIColor(red:0,green:0,blue:0,alpha:0), size: CGSize(width: 100, height: 102))
+        sp.addChild(hitArea)
     }
 
     required init?(coder aDecoder: NSCoder) {
