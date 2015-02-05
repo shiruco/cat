@@ -48,8 +48,8 @@ class GameScene: SKScene, HaeDelegate, RetryDelegate {
         bgLayer!.addChild(bg)
         
         //UI
-        uiContainer.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetHeight(self.frame) - 70)
-        uiContainer.hidden = true
+        uiContainer.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetHeight(self.frame) - 370)
+        uiContainer.hidden = false
         uiLayer!.addChild(uiContainer)
         
         //score
@@ -87,13 +87,14 @@ class GameScene: SKScene, HaeDelegate, RetryDelegate {
         let contentDownAction = SKAction.moveToY(300, duration: 0.7)
         contentDownAction.timingMode = SKActionTimingMode.EaseInEaseOut
         contentLayer?.runAction(contentDownAction,completion: { () -> Void in
-            self.uiContainer.hidden = false
-            let uiDownAction = SKAction.moveToY(CGRectGetHeight(self.frame) - 370, duration: 0.7)
-            uiDownAction.timingMode = SKActionTimingMode.EaseIn
-            self.uiContainer.runAction(uiDownAction,completion: { () -> Void in
-                self.start()
-            })
-            
+//            self.uiContainer.hidden = false
+//            let uiDownAction = SKAction.moveToY(CGRectGetHeight(self.frame) - 370, duration: 0.7)
+//            uiDownAction.timingMode = SKActionTimingMode.EaseIn
+//            self.uiContainer.runAction(uiDownAction,completion: { () -> Void in
+//                self.uiContainer.removeAllActions()
+//                self.start()
+//            })
+            self.start()
         })
     }
     
