@@ -181,7 +181,7 @@ class GameScene: SKScene, HaeDelegate, RetryDelegate {
             gameTimer!.invalidate()
             createTimer!.invalidate()
             
-            for node : AnyObject in self.children{
+            for node : AnyObject in haeLayer!.children{
                 
                 if((node as SKNode).name != nil && node.name == "hae"){
                     //Nodes.append(Node as SKNode)
