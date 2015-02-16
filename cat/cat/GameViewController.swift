@@ -45,7 +45,7 @@ class GameViewController: UIViewController, GADBannerViewDelegate {
             bannerView.bounds.size.height
         )
         
-        //self.view.addSubview(bannerView)
+        self.view.addSubview(bannerView)
         
         //test
         var request:GADRequest = GADRequest()

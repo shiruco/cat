@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class GameScene: SKScene, HaeDelegate, RetryDelegate {
+class GameScene: SKScene, HaeDelegate, ResultDelegate {
     
     var score = 0
     let remainTime = 30
@@ -27,9 +27,8 @@ class GameScene: SKScene, HaeDelegate, RetryDelegate {
     let timeBg = SKSpriteNode(imageNamed: "remain.png")
     let ptBg = SKSpriteNode(imageNamed: "pt_bg.png")
     let timeLabel = SKLabelNode(fontNamed:"Verdana-Bold")
-    let gameoverLabel = SKLabelNode(fontNamed:"Verdana-Bold")
-    let retryLabel = RetryBtn()
     let sound = SKAction.playSoundFileNamed("hit.mp3", waitForCompletion: false)
+    let flySound = SKAction.playSoundFileNamed("fly.mp3", waitForCompletion: false)
     let deviceWidth = UIScreen.mainScreen().nativeBounds.width
     
     var resultModal:ResultModal? = nil
@@ -78,23 +77,15 @@ class GameScene: SKScene, HaeDelegate, RetryDelegate {
         timeLabel.position = CGPoint(x:0, y:-20)
         timeBg.addChild(timeLabel)
         
-        //gameover
-        gameoverLabel.text = "TIME OVER"
-        gameoverLabel.fontSize = 90
-        gameoverLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
-        //self.addChild(gameoverLabel)
-        
-        //retry
-        retryLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) - 100)
-        retryLabel.delegate = self
-        retryLabel.zPosition = 1
-        
         //resultModal
         resultModal = ResultModal()
-        resultModal!.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) + 400)
+        resultModal!.initY = CGRectGetMidY(self.frame) + 1000
+        resultModal!.moveY = CGRectGetMidY(self.frame) + 400
+        resultModal!.position = CGPoint(x:CGRectGetMidX(self.frame), y:resultModal!.initY)
+        resultModal!.delegate = self
         uiLayer!.addChild(resultModal!)
         
-        resultModal?.showResult()
+        resultModal?.show()
         
         //self.start()
     }
@@ -163,6 +154,10 @@ class GameScene: SKScene, HaeDelegate, RetryDelegate {
         hae.range = CGFloat(getRandomNumber(Min:1,Max:12))
         hae.xs = CGFloat(getRandomNumber(Min:2,Max:10))
         
+        if(_y > 300){
+            runAction(flySound)
+        }
+        
         if(_y % 2 == 1){
             hae.dir = 0
             _x = (Int(self.frame.width) - Int(deviceWidth))/2 - 200
@@ -175,6 +170,7 @@ class GameScene: SKScene, HaeDelegate, RetryDelegate {
         hae.position = CGPoint(x:_x,y:_y)
         hae.delegate = self
         haeLayer!.addChild(hae)
+        
     }
     
     func onTimerTrigger(timer : NSTimer){
@@ -193,8 +189,7 @@ class GameScene: SKScene, HaeDelegate, RetryDelegate {
                 //self.uiLayer!.addChild(self.resultModal!)
             })
             
-            uiLayer!.addChild(gameoverLabel)
-            uiLayer!.addChild(retryLabel)
+            resultModal!.show()
             
             gameTimer!.invalidate()
             createTimer!.invalidate()
@@ -252,11 +247,9 @@ class GameScene: SKScene, HaeDelegate, RetryDelegate {
                 _node.removeFromParent()
                 
             }
-            
         }
         
-        gameoverLabel.removeFromParent()
-        retryLabel.removeFromParent()
+        resultModal!.hide()
         
         score = 0
         currentScore = 0
