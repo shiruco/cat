@@ -25,6 +25,8 @@ class ResultModal: SKNode {
     let topBtn = SKSpriteNode(imageNamed: "stop_btn.png")
     let retryBtn = SKSpriteNode(imageNamed: "retry_btn.png")
     
+    var sumPoint = 0
+    
     let rowHeight = 100
     var contentHeight = 0
     
@@ -63,6 +65,7 @@ class ResultModal: SKNode {
         a1.timingMode = SKActionTimingMode.EaseIn
         self.runAction(a1,completion: { () -> Void in
             self.initRows()
+            self.sumPoint = 0
         })
     }
     
@@ -83,6 +86,12 @@ class ResultModal: SKNode {
         
         resultData = [["type":"normal","num":"10","point":"2000"],["type":"baby","num":"15","point":"200"]]
         
+        //calc summary
+        for(var i=0; i < resultData.count; i++){
+            let data = self.resultData[i] as Dictionary<String, String>
+            sumPoint += (data["point"]!.toInt()!)
+        }
+        
         addRow()
     }
     
@@ -93,7 +102,7 @@ class ResultModal: SKNode {
         if(resultData.count > 0){
             data = resultData[0] as Dictionary<String, String>
         }else{
-            self.showBtns()
+            self.showSum()
             return
         }
         
@@ -190,6 +199,52 @@ class ResultModal: SKNode {
         addRow()
     }
     
+    func addSumComplete(timer : NSTimer){
+        showBtns()
+    }
+
+    
+    func showSum(){
+        let modalHaeNumRow = SKSpriteNode(imageNamed: "result_content.png")
+        modalHaeNumRow.anchorPoint = CGPointMake(0.5, 1.0)
+        modalHaeNumRow.position = CGPoint(x: 0, y: -modalHead.frame.size.height - CGFloat(contentHeight))
+        self.addChild(modalHaeNumRow)
+        rows.append(modalHaeNumRow)
+        
+        contentHeight += 60
+        
+        let a1 = SKAction.resizeToHeight(CGFloat(rowHeight), duration: 0.3)
+        modalHaeNumRow.runAction(a1)
+        
+        let a2 = SKAction.moveToY(-(modalHead.frame.size.height + modalHaeNumRow.frame.size.height) - CGFloat(contentHeight + 20), duration: 0.3)
+        modalFoot.runAction(a2,completion: { () -> Void in
+            
+            let sum = SKSpriteNode(imageNamed: "sum.png")
+            sum.hidden = true
+            sum.position = CGPoint(x:0, y:-50)
+            modalHaeNumRow.addChild(sum)
+            
+            let dict1 = ["target":sum]
+            var timer1 = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "showSprite:", userInfo: dict1, repeats: false)
+            
+            let sptl = SKLabelNode(fontNamed:"Verdana-Bold")
+            sptl.zPosition = 1
+            
+            sptl.text = String(self.sumPoint) + "pt"
+            sptl.fontSize = 40
+            sptl.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Right
+            sptl.fontColor = SKColor(red: 0.19, green: 0.40, blue: 0.00, alpha: 1)
+            sptl.position = CGPoint(x:240, y:-60)
+            sptl.hidden = true
+            modalHaeNumRow.addChild(sptl)
+            
+            let dict2 = ["target":sptl]
+            var timer2 = NSTimer.scheduledTimerWithTimeInterval(0.3, target: self, selector: "showLabel:", userInfo: dict2, repeats: false)
+            
+            var timer3 = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "addSumComplete:", userInfo: nil, repeats: false)
+        })
+    }
+    
     func showBtns(){
         let modalHaeNumRow = SKSpriteNode(imageNamed: "result_content.png")
         modalHaeNumRow.anchorPoint = CGPointMake(0.5, 1.0)
@@ -197,7 +252,7 @@ class ResultModal: SKNode {
         self.addChild(modalHaeNumRow)
         rows.append(modalHaeNumRow)
         
-        contentHeight += 100
+        contentHeight += 80
         
         let a1 = SKAction.resizeToHeight(CGFloat(rowHeight), duration: 0.3)
         modalHaeNumRow.runAction(a1)
@@ -206,12 +261,12 @@ class ResultModal: SKNode {
         modalFoot.runAction(a2,completion: { () -> Void in
             self.topBtn.zPosition = 1
             self.topBtn.name = "top_btn"
-            self.topBtn.position = CGPoint(x:-110,y:-100)
+            self.topBtn.position = CGPoint(x:-110,y:-85)
             modalHaeNumRow.addChild(self.topBtn)
             
             self.retryBtn.zPosition = 1
             self.retryBtn.name = "retry_btn"
-            self.retryBtn.position = CGPoint(x:110,y:-100)
+            self.retryBtn.position = CGPoint(x:110,y:-85)
             modalHaeNumRow.addChild(self.retryBtn)
         })
     }
