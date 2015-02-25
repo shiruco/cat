@@ -1,3 +1,3 @@
 Fly
 ==========
-iOS Application
+game application written in Swift for iOS 8.
