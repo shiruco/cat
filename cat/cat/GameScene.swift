@@ -8,12 +8,17 @@
 
 import SpriteKit
 
-class GameScene: SKScene, HaeDelegate, ResultDelegate {
+class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultDelegate {
     
-    var score = 0
     let remainTime = 30
     var currentRemainTime = 30
     var currentScore = 0
+    
+    var kingAppearNum = 40
+    var isKingAppeared = false
+    
+    var skView:SKView?
+    var controller:UIViewController?
     
     //layers
     var contentLayer:SKNode? = nil
@@ -35,6 +40,17 @@ class GameScene: SKScene, HaeDelegate, ResultDelegate {
     
     var gameTimer:NSTimer? = nil
     var createTimer:NSTimer? = nil
+    var createBabyTimer:NSTimer? = nil
+    
+    //result data
+    var resultHaeNum = 0
+    var resultHaeNumPoint = 0
+    
+    var resultBabyHaeNum = 0
+    var resultBabyHaeNumPoint = 0
+    
+    var resultBossHaeNum = 0
+    var resultBossHaeNumPoint = 0
     
     override func didMoveToView(view: SKView) {
         
@@ -85,9 +101,7 @@ class GameScene: SKScene, HaeDelegate, ResultDelegate {
         resultModal!.delegate = self
         uiLayer!.addChild(resultModal!)
         
-        resultModal?.show()
-        
-        //self.start()
+        self.start()
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -113,7 +127,22 @@ class GameScene: SKScene, HaeDelegate, ResultDelegate {
                     if(!hae.isDead){
                         hae.update()
                     }
-
+                }
+                
+                if(node.name == "hae_baby"){
+                    //Nodes.append(Node as SKNode)
+                    var baby = node as HaeBaby
+                    if(!baby.isDead){
+                        baby.update()
+                    }
+                }
+                
+                if(node.name == "hae_king"){
+                    //Nodes.append(Node as SKNode)
+                    var king = node as HaeKing
+                    if(!king.isDead){
+                        king.update()
+                    }
                 }
                 
             }
@@ -122,6 +151,15 @@ class GameScene: SKScene, HaeDelegate, ResultDelegate {
     }
     
     func start() {
+        
+        resultHaeNum = 0
+        resultHaeNumPoint = 0
+        resultBabyHaeNum = 0
+        resultBabyHaeNumPoint = 0
+        resultBossHaeNum = 0
+        resultBossHaeNumPoint = 0
+        kingAppearNum = 40
+        isKingAppeared = false
         
         let contentDownAction = SKAction.moveToY(300, duration: 0.7)
         contentDownAction.timingMode = SKActionTimingMode.EaseInEaseOut
@@ -134,8 +172,41 @@ class GameScene: SKScene, HaeDelegate, ResultDelegate {
             
             self.createTimer = NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: "createHae:", userInfo: nil, repeats: true)
             
+            self.createBabyTimer = NSTimer.scheduledTimerWithTimeInterval(7, target: self, selector: "createHaeBaby:", userInfo: nil, repeats: true)
         })
+    }
+    
+    func getResultData() -> Array<Dictionary<String,String>> {
         
+        //resultdata 
+        var arr:Array = Array<Dictionary<String,String>>()
+        
+        //hae
+        var d = [String:String]()
+        d["type"] = "normal"
+        d["num"] = String(resultHaeNum)
+        d["point"] = String(resultHaeNumPoint)
+        arr.append(d)
+        
+        //if hit baby
+        if(resultBabyHaeNumPoint > 0){
+            d = [String:String]()
+            d["type"] = "baby"
+            d["num"] = String(resultBabyHaeNum)
+            d["point"] = String(resultBabyHaeNumPoint)
+            arr.append(d)
+        }
+        
+        //if defeat king
+        if(resultBossHaeNumPoint > 0){
+            d = [String:String]()
+            d["type"] = "boss"
+            d["num"] = String(resultBossHaeNum)
+            d["point"] = String(resultBossHaeNumPoint)
+            arr.append(d)
+        }
+        
+        return arr
     }
     
     func getRandomNumber(Min _Min : Int, Max _Max : Int)->Int {
@@ -143,7 +214,7 @@ class GameScene: SKScene, HaeDelegate, ResultDelegate {
     }
     
     func createHae(timer : NSTimer){
-        //createhae
+        //create hae normal
         let hae = Hae()
         hae.name = "hae"
         
@@ -170,7 +241,58 @@ class GameScene: SKScene, HaeDelegate, ResultDelegate {
         hae.position = CGPoint(x:_x,y:_y)
         hae.delegate = self
         haeLayer!.addChild(hae)
+    }
+    
+    func createHaeBaby(timer : NSTimer){
+        //create hae baby
+        let baby = HaeBaby()
+        baby.name = "hae_baby"
         
+        var _dir = 0 //0:left 1:right
+        var _x = 0
+        var _y = getRandomNumber(Min:0,Max:400)
+        
+        baby.range = CGFloat(getRandomNumber(Min:1,Max:6))
+        baby.xs = CGFloat(getRandomNumber(Min:2,Max:4))
+        
+        if(_y > 300){
+            runAction(flySound)
+        }
+        
+        if(_y % 2 == 1){
+            baby.dir = 0
+            _x = (Int(self.frame.width) - Int(deviceWidth))/2 - 200
+        }else{
+            baby.dir = 1
+            baby.xScale = -1
+            _x = (Int(self.frame.width) - Int(deviceWidth))/2 + Int(deviceWidth) + 200
+        }
+        
+        baby.position = CGPoint(x:_x,y:_y)
+        baby.delegate = self
+        haeLayer!.addChild(baby)
+    }
+    
+    func createKing(){
+        let king = HaeKing()
+        king.name = "hae_king"
+        
+        var _dir = 0 //0:left 1:right
+        var _x = 0
+        var _y = self.getRandomNumber(Min:0,Max:400)
+        
+        king.range = CGFloat(self.getRandomNumber(Min:1,Max:2))
+        king.xs = CGFloat(self.getRandomNumber(Min:3,Max:3))
+        
+        self.runAction(self.flySound)
+        
+        king.dir = 0
+        _x = (Int(self.frame.width) - Int(self.deviceWidth))/2 - 200
+        
+        king.position = CGPoint(x:_x,y:_y)
+        king.delegate = self
+        king.zPosition = 100
+        self.haeLayer!.addChild(king)
     }
     
     func onTimerTrigger(timer : NSTimer){
@@ -189,18 +311,28 @@ class GameScene: SKScene, HaeDelegate, ResultDelegate {
                 //self.uiLayer!.addChild(self.resultModal!)
             })
             
-            resultModal!.show()
+            //get result data
+            let data = getResultData()
+            
+            resultModal!.show(data)
             
             gameTimer!.invalidate()
             createTimer!.invalidate()
+            createBabyTimer!.invalidate()
             
             for node : AnyObject in haeLayer!.children{
                 
                 if((node as SKNode).name != nil && node.name == "hae"){
-                    //Nodes.append(Node as SKNode)
                     var _node = node as Hae
                     _node.disableTouch()
-                    
+                }
+                if((node as SKNode).name != nil && node.name == "hae_baby"){
+                    var _node = node as HaeBaby
+                    _node.disableTouch()
+                }
+                if((node as SKNode).name != nil && node.name == "hae_king"){
+                    var _node = node as HaeKing
+                    _node.disableTouch()
                 }
                 
             }
@@ -213,8 +345,11 @@ class GameScene: SKScene, HaeDelegate, ResultDelegate {
     
     func haeTouched(hae:Hae){
         
-        score = Int(100 * hae.xs / 2)
+        var score = Int(100 * hae.xs / 2)
         currentScore += score
+        
+        resultHaeNum++
+        resultHaeNumPoint = currentScore
         
         let pointLabel = SKLabelNode(fontNamed:"Verdana-Bold")
         pointLabel.fontColor = SKColor(red: 0.19, green: 0.40, blue: 0.00, alpha: 1)
@@ -236,14 +371,83 @@ class GameScene: SKScene, HaeDelegate, ResultDelegate {
         
         let a3 = SKAction.fadeAlphaTo(0, duration: 0.5)
         hae.runAction(a3)
+        
+        kingAppearNum -= 1
+        
+        if(kingAppearNum <= 0 && !isKingAppeared){
+            createKing()
+            isKingAppeared = true
+        }
+    }
+    
+    func haeBabyTouched(hae: HaeBaby) {
+        var score = Int(100 * hae.xs / 2) * 5
+        resultBabyHaeNumPoint += score
+        resultBabyHaeNum++
+        
+        runAction(sound)
+        
+        let a3 = SKAction.fadeAlphaTo(0, duration: 0.5)
+        hae.runAction(a3)
+    }
+    
+    func haeKingTouched(hae: HaeKing) {
+        
+        var score = Int(100 * hae.xs / 2) * 100
+
+        hae.defeatTapNum -= 1
+        if(hae.defeatTapNum <= 0){
+            hae.disableTouch()
+            hae.defeated()
+            hae.removeFromParent()
+            
+            resultBossHaeNum++
+            resultBossHaeNumPoint += score
+            return
+        }
+        
+        let pointLabel = SKLabelNode(fontNamed:"Verdana-Bold")
+        pointLabel.fontColor = SKColor(red: 0.19, green: 0.40, blue: 0.00, alpha: 1)
+        pointLabel.text = "+" + String(score)
+        pointLabel.fontSize = 40
+        pointLabel.position = CGPoint(x:hae.position.x, y:hae.position.y)
+        
+        let a1 = SKAction.fadeAlphaTo(0, duration: 1)
+        let a2 = SKAction.moveToY(hae.position.y + 100, duration: 1)
+        let ag = SKAction.group([a1, a2])
+        pointLabel.runAction(ag, completion: { () -> Void in
+            pointLabel.removeFromParent()
+        })
+        
+        haeLayer!.addChild(pointLabel)
+                
+        scoreLabel.text = String(currentScore)
+        runAction(sound)
+    }
+    
+    func topTouched() {
+        if controller != nil {
+            let c = controller as GameViewController
+            let t:SKTransition = SKTransition.flipVerticalWithDuration(0.7)
+            skView!.presentScene(c.mainScene, transition: t)
+        }
     }
     
     func retryTouched(){
         for node : AnyObject in haeLayer!.children{
             
             if((node as SKNode).name != nil && node.name == "hae"){
-                //Nodes.append(Node as SKNode)
                 var _node = node as Hae
+                _node.removeFromParent()
+                
+            }
+            if((node as SKNode).name != nil && node.name == "hae_baby"){
+                var _node = node as HaeBaby
+                _node.removeFromParent()
+                
+            }
+            if((node as SKNode).name != nil && node.name == "hae_king"){
+                var _node = node as HaeKing
                 _node.removeFromParent()
                 
             }
@@ -251,7 +455,6 @@ class GameScene: SKScene, HaeDelegate, ResultDelegate {
         
         resultModal!.hide()
         
-        score = 0
         currentScore = 0
         scoreLabel.text = "0"
         timeLabel.text = String(remainTime)

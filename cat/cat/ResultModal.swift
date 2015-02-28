@@ -9,6 +9,7 @@
 import SpriteKit
 
 protocol ResultDelegate {
+    func topTouched()
     func retryTouched()
 }
 
@@ -52,12 +53,16 @@ class ResultModal: SKNode {
         self.addChild(modalFoot)
     }
     
-    func show(){
-        let a1 = SKAction.moveToY(self.moveY, duration: 1.0)
-        a1.timingMode = SKActionTimingMode.EaseIn
-        self.runAction(a1,completion: { () -> Void in
-            self.showResult()
-        })
+    func show(data:Array<NSDictionary>){
+        resultData = data
+        
+        if(resultData.count > 0){
+            let a1 = SKAction.moveToY(self.moveY, duration: 1.0)
+            a1.timingMode = SKActionTimingMode.EaseIn
+            self.runAction(a1,completion: { () -> Void in
+                self.showResult()
+            })
+        }
     }
     
     func hide(){
@@ -84,12 +89,15 @@ class ResultModal: SKNode {
     
     func showResult(){
         
-        resultData = [["type":"normal","num":"10","point":"2000"],["type":"baby","num":"15","point":"200"]]
-        
         //calc summary
         for(var i=0; i < resultData.count; i++){
             let data = self.resultData[i] as Dictionary<String, String>
-            sumPoint += (data["point"]!.toInt()!)
+            
+            if(data["type"] == "baby"){
+                sumPoint -= (data["point"]!.toInt()!)
+            }else{
+                sumPoint += (data["point"]!.toInt()!)
+            }
         }
         
         addRow()
@@ -122,15 +130,34 @@ class ResultModal: SKNode {
         let a2 = SKAction.moveToY(-(modalHead.frame.size.height + modalHaeNumRow.frame.size.height) - CGFloat(contentHeight - 1), duration: 0.4)
         //a2.timingMode = SKActionTimingMode.EaseOut
         modalFoot.runAction(a2,completion: { () -> Void in
-            self.addChild(SKSpriteNode(imageNamed: "hae_1.png"))
+            //self.addChild(SKSpriteNode(imageNamed: "hae_1.png"))
             
-            let hae = SKSpriteNode(imageNamed: "hae_1.png")
-            hae.xScale = 0.8
-            hae.yScale = 0.8
-            hae.zPosition = 1
-            hae.position = CGPoint(x:-210,y:-50)
-            hae.hidden = true
-            modalHaeNumRow.addChild(hae)
+            var hae:SKSpriteNode!
+            if(data["type"] == "baby"){
+                hae = SKSpriteNode(imageNamed: "baby_1.png")
+                hae.xScale = 0.8
+                hae.yScale = 0.8
+                hae.zPosition = 1
+                hae.position = CGPoint(x:-210,y:-50)
+                hae.hidden = true
+                modalHaeNumRow.addChild(hae)
+            }else if(data["type"] == "boss"){
+                hae = SKSpriteNode(imageNamed: "boss_1.png")
+                hae.xScale = 0.15
+                hae.yScale = 0.15
+                hae.zPosition = 1
+                hae.position = CGPoint(x:-210,y:-50)
+                hae.hidden = true
+                modalHaeNumRow.addChild(hae)
+            }else{
+                hae = SKSpriteNode(imageNamed: "hae_1.png")
+                hae.xScale = 0.8
+                hae.yScale = 0.8
+                hae.zPosition = 1
+                hae.position = CGPoint(x:-210,y:-50)
+                hae.hidden = true
+                modalHaeNumRow.addChild(hae)
+            }
             
             let xl = SKLabelNode(fontNamed:"Verdana-Bold")
             xl.zPosition = 1
@@ -152,7 +179,13 @@ class ResultModal: SKNode {
             
             let ptl = SKLabelNode(fontNamed:"Verdana-Bold")
             ptl.zPosition = 1
-            ptl.text = data["point"]! + "pt"
+            
+            if(data["type"] != "baby"){
+                ptl.text = data["point"]! + "pt"
+            }else{
+                ptl.text = "-" + data["point"]! + "pt"
+            }
+            
             ptl.fontSize = 40
             ptl.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Right
             ptl.fontColor = SKColor(red: 0.19, green: 0.40, blue: 0.00, alpha: 1)
@@ -280,7 +313,7 @@ class ResultModal: SKNode {
             let location = touch.locationInNode(self)
             let touchedNode = self.nodeAtPoint(location)
             if(touchedNode.name == "top_btn"){
-                
+                self.delegate!.topTouched()
             }else if(touchedNode.name == "retry_btn"){
                 self.delegate!.retryTouched()
             }
