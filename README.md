@@ -1,4 +1,3 @@
-swift_test
+Fly
 ==========
-
-swift_test
+game application written in Swift for iOS 8.
