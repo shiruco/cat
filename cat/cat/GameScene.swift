@@ -98,6 +98,7 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
         resultModal!.initY = CGRectGetMidY(self.frame) + 1000
         resultModal!.moveY = CGRectGetMidY(self.frame) + 400
         resultModal!.position = CGPoint(x:CGRectGetMidX(self.frame), y:resultModal!.initY)
+        resultModal!.zPosition = 100
         resultModal!.delegate = self
         uiLayer!.addChild(resultModal!)
         
@@ -282,7 +283,7 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
         var _y = self.getRandomNumber(Min:0,Max:400)
         
         king.range = CGFloat(self.getRandomNumber(Min:1,Max:2))
-        king.xs = CGFloat(self.getRandomNumber(Min:3,Max:3))
+        king.xs = CGFloat(self.getRandomNumber(Min:2,Max:3))
         
         self.runAction(self.flySound)
         
@@ -291,7 +292,7 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
         
         king.position = CGPoint(x:_x,y:_y)
         king.delegate = self
-        king.zPosition = 100
+        king.zPosition = 50
         self.haeLayer!.addChild(king)
     }
     

@@ -78,6 +78,11 @@ class GameViewController: UIViewController, MainSceneDelegate, GADBannerViewDele
             skView.presentScene(scene)
         }
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.updateGameCenter()
+    }
 
     override func shouldAutorotate() -> Bool {
         return true
@@ -112,6 +117,8 @@ class GameViewController: UIViewController, MainSceneDelegate, GADBannerViewDele
             /* Sprite Kit applies additional optimizations to improve rendering performance */
             skView.ignoresSiblingOrder = true
             
+            skView.backgroundColor = UIColor.whiteColor()
+            
             /* Set the scale mode to scale to fit the window */
             //scene.scaleMode = .AspectFill
             scene.scaleMode = .AspectFill
@@ -142,5 +149,60 @@ class GameViewController: UIViewController, MainSceneDelegate, GADBannerViewDele
     }
     func adViewWillLeaveApplication(adView: GADBannerView){
         println("adViewWillLeaveApplication")
+    }
+}
+
+extension GameViewController: GKGameCenterControllerDelegate {
+    
+    func gameCenterViewControllerDidFinish(gameCenterViewController: GKGameCenterViewController!) {
+        gameCenterViewController.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    private func showLeaderboard() {
+        var gameCenterViewController = GKGameCenterViewController()
+        gameCenterViewController.gameCenterDelegate = self
+        gameCenterViewController.viewState = GKGameCenterViewControllerState.Leaderboards
+        //gameCenterViewController.leaderboardIdentifier = "brain.spead_match.score"
+        self.presentViewController(gameCenterViewController, animated: true, completion: nil)
+    }
+    
+    private func updateGameCenter() {
+        var localPlayer = GKLocalPlayer.localPlayer()
+        localPlayer.authenticateHandler = {
+            (viewController, error) -> Void in
+            if ((viewController) != nil) { // ログイン確認処理：失敗-ログイン画面を表示
+                self.presentViewController(viewController, animated: true, completion: nil)
+            }else{
+                if (error == nil){
+                    println("OKOK GAME CENTER")
+//                    for game in gameKinds {
+//                        let bestScore: Int = (self.user.bestScores[game.id] != nil) ? self.user.bestScores[game.id]! : 0
+//                        if bestScore > 10 {
+//                            self.reportScores(bestScore, leaderboardid: game.leaderboardId)
+//                        }
+//                    }
+//                    if self.user.level > 3 {
+//                        self.reportScores(self.user.level, leaderboardid: levelLeaderboardId)
+//                    }
+                }else{
+                    println("NGNG GAME CENTER",error)
+                    // ログイン認証失敗 なにもしない
+                }
+            }
+        }
+    }
+    
+    private func reportScores(value:Int, leaderboardid:String){
+        var score:GKScore = GKScore();
+        score.value = Int64(value);
+        score.leaderboardIdentifier = leaderboardid;
+        var scoreArr:[GKScore] = [score];
+        GKScore.reportScores(scoreArr, withCompletionHandler:{(error:NSError!) -> Void in
+            if( (error != nil)){
+                println("Sucess to reposrt \(leaderboardid)")
+            }else{
+                println("Faild to reposrt \(leaderboardid)")
+            }
+        });
     }
 }

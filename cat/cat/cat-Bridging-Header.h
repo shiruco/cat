@@ -12,4 +12,6 @@
 #import "GADBannerView.h"
 #import "GADInterstitial.h"
 
+#import <GameKit/GameKit.h>
+
 #endif

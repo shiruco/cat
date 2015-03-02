@@ -26,6 +26,10 @@ class ResultModal: SKNode {
     let topBtn = SKSpriteNode(imageNamed: "stop_btn.png")
     let retryBtn = SKSpriteNode(imageNamed: "retry_btn.png")
     
+    let btnSound = SKAction.playSoundFileNamed("btn.mp3", waitForCompletion: false)
+    let ptSound = SKAction.playSoundFileNamed("pt.mp3", waitForCompletion: false)
+    let sumSound = SKAction.playSoundFileNamed("sum.mp3", waitForCompletion: false)
+    
     var sumPoint = 0
     
     let rowHeight = 100
@@ -234,6 +238,7 @@ class ResultModal: SKNode {
     
     func addSumComplete(timer : NSTimer){
         showBtns()
+        self.runAction(self.ptSound)
     }
 
     
@@ -314,8 +319,10 @@ class ResultModal: SKNode {
             let touchedNode = self.nodeAtPoint(location)
             if(touchedNode.name == "top_btn"){
                 self.delegate!.topTouched()
+                runAction(btnSound)
             }else if(touchedNode.name == "retry_btn"){
                 self.delegate!.retryTouched()
+                runAction(btnSound)
             }
         }
     }
