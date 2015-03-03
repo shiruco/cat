@@ -7,7 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A909E34B1A9CC54500FD7521 /* HaeKing.swift in Sources */ = {isa = PBXBuildFile; fileRef = A909E34A1A9CC54500FD7521 /* HaeKing.swift */; };
+		A91609B41AA5EA8D006FD716 /* boss_1.png in Resources */ = {isa = PBXBuildFile; fileRef = A91609B21AA5EA8D006FD716 /* boss_1.png */; };
+		A91609B51AA5EA8D006FD716 /* boss_2.png in Resources */ = {isa = PBXBuildFile; fileRef = A91609B31AA5EA8D006FD716 /* boss_2.png */; };
+		A91609B71AA5ECDF006FD716 /* boss_hit.png in Resources */ = {isa = PBXBuildFile; fileRef = A91609B61AA5ECDF006FD716 /* boss_hit.png */; };
+		A91609B91AA5ED13006FD716 /* HaeKing.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91609B81AA5ED13006FD716 /* HaeKing.swift */; };
+		A91609BB1AA5FF9E006FD716 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91609BA1AA5FF9E006FD716 /* AppConfig.swift */; };
+		A91609C51AA6101B006FD716 /* start_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = A91609C21AA6101B006FD716 /* start_btn.png */; };
+		A91609C61AA6101B006FD716 /* howto_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = A91609C31AA6101B006FD716 /* howto_btn.png */; };
+		A91609C71AA6101B006FD716 /* ranking_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = A91609C41AA6101B006FD716 /* ranking_btn.png */; };
 		A93A9EDB1A61588F0074EC00 /* Hae.swift in Sources */ = {isa = PBXBuildFile; fileRef = A93A9EDA1A61588F0074EC00 /* Hae.swift */; };
 		A95EBFD21A94F23300C31619 /* MainScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A95EBFD11A94F23300C31619 /* MainScene.swift */; };
 		A95EBFD41A9B919A00C31619 /* HaeBaby.swift in Sources */ = {isa = PBXBuildFile; fileRef = A95EBFD31A9B919A00C31619 /* HaeBaby.swift */; };
@@ -27,7 +34,7 @@
 		A9939D8D1AA4AB8C008A9239 /* btn.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A9939D8C1AA4AB8C008A9239 /* btn.mp3 */; };
 		A9939D8F1AA4AE2D008A9239 /* pt.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A9939D8E1AA4AE2D008A9239 /* pt.mp3 */; };
 		A9939D911AA4AEF0008A9239 /* sum.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A9939D901AA4AEF0008A9239 /* sum.mp3 */; };
-		A9939D931AA4C6FC008A9239 /* title_main.png in Resources */ = {isa = PBXBuildFile; fileRef = A9939D921AA4C6FC008A9239 /* title_main.png */; };
+		A9939D951AA4CABD008A9239 /* title_main.png in Resources */ = {isa = PBXBuildFile; fileRef = A9939D941AA4CABD008A9239 /* title_main.png */; };
 		A997B20C1A5AD8FC00E0319A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A997B20B1A5AD8FC00E0319A /* AppDelegate.swift */; };
 		A997B20E1A5AD8FC00E0319A /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = A997B20D1A5AD8FC00E0319A /* GameScene.sks */; };
 		A997B2121A5AD8FC00E0319A /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A997B2111A5AD8FC00E0319A /* GameViewController.swift */; };
@@ -67,7 +74,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		A909E34A1A9CC54500FD7521 /* HaeKing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HaeKing.swift; sourceTree = "<group>"; };
+		A91609B21AA5EA8D006FD716 /* boss_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = boss_1.png; path = hae.atlas/boss_1.png; sourceTree = "<group>"; };
+		A91609B31AA5EA8D006FD716 /* boss_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = boss_2.png; path = hae.atlas/boss_2.png; sourceTree = "<group>"; };
+		A91609B61AA5ECDF006FD716 /* boss_hit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = boss_hit.png; path = hae.atlas/boss_hit.png; sourceTree = "<group>"; };
+		A91609B81AA5ED13006FD716 /* HaeKing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HaeKing.swift; sourceTree = "<group>"; };
+		A91609BA1AA5FF9E006FD716 /* AppConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
+		A91609C21AA6101B006FD716 /* start_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = start_btn.png; sourceTree = "<group>"; };
+		A91609C31AA6101B006FD716 /* howto_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = howto_btn.png; sourceTree = "<group>"; };
+		A91609C41AA6101B006FD716 /* ranking_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ranking_btn.png; sourceTree = "<group>"; };
 		A93A9EDA1A61588F0074EC00 /* Hae.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hae.swift; sourceTree = "<group>"; };
 		A95EBFD11A94F23300C31619 /* MainScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainScene.swift; sourceTree = "<group>"; };
 		A95EBFD31A9B919A00C31619 /* HaeBaby.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HaeBaby.swift; sourceTree = "<group>"; };
@@ -87,7 +101,7 @@
 		A9939D8C1AA4AB8C008A9239 /* btn.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = btn.mp3; sourceTree = "<group>"; };
 		A9939D8E1AA4AE2D008A9239 /* pt.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pt.mp3; sourceTree = "<group>"; };
 		A9939D901AA4AEF0008A9239 /* sum.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sum.mp3; sourceTree = "<group>"; };
-		A9939D921AA4C6FC008A9239 /* title_main.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = title_main.png; sourceTree = "<group>"; };
+		A9939D941AA4CABD008A9239 /* title_main.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = title_main.png; sourceTree = "<group>"; };
 		A997B2061A5AD8FC00E0319A /* cat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A997B20A1A5AD8FC00E0319A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A997B20B1A5AD8FC00E0319A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -234,7 +248,8 @@
 				A96590511A94F1E400F49D2F /* MainScene.sks */,
 				A95EBFD11A94F23300C31619 /* MainScene.swift */,
 				A95EBFD31A9B919A00C31619 /* HaeBaby.swift */,
-				A909E34A1A9CC54500FD7521 /* HaeKing.swift */,
+				A91609B81AA5ED13006FD716 /* HaeKing.swift */,
+				A91609BA1AA5FF9E006FD716 /* AppConfig.swift */,
 			);
 			path = cat;
 			sourceTree = "<group>";
@@ -269,12 +284,18 @@
 			children = (
 				A9939D881AA4974F008A9239 /* main.png */,
 				A9939D891AA4974F008A9239 /* title.png */,
+				A9939D941AA4CABD008A9239 /* title_main.png */,
+				A91609C21AA6101B006FD716 /* start_btn.png */,
+				A91609C31AA6101B006FD716 /* howto_btn.png */,
+				A91609C41AA6101B006FD716 /* ranking_btn.png */,
 				A96590451A88F24300F49D2F /* result_foot.png */,
 				A96590491A8F311B00F49D2F /* retry_btn.png */,
-				A9939D921AA4C6FC008A9239 /* title_main.png */,
+				A91609B21AA5EA8D006FD716 /* boss_1.png */,
+				A91609B31AA5EA8D006FD716 /* boss_2.png */,
 				A965904A1A8F311B00F49D2F /* stop_btn.png */,
 				A965904D1A939C5800F49D2F /* sum.png */,
 				A965903F1A88F0FC00F49D2F /* result_content.png */,
+				A91609B61AA5ECDF006FD716 /* boss_hit.png */,
 				A96590411A88F0FC00F49D2F /* result_head.png */,
 				A965903B1A87662700F49D2F /* result.png */,
 				A9A0C24D1A7FB1D300583FC5 /* pt_bg.png */,
@@ -383,20 +404,26 @@
 				A997B21A1A5AD8FC00E0319A /* LaunchScreen.xib in Resources */,
 				A96590441A88F0FC00F49D2F /* result_head.png in Resources */,
 				A965904E1A939C5800F49D2F /* sum.png in Resources */,
+				A91609B41AA5EA8D006FD716 /* boss_1.png in Resources */,
 				A9A7DEB31A6197FC0086A830 /* coin.mp3 in Resources */,
 				A9A0C24A1A7E7AB700583FC5 /* room.png in Resources */,
 				A965904C1A8F311B00F49D2F /* stop_btn.png in Resources */,
 				A9A0C2431A7CBD1900583FC5 /* hit.mp3 in Resources */,
 				A965903C1A87662700F49D2F /* result.png in Resources */,
 				A9A0C21C1A72C99A00583FC5 /* hae.atlas in Resources */,
+				A91609B51AA5EA8D006FD716 /* boss_2.png in Resources */,
 				A96590461A88F24300F49D2F /* result_foot.png in Resources */,
+				A91609C71AA6101B006FD716 /* ranking_btn.png in Resources */,
 				A9939D911AA4AEF0008A9239 /* sum.mp3 in Resources */,
+				A91609C61AA6101B006FD716 /* howto_btn.png in Resources */,
 				A9939D8D1AA4AB8C008A9239 /* btn.mp3 in Resources */,
-				A9939D931AA4C6FC008A9239 /* title_main.png in Resources */,
+				A9939D951AA4CABD008A9239 /* title_main.png in Resources */,
 				A96590521A94F1E400F49D2F /* MainScene.sks in Resources */,
 				A997B2171A5AD8FC00E0319A /* Images.xcassets in Resources */,
 				A96590481A8A6EA700F49D2F /* fly.mp3 in Resources */,
 				A997B20E1A5AD8FC00E0319A /* GameScene.sks in Resources */,
+				A91609B71AA5ECDF006FD716 /* boss_hit.png in Resources */,
+				A91609C51AA6101B006FD716 /* start_btn.png in Resources */,
 				A9A0C22C1A73B93500583FC5 /* README.txt in Resources */,
 				A965904B1A8F311B00F49D2F /* retry_btn.png in Resources */,
 				A9A0C24E1A7FB1D300583FC5 /* pt_bg.png in Resources */,
@@ -420,12 +447,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A91609BB1AA5FF9E006FD716 /* AppConfig.swift in Sources */,
 				A997B2121A5AD8FC00E0319A /* GameViewController.swift in Sources */,
+				A91609B91AA5ED13006FD716 /* HaeKing.swift in Sources */,
 				A93A9EDB1A61588F0074EC00 /* Hae.swift in Sources */,
 				A95EBFD41A9B919A00C31619 /* HaeBaby.swift in Sources */,
 				A965903E1A87664400F49D2F /* ResultModal.swift in Sources */,
 				A95EBFD21A94F23300C31619 /* MainScene.swift in Sources */,
-				A909E34B1A9CC54500FD7521 /* HaeKing.swift in Sources */,
 				A9E375EF1A6241BB00274A8F /* GameScene.swift in Sources */,
 				A997B20C1A5AD8FC00E0319A /* AppDelegate.swift in Sources */,
 			);

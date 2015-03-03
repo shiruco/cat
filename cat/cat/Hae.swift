@@ -71,7 +71,6 @@ class Hae: SKNode {
         
         for touch: AnyObject in touches {
             sp.removeFromParent()
-            //self.removeFromParent()
             self.addChild(spHit)
             self.isDead = true
         }

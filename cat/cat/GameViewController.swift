@@ -174,7 +174,7 @@ extension GameViewController: GKGameCenterControllerDelegate {
                 self.presentViewController(viewController, animated: true, completion: nil)
             }else{
                 if (error == nil){
-                    println("OKOK GAME CENTER")
+                    println("SUCCESS LOGIN GAME CENTER")
 //                    for game in gameKinds {
 //                        let bestScore: Int = (self.user.bestScores[game.id] != nil) ? self.user.bestScores[game.id]! : 0
 //                        if bestScore > 10 {
@@ -185,7 +185,7 @@ extension GameViewController: GKGameCenterControllerDelegate {
 //                        self.reportScores(self.user.level, leaderboardid: levelLeaderboardId)
 //                    }
                 }else{
-                    println("NGNG GAME CENTER",error)
+                    println("FAIL TO LOGIN GAME CENTER",error)
                     // ログイン認証失敗 なにもしない
                 }
             }

@@ -147,8 +147,8 @@ class ResultModal: SKNode {
                 modalHaeNumRow.addChild(hae)
             }else if(data["type"] == "boss"){
                 hae = SKSpriteNode(imageNamed: "boss_1.png")
-                hae.xScale = 0.15
-                hae.yScale = 0.15
+                hae.xScale = 0.8
+                hae.yScale = 0.8
                 hae.zPosition = 1
                 hae.position = CGPoint(x:-210,y:-50)
                 hae.hidden = true
@@ -168,7 +168,7 @@ class ResultModal: SKNode {
             xl.text = "x"
             xl.fontSize = 40
             xl.fontColor = SKColor(red: 0.19, green: 0.40, blue: 0.00, alpha: 1)
-            xl.position = CGPoint(x:-155, y:-80)
+            xl.position = CGPoint(x:-145, y:-80)
             xl.hidden = true
             modalHaeNumRow.addChild(xl)
             

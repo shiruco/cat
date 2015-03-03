@@ -14,9 +14,6 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
     var currentRemainTime = 30
     var currentScore = 0
     
-    var kingAppearNum = 40
-    var isKingAppeared = false
-    
     var skView:SKView?
     var controller:UIViewController?
     
@@ -41,6 +38,7 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
     var gameTimer:NSTimer? = nil
     var createTimer:NSTimer? = nil
     var createBabyTimer:NSTimer? = nil
+    var createKingTimer:NSTimer? = nil
     
     //result data
     var resultHaeNum = 0
@@ -159,8 +157,6 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
         resultBabyHaeNumPoint = 0
         resultBossHaeNum = 0
         resultBossHaeNumPoint = 0
-        kingAppearNum = 40
-        isKingAppeared = false
         
         let contentDownAction = SKAction.moveToY(300, duration: 0.7)
         contentDownAction.timingMode = SKActionTimingMode.EaseInEaseOut
@@ -171,9 +167,11 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
             //タイマー
             self.gameTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "onTimerTrigger:", userInfo: nil, repeats: true)
             
-            self.createTimer = NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: "createHae:", userInfo: nil, repeats: true)
+            self.createTimer = NSTimer.scheduledTimerWithTimeInterval(0.3, target: self, selector: "createHae:", userInfo: nil, repeats: true)
             
-            self.createBabyTimer = NSTimer.scheduledTimerWithTimeInterval(7, target: self, selector: "createHaeBaby:", userInfo: nil, repeats: true)
+            self.createBabyTimer = NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: "createHaeBaby:", userInfo: nil, repeats: true)
+            
+            self.createKingTimer = NSTimer.scheduledTimerWithTimeInterval(10, target: self, selector: "createHaeKing:", userInfo: nil, repeats: true)
         })
     }
     
@@ -274,7 +272,8 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
         haeLayer!.addChild(baby)
     }
     
-    func createKing(){
+    func createHaeKing(timer : NSTimer){
+        
         let king = HaeKing()
         king.name = "hae_king"
         
@@ -282,13 +281,19 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
         var _x = 0
         var _y = self.getRandomNumber(Min:0,Max:400)
         
-        king.range = CGFloat(self.getRandomNumber(Min:1,Max:2))
-        king.xs = CGFloat(self.getRandomNumber(Min:2,Max:3))
+        king.range = CGFloat(self.getRandomNumber(Min:2,Max:4))
+        king.xs = CGFloat(self.getRandomNumber(Min:14,Max:16))
         
         self.runAction(self.flySound)
         
-        king.dir = 0
-        _x = (Int(self.frame.width) - Int(self.deviceWidth))/2 - 200
+        if(_y % 2 == 1){
+            king.dir = 0
+            _x = (Int(self.frame.width) - Int(deviceWidth))/2 - 200
+        }else{
+            king.dir = 1
+            king.xScale = -1
+            _x = (Int(self.frame.width) - Int(deviceWidth))/2 + Int(deviceWidth) + 200
+        }
         
         king.position = CGPoint(x:_x,y:_y)
         king.delegate = self
@@ -320,6 +325,7 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
             gameTimer!.invalidate()
             createTimer!.invalidate()
             createBabyTimer!.invalidate()
+            createKingTimer!.invalidate()
             
             for node : AnyObject in haeLayer!.children{
                 
@@ -350,7 +356,7 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
         currentScore += score
         
         resultHaeNum++
-        resultHaeNumPoint = currentScore
+        resultHaeNumPoint += score
         
         let pointLabel = SKLabelNode(fontNamed:"Verdana-Bold")
         pointLabel.fontColor = SKColor(red: 0.19, green: 0.40, blue: 0.00, alpha: 1)
@@ -372,13 +378,6 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
         
         let a3 = SKAction.fadeAlphaTo(0, duration: 0.5)
         hae.runAction(a3)
-        
-        kingAppearNum -= 1
-        
-        if(kingAppearNum <= 0 && !isKingAppeared){
-            createKing()
-            isKingAppeared = true
-        }
     }
     
     func haeBabyTouched(hae: HaeBaby) {
@@ -394,18 +393,11 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
     
     func haeKingTouched(hae: HaeKing) {
         
-        var score = Int(100 * hae.xs / 2) * 100
-
-        hae.defeatTapNum -= 1
-        if(hae.defeatTapNum <= 0){
-            hae.disableTouch()
-            hae.defeated()
-            hae.removeFromParent()
-            
-            resultBossHaeNum++
-            resultBossHaeNumPoint += score
-            return
-        }
+        var score = Int(100 * hae.xs / 2) * 5
+        currentScore += score
+        
+        resultBossHaeNum++
+        resultBossHaeNumPoint += score
         
         let pointLabel = SKLabelNode(fontNamed:"Verdana-Bold")
         pointLabel.fontColor = SKColor(red: 0.19, green: 0.40, blue: 0.00, alpha: 1)
@@ -421,9 +413,12 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
         })
         
         haeLayer!.addChild(pointLabel)
-                
+        
         scoreLabel.text = String(currentScore)
         runAction(sound)
+        
+        let a3 = SKAction.fadeAlphaTo(0, duration: 0.5)
+        hae.runAction(a3)
     }
     
     func topTouched() {
