@@ -10,6 +10,7 @@ import SpriteKit
 
 protocol MainSceneDelegate {
     func startBtnTouched()
+	func rankingBtnTouched()
 }
 
 class MainScene: SKScene {
@@ -132,7 +133,10 @@ class MainScene: SKScene {
 			  self.createBabyTimer!.invalidate()
               self.mainSceneDelegate!.startBtnTouched()
               runAction(btnSound)
-            }
+			}else if(touchedNode.name == "rankingbtn"){
+				self.mainSceneDelegate!.rankingBtnTouched()
+				runAction(btnSound)
+			}
         }
     }
     

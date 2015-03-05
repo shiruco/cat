@@ -428,6 +428,27 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
             skView!.presentScene(c.mainScene, transition: t)
         }
     }
+	
+	func bestScoreUpdate(){
+		if controller != nil {
+			let c = controller as GameViewController
+			c.bestScoreUpdate()
+		}
+	}
+	
+	func tweetBtnTouched(){
+		if controller != nil {
+			let c = controller as GameViewController
+			c.tweet()
+		}
+	}
+	
+	func fbBtnTouched(){
+		if controller != nil {
+			let c = controller as GameViewController
+			c.fbPost()
+		}
+	}
     
     func retryTouched(){
         for node : AnyObject in haeLayer!.children{

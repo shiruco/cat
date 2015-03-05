@@ -8,6 +8,7 @@
 
 import UIKit
 import SpriteKit
+import Social
 
 extension SKNode {
     class func unarchiveFromFile(file : NSString) -> SKNode? {
@@ -78,6 +79,10 @@ class GameViewController: UIViewController, MainSceneDelegate, GADBannerViewDele
             skView.presentScene(scene)
         }
     }
+	
+	func bestScoreUpdate(){
+		self.reportScores(UserDataUtil.getPointData(), leaderboardid:LEADER_BORD_ID)
+	}
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -111,8 +116,8 @@ class GameViewController: UIViewController, MainSceneDelegate, GADBannerViewDele
             
             // Configure the view.
             let skView = self.view as SKView
-            skView.showsFPS = true
-            skView.showsNodeCount = true
+            skView.showsFPS = false
+            skView.showsNodeCount = false
             
             /* Sprite Kit applies additional optimizations to improve rendering performance */
             skView.ignoresSiblingOrder = true
@@ -131,7 +136,25 @@ class GameViewController: UIViewController, MainSceneDelegate, GADBannerViewDele
             skView.presentScene(scene, transition: t)
         }
     }
-    
+	
+	func tweet(){
+		//投稿画面を作る
+		let twitterPostView:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeTwitter)!
+		
+		self.presentViewController(twitterPostView, animated: true, completion: nil)
+	}
+	
+	func fbPost(){
+		//投稿画面を作る
+		let fbPostView:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeFacebook)!
+		
+		self.presentViewController(fbPostView, animated: true, completion: nil)
+	}
+	
+	func rankingBtnTouched(){
+		showLeaderboard()
+	}
+	
     func adViewDidReceiveAd(adView: GADBannerView){
         println("adViewDidReceiveAd:\(adView)")
     }
@@ -175,15 +198,7 @@ extension GameViewController: GKGameCenterControllerDelegate {
             }else{
                 if (error == nil){
                     println("SUCCESS LOGIN GAME CENTER")
-//                    for game in gameKinds {
-//                        let bestScore: Int = (self.user.bestScores[game.id] != nil) ? self.user.bestScores[game.id]! : 0
-//                        if bestScore > 10 {
-//                            self.reportScores(bestScore, leaderboardid: game.leaderboardId)
-//                        }
-//                    }
-//                    if self.user.level > 3 {
-//                        self.reportScores(self.user.level, leaderboardid: levelLeaderboardId)
-//                    }
+                    self.reportScores(UserDataUtil.getPointData(), leaderboardid:LEADER_BORD_ID)
                 }else{
                     println("FAIL TO LOGIN GAME CENTER",error)
                     // ログイン認証失敗 なにもしない
