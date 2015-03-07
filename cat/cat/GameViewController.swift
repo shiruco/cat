@@ -32,6 +32,8 @@ class GameViewController: UIViewController, MainSceneDelegate, GADBannerViewDele
     
     var gameScene:GameScene?
 	
+	var howtoScene:HowtoScene?
+	
 	var interstitialView:GADInterstitial?
 
     override func viewDidLoad() {
@@ -67,8 +69,6 @@ class GameViewController: UIViewController, MainSceneDelegate, GADBannerViewDele
             
             // Configure the view.
             let skView = self.view as SKView
-            skView.showsFPS = true
-            skView.showsNodeCount = true
             
             /* Sprite Kit applies additional optimizations to improve rendering performance */
             skView.ignoresSiblingOrder = true
@@ -119,8 +119,6 @@ class GameViewController: UIViewController, MainSceneDelegate, GADBannerViewDele
             
             // Configure the view.
             let skView = self.view as SKView
-            skView.showsFPS = false
-            skView.showsNodeCount = false
             
             /* Sprite Kit applies additional optimizations to improve rendering performance */
             skView.ignoresSiblingOrder = true
@@ -139,6 +137,31 @@ class GameViewController: UIViewController, MainSceneDelegate, GADBannerViewDele
             skView.presentScene(scene, transition: t)
         }
     }
+	
+	func howtoBtnTouched(){
+		if let scene = HowtoScene.unarchiveFromFile("HowtoScene") as? HowtoScene {
+			howtoScene = scene
+			howtoScene?.controller = self
+			
+			// Configure the view.
+			let skView = self.view as SKView
+			
+			/* Sprite Kit applies additional optimizations to improve rendering performance */
+			skView.ignoresSiblingOrder = true
+			
+			skView.backgroundColor = UIColor.whiteColor()
+			
+			/* Set the scale mode to scale to fit the window */
+			//scene.scaleMode = .AspectFill
+			scene.scaleMode = .AspectFill
+			
+//			scene.skView = skView
+//			scene.controller = self
+			
+			let t:SKTransition = SKTransition.flipVerticalWithDuration(0.7)
+			skView.presentScene(scene, transition: t)
+		}
+	}
 	
 	func tweet(pt:Int){
 		//投稿画面を作る
@@ -163,6 +186,28 @@ class GameViewController: UIViewController, MainSceneDelegate, GADBannerViewDele
 	func rankingBtnTouched(){
 		showLeaderboard()
 	}
+	
+	func backTouched(){
+		if let scene = MainScene.unarchiveFromFile("MainScene") as? MainScene {
+			mainScene = scene
+			
+			// Configure the view.
+			let skView = self.view as SKView
+			
+			/* Sprite Kit applies additional optimizations to improve rendering performance */
+			skView.ignoresSiblingOrder = true
+			
+			/* Set the scale mode to scale to fit the window */
+			//scene.scaleMode = .AspectFill
+			scene.scaleMode = .AspectFill
+			
+			scene.mainSceneDelegate = self
+			
+			let t:SKTransition = SKTransition.flipVerticalWithDuration(0.7)
+			skView.presentScene(scene, transition: t)
+		}
+	}
+	
 	func showInterstitial(){
 		if(getRandomNumber(Min:0,Max:10) % 2 == 1){
 			var timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "_showInterstitial:", userInfo: nil, repeats: false)

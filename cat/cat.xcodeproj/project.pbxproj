@@ -12,6 +12,10 @@
 		A90CE57C1AA8B0F200F3A565 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A90CE57B1AA8B0F200F3A565 /* Social.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		A90CE5831AA8C3FA00F3A565 /* tweet_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = A90CE5811AA8C3FA00F3A565 /* tweet_btn.png */; };
 		A90CE5841AA8C3FA00F3A565 /* fb_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = A90CE5821AA8C3FA00F3A565 /* fb_btn.png */; };
+		A90CE58B1AAB0BEF00F3A565 /* HowtoScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = A90CE58A1AAB0BEF00F3A565 /* HowtoScene.sks */; };
+		A90CE58D1AAB0C3900F3A565 /* HowtoScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90CE58C1AAB0C3900F3A565 /* HowtoScene.swift */; };
+		A90CE5951AAB185800F3A565 /* howtoview.png in Resources */ = {isa = PBXBuildFile; fileRef = A90CE5941AAB185800F3A565 /* howtoview.png */; };
+		A90CE5971AAB19EA00F3A565 /* back_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = A90CE5961AAB19EA00F3A565 /* back_btn.png */; };
 		A91609B41AA5EA8D006FD716 /* boss_1.png in Resources */ = {isa = PBXBuildFile; fileRef = A91609B21AA5EA8D006FD716 /* boss_1.png */; };
 		A91609B51AA5EA8D006FD716 /* boss_2.png in Resources */ = {isa = PBXBuildFile; fileRef = A91609B31AA5EA8D006FD716 /* boss_2.png */; };
 		A91609B71AA5ECDF006FD716 /* boss_hit.png in Resources */ = {isa = PBXBuildFile; fileRef = A91609B61AA5ECDF006FD716 /* boss_hit.png */; };
@@ -83,6 +87,10 @@
 		A90CE57B1AA8B0F200F3A565 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		A90CE5811AA8C3FA00F3A565 /* tweet_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tweet_btn.png; sourceTree = "<group>"; };
 		A90CE5821AA8C3FA00F3A565 /* fb_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fb_btn.png; sourceTree = "<group>"; };
+		A90CE58A1AAB0BEF00F3A565 /* HowtoScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = HowtoScene.sks; sourceTree = "<group>"; };
+		A90CE58C1AAB0C3900F3A565 /* HowtoScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HowtoScene.swift; sourceTree = "<group>"; };
+		A90CE5941AAB185800F3A565 /* howtoview.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = howtoview.png; sourceTree = "<group>"; };
+		A90CE5961AAB19EA00F3A565 /* back_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back_btn.png; sourceTree = "<group>"; };
 		A91609B21AA5EA8D006FD716 /* boss_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = boss_1.png; path = hae.atlas/boss_1.png; sourceTree = "<group>"; };
 		A91609B31AA5EA8D006FD716 /* boss_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = boss_2.png; path = hae.atlas/boss_2.png; sourceTree = "<group>"; };
 		A91609B61AA5ECDF006FD716 /* boss_hit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = boss_hit.png; path = hae.atlas/boss_hit.png; sourceTree = "<group>"; };
@@ -261,6 +269,8 @@
 				A91609B81AA5ED13006FD716 /* HaeKing.swift */,
 				A91609BA1AA5FF9E006FD716 /* AppConfig.swift */,
 				A90CE5771AA88EF900F3A565 /* UserDataUtil.swift */,
+				A90CE58A1AAB0BEF00F3A565 /* HowtoScene.sks */,
+				A90CE58C1AAB0C3900F3A565 /* HowtoScene.swift */,
 			);
 			path = cat;
 			sourceTree = "<group>";
@@ -296,6 +306,7 @@
 				A90CE5791AA89CFD00F3A565 /* best.png */,
 				A9939D881AA4974F008A9239 /* main.png */,
 				A90CE5811AA8C3FA00F3A565 /* tweet_btn.png */,
+				A90CE5941AAB185800F3A565 /* howtoview.png */,
 				A90CE5821AA8C3FA00F3A565 /* fb_btn.png */,
 				A91609C81AA61E9F006FD716 /* room.png */,
 				A9939D891AA4974F008A9239 /* title.png */,
@@ -309,6 +320,7 @@
 				A91609B31AA5EA8D006FD716 /* boss_2.png */,
 				A965904A1A8F311B00F49D2F /* stop_btn.png */,
 				A965904D1A939C5800F49D2F /* sum.png */,
+				A90CE5961AAB19EA00F3A565 /* back_btn.png */,
 				A965903F1A88F0FC00F49D2F /* result_content.png */,
 				A91609B61AA5ECDF006FD716 /* boss_hit.png */,
 				A96590411A88F0FC00F49D2F /* result_head.png */,
@@ -412,9 +424,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				A9939D8F1AA4AE2D008A9239 /* pt.mp3 in Resources */,
+				A90CE5971AAB19EA00F3A565 /* back_btn.png in Resources */,
 				A9939D8B1AA4974F008A9239 /* title.png in Resources */,
 				A96590421A88F0FC00F49D2F /* result_content.png in Resources */,
 				A997B21A1A5AD8FC00E0319A /* LaunchScreen.xib in Resources */,
+				A90CE5951AAB185800F3A565 /* howtoview.png in Resources */,
 				A96590441A88F0FC00F49D2F /* result_head.png in Resources */,
 				A965904E1A939C5800F49D2F /* sum.png in Resources */,
 				A91609B41AA5EA8D006FD716 /* boss_1.png in Resources */,
@@ -427,6 +441,7 @@
 				A90CE5831AA8C3FA00F3A565 /* tweet_btn.png in Resources */,
 				A91609C71AA6101B006FD716 /* ranking_btn.png in Resources */,
 				A9939D911AA4AEF0008A9239 /* sum.mp3 in Resources */,
+				A90CE58B1AAB0BEF00F3A565 /* HowtoScene.sks in Resources */,
 				A91609C61AA6101B006FD716 /* howto_btn.png in Resources */,
 				A9939D8D1AA4AB8C008A9239 /* btn.mp3 in Resources */,
 				A9939D951AA4CABD008A9239 /* title_main.png in Resources */,
@@ -462,6 +477,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A90CE58D1AAB0C3900F3A565 /* HowtoScene.swift in Sources */,
 				A91609BB1AA5FF9E006FD716 /* AppConfig.swift in Sources */,
 				A997B2121A5AD8FC00E0319A /* GameViewController.swift in Sources */,
 				A91609B91AA5ED13006FD716 /* HaeKing.swift in Sources */,

@@ -11,6 +11,7 @@ import SpriteKit
 protocol MainSceneDelegate {
     func startBtnTouched()
 	func rankingBtnTouched()
+	func howtoBtnTouched()
 }
 
 class MainScene: SKScene {
@@ -36,7 +37,7 @@ class MainScene: SKScene {
     var haeLayer:SKNode? = nil
     
     let bg = SKSpriteNode(imageNamed: "room.png")
-    let bgInitialPosX:CGFloat = 800.0
+    let bgInitialPosX:CGFloat = 750.0
 	
 	var createTimer:NSTimer? = nil
 	var createBabyTimer:NSTimer? = nil
@@ -129,10 +130,13 @@ class MainScene: SKScene {
             let touchedNode = self.nodeAtPoint(location)
             println(touchedNode)
             if(touchedNode.name == "startbtn"){
-			  self.createTimer!.invalidate()
-			  self.createBabyTimer!.invalidate()
-              self.mainSceneDelegate!.startBtnTouched()
-              runAction(btnSound)
+				self.createTimer!.invalidate()
+				self.createBabyTimer!.invalidate()
+				self.mainSceneDelegate!.startBtnTouched()
+				runAction(btnSound)
+			}else if(touchedNode.name == "howtobtn"){
+				self.mainSceneDelegate!.howtoBtnTouched()
+				runAction(btnSound)
 			}else if(touchedNode.name == "rankingbtn"){
 				self.mainSceneDelegate!.rankingBtnTouched()
 				runAction(btnSound)
