@@ -11,8 +11,8 @@ import SpriteKit
 protocol ResultDelegate {
     func topTouched()
     func retryTouched()
-	func tweetBtnTouched()
-	func fbBtnTouched()
+	func tweetBtnTouched(pt:Int)
+	func fbBtnTouched(pt:Int)
 	func bestScoreUpdate()
 }
 
@@ -35,7 +35,7 @@ class ResultModal: SKNode {
     let btnSound = SKAction.playSoundFileNamed("btn.mp3", waitForCompletion: false)
     let ptSound = SKAction.playSoundFileNamed("pt.mp3", waitForCompletion: false)
     let sumSound = SKAction.playSoundFileNamed("sum.mp3", waitForCompletion: false)
-    
+	
     var sumPoint = 0
     
     let rowHeight = 100
@@ -374,10 +374,10 @@ class ResultModal: SKNode {
 				self.fbBtn.removeFromParent()
                 runAction(btnSound)
 			}else if(touchedNode.name == "tweet_btn"){
-				self.delegate!.tweetBtnTouched()
+				self.delegate!.tweetBtnTouched(self.sumPoint)
 				runAction(btnSound)
 			}else if(touchedNode.name == "fb_btn"){
-				self.delegate!.fbBtnTouched()
+				self.delegate!.fbBtnTouched(self.sumPoint)
 				runAction(btnSound)
 			}
         }
@@ -387,7 +387,5 @@ class ResultModal: SKNode {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-
 
 }

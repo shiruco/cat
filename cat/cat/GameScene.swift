@@ -426,6 +426,7 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
             let c = controller as GameViewController
             let t:SKTransition = SKTransition.flipVerticalWithDuration(0.7)
             skView!.presentScene(c.mainScene, transition: t)
+			c.showInterstitial()
         }
     }
 	
@@ -436,17 +437,17 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
 		}
 	}
 	
-	func tweetBtnTouched(){
+	func tweetBtnTouched(pt:Int){
 		if controller != nil {
 			let c = controller as GameViewController
-			c.tweet()
+			c.tweet(pt)
 		}
 	}
 	
-	func fbBtnTouched(){
+	func fbBtnTouched(pt:Int){
 		if controller != nil {
 			let c = controller as GameViewController
-			c.fbPost()
+			c.fbPost(pt)
 		}
 	}
     

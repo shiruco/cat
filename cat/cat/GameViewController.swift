@@ -26,18 +26,20 @@ extension SKNode {
     }
 }
 
-class GameViewController: UIViewController, MainSceneDelegate, GADBannerViewDelegate {
+class GameViewController: UIViewController, MainSceneDelegate, GADBannerViewDelegate, GADInterstitialDelegate {
     
     var mainScene:MainScene?
     
     var gameScene:GameScene?
+	
+	var interstitialView:GADInterstitial?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         var bannerView:GADBannerView = GADBannerView()
         bannerView = GADBannerView(adSize: kGADAdSizeBanner)
-        bannerView.adUnitID = "ca-app-pub-7252416243361625/9591345191"
+        bannerView.adUnitID = AD_BANNER_ID
         bannerView.frame.origin = CGPointMake(0, self.view.frame.size.height-50)
         bannerView.frame.size = CGSizeMake(self.view.frame.size.width,50)
         bannerView.rootViewController = self
@@ -51,12 +53,13 @@ class GameViewController: UIViewController, MainSceneDelegate, GADBannerViewDele
         )
         
         self.view.addSubview(bannerView)
-        
-        //test
-        var request:GADRequest = GADRequest()
-        request.testDevices = [GAD_SIMULATOR_ID]
-        
-        bannerView.loadRequest(request)
+		
+		//test
+		var request:GADRequest = GADRequest()
+		//request.testDevices = [GAD_SIMULATOR_ID]
+		
+		bannerView.loadRequest(request)
+		
 
         if let scene = MainScene.unarchiveFromFile("MainScene") as? MainScene {
             
@@ -137,16 +140,22 @@ class GameViewController: UIViewController, MainSceneDelegate, GADBannerViewDele
         }
     }
 	
-	func tweet(){
+	func tweet(pt:Int){
 		//投稿画面を作る
 		let twitterPostView:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeTwitter)!
+		
+		var mg = TWEET_MSG.stringByReplacingOccurrencesOfString("$score", withString: String(pt) + "pt", options: nil, range: nil)
+		twitterPostView.setInitialText(mg)
 		
 		self.presentViewController(twitterPostView, animated: true, completion: nil)
 	}
 	
-	func fbPost(){
+	func fbPost(pt:Int){
 		//投稿画面を作る
 		let fbPostView:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeFacebook)!
+		
+		var mg = FB_MSG.stringByReplacingOccurrencesOfString("$score", withString: String(pt) + "pt", options: nil, range: nil)
+		fbPostView.setInitialText(mg)
 		
 		self.presentViewController(fbPostView, animated: true, completion: nil)
 	}
@@ -154,7 +163,21 @@ class GameViewController: UIViewController, MainSceneDelegate, GADBannerViewDele
 	func rankingBtnTouched(){
 		showLeaderboard()
 	}
-	
+	func showInterstitial(){
+		if(getRandomNumber(Min:0,Max:10) % 2 == 1){
+			var timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "_showInterstitial:", userInfo: nil, repeats: false)
+		}
+	}
+	func _showInterstitial(timer : NSTimer){
+		interstitialView = GADInterstitial()
+		interstitialView!.adUnitID = AD_POPUP_ID
+		interstitialView!.delegate = self
+		interstitialView!.loadRequest(GADRequest())
+		
+	}
+	func getRandomNumber(Min _Min : Int, Max _Max : Int)->Int {
+		return Int(arc4random_uniform(UInt32(_Max))) + _Min
+	}
     func adViewDidReceiveAd(adView: GADBannerView){
         println("adViewDidReceiveAd:\(adView)")
     }
@@ -173,6 +196,10 @@ class GameViewController: UIViewController, MainSceneDelegate, GADBannerViewDele
     func adViewWillLeaveApplication(adView: GADBannerView){
         println("adViewWillLeaveApplication")
     }
+	func interstitialDidReceiveAd(interstitial: GADInterstitial){
+		println("interstitialDidReceiveAd:\(interstitial)")
+		interstitialView!.presentFromRootViewController(self)
+	}
 }
 
 extension GameViewController: GKGameCenterControllerDelegate {
