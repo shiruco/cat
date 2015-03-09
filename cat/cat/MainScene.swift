@@ -20,7 +20,7 @@ class MainScene: SKScene {
     
     var mainSceneDelegate:MainSceneDelegate?
     
-    let testLabel = SKLabelNode(fontNamed:"Verdana-Bold")
+    let verLabel = SKLabelNode(fontNamed:"Verdana")
     let btnSound = SKAction.playSoundFileNamed("btn.mp3", waitForCompletion: false)
     
     let title = SKSpriteNode(imageNamed: "title_main.png")
@@ -58,6 +58,12 @@ class MainScene: SKScene {
             bgLayer!.addChild(title)
             title.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) + 400)
             title.zPosition = 1
+			
+			bgLayer!.addChild(verLabel)
+			verLabel.text = "ver." + APP_VER
+			verLabel.fontColor = UIColor.blackColor()
+			verLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) + 300)
+			verLabel.zPosition = 1
 			
 			startBtn.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
 			startBtn.name = "startbtn"

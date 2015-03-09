@@ -167,7 +167,7 @@ class GameViewController: UIViewController, MainSceneDelegate, GADBannerViewDele
 		//投稿画面を作る
 		let twitterPostView:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeTwitter)!
 		
-		var mg = TWEET_MSG.stringByReplacingOccurrencesOfString("$score", withString: String(pt) + "pt", options: nil, range: nil)
+		var mg = NSLocalizedString("tweetMsg", comment: "").stringByReplacingOccurrencesOfString("$score", withString: String(pt) + "pt", options: nil, range: nil)
 		twitterPostView.setInitialText(mg)
 		
 		self.presentViewController(twitterPostView, animated: true, completion: nil)
@@ -177,7 +177,7 @@ class GameViewController: UIViewController, MainSceneDelegate, GADBannerViewDele
 		//投稿画面を作る
 		let fbPostView:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeFacebook)!
 		
-		var mg = FB_MSG.stringByReplacingOccurrencesOfString("$score", withString: String(pt) + "pt", options: nil, range: nil)
+		var mg = NSLocalizedString("fbMsg", comment: "").stringByReplacingOccurrencesOfString("$score", withString: String(pt) + "pt", options: nil, range: nil)
 		fbPostView.setInitialText(mg)
 		
 		self.presentViewController(fbPostView, animated: true, completion: nil)

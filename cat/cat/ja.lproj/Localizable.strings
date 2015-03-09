@@ -1,0 +1,11 @@
+/* 
+  Localizable.strings
+  cat
+
+  Created by takatatomoyuki on 2015/03/09.
+  Copyright (c) 2015年 com.maroton. All rights reserved.
+*/
+
+// Localizable.strings(Japanese)ファイル
+"tweetMsg" = "iphoneアプリ「おやじバエ」で$scoreを叩きだしました! #oyajibae";
+"fbMsg" = "iphoneアプリ「おやじバエ」で$scoreを叩きだしました!";

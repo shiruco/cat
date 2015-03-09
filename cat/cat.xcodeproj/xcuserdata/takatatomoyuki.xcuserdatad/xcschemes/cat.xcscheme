@@ -71,7 +71,9 @@
       buildConfiguration = "Release"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
-      allowLocationSimulation = "YES">
+      allowLocationSimulation = "YES"
+      language = "ja"
+      region = "US">
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"

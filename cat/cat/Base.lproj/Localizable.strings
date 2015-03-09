@@ -1,0 +1,11 @@
+/* 
+  Localizable.strings
+  cat
+
+  Created by takatatomoyuki on 2015/03/09.
+  Copyright (c) 2015年 com.maroton. All rights reserved.
+*/
+
+// Localizable.strings(Base)ファイル
+"tweetMsg" = "I got $score in the iphone app 'Old Fly'  #oldfly";
+"fbMsg" = "I got $score in the iphone app 'Old Fly'";

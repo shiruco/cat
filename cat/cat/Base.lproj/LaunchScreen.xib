@@ -23,8 +23,8 @@
                         <constraint firstAttribute="width" constant="186" id="led-HS-Mmi"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ver. 1.0.0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="VQd-VS-HMz">
-                    <rect key="frame" x="213" y="88" width="55" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="we make you enjoy!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="VQd-VS-HMz">
+                    <rect key="frame" x="181" y="78" width="119" height="21"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="21" id="gZM-Rl-W56"/>
                     </constraints>
@@ -32,7 +32,7 @@
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  Copyright (c) 2015年 com.maroton. All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="6" translatesAutoresizingMaskIntoConstraints="NO" id="8ie-xW-0ye">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  Copyright (c) 2015 com.maroton. All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="6" translatesAutoresizingMaskIntoConstraints="NO" id="8ie-xW-0ye">
                     <rect key="frame" x="20" y="451" width="441" height="21"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="21" id="cn5-jn-E3p"/>
@@ -44,11 +44,11 @@
             </subviews>
             <color key="backgroundColor" red="0.45256014088250929" green="0.61418876262626265" blue="0.47106634234948308" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstItem="IdE-qD-HLB" firstAttribute="top" secondItem="VQd-VS-HMz" secondAttribute="bottom" constant="13" id="53A-ys-7pK"/>
+                <constraint firstItem="IdE-qD-HLB" firstAttribute="top" secondItem="VQd-VS-HMz" secondAttribute="bottom" constant="23" id="53A-ys-7pK"/>
                 <constraint firstAttribute="bottom" secondItem="8ie-xW-0ye" secondAttribute="bottom" constant="8" id="Kzo-t9-V3l"/>
                 <constraint firstItem="8ie-xW-0ye" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" symbolic="YES" id="MfP-vx-nX0"/>
-                <constraint firstItem="VQd-VS-HMz" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="88" id="OI9-x6-QXj"/>
-                <constraint firstItem="IdE-qD-HLB" firstAttribute="top" secondItem="VQd-VS-HMz" secondAttribute="bottom" constant="13" id="OcT-o7-yjM"/>
+                <constraint firstItem="VQd-VS-HMz" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="78" id="OI9-x6-QXj"/>
+                <constraint firstItem="IdE-qD-HLB" firstAttribute="top" secondItem="VQd-VS-HMz" secondAttribute="bottom" constant="23" id="OcT-o7-yjM"/>
                 <constraint firstItem="IdE-qD-HLB" firstAttribute="top" secondItem="vc4-Pm-FqN" secondAttribute="bottom" constant="32" id="Rg5-gX-6bG"/>
                 <constraint firstAttribute="centerX" secondItem="8ie-xW-0ye" secondAttribute="centerX" id="ZEH-qu-HZ9"/>
                 <constraint firstItem="8ie-xW-0ye" firstAttribute="top" secondItem="IdE-qD-HLB" secondAttribute="bottom" constant="32" id="fIe-cw-NVR"/>
