@@ -1,0 +1,10 @@
+/* 
+  InfoPlist.strings
+  cat
+
+  Created by takatatomoyuki on 2015/03/09.
+  Copyright (c) 2015年 com.maroton. All rights reserved.
+*/
+
+CFBundleName = "OLD FLY";
+CFBundleDisplayName = "OLD FLY";

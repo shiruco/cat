@@ -11,7 +11,7 @@
 
 #import "GADBannerView.h"
 #import "GADInterstitial.h"
-
+#import "NADIconLoader.h"
 #import <GameKit/GameKit.h>
 
 #endif

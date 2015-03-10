@@ -26,7 +26,7 @@ extension SKNode {
     }
 }
 
-class GameViewController: UIViewController, MainSceneDelegate, GADBannerViewDelegate, GADInterstitialDelegate {
+class GameViewController: UIViewController, MainSceneDelegate,NADIconLoaderDelegate,  GADBannerViewDelegate, GADInterstitialDelegate {
     
     var mainScene:MainScene?
     
@@ -35,6 +35,10 @@ class GameViewController: UIViewController, MainSceneDelegate, GADBannerViewDele
 	var howtoScene:HowtoScene?
 	
 	var interstitialView:GADInterstitial?
+	
+	var iconLoader: NADIconLoader!
+	var iconView: NADIconView!
+	var iconView2: NADIconView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,6 +66,26 @@ class GameViewController: UIViewController, MainSceneDelegate, GADBannerViewDele
 		
 		bannerView.loadRequest(request)
 		
+		
+		//NADIconViewクラスの生成
+		iconView = NADIconView(frame: CGRect(x: 0, y: 100, width: 75, height: 75))
+		iconView.frame.origin = CGPointMake(0, 10)
+		
+		iconView2 = NADIconView(frame: CGRect(x: 0, y: 100, width: 75, height: 75))
+		iconView2.frame.origin = CGPointMake(70, 10)
+		
+		//NADIconLoaderクラスの生成
+		iconLoader = NADIconLoader()
+		//loaderへ追加
+		iconLoader.addIconView(iconView)
+		iconLoader.addIconView(iconView2)
+		//loaderへの設定
+		iconLoader.setNendID(AD_NEND_API_KEY,spotID: AD_NEND_SPOT_ID)
+		iconLoader.delegate = self
+		iconLoader.isOutputLog = true
+		//load開始
+		iconLoader.load()
+		
 
         if let scene = MainScene.unarchiveFromFile("MainScene") as? MainScene {
             
@@ -85,6 +109,18 @@ class GameViewController: UIViewController, MainSceneDelegate, GADBannerViewDele
 	
 	func bestScoreUpdate(){
 		self.reportScores(UserDataUtil.getPointData(), leaderboardid:LEADER_BORD_ID)
+	}
+	
+	func addNendAd(){
+		//画面上へ追加
+		self.view.addSubview(iconView)
+		self.view.addSubview(iconView2)
+	}
+	
+	func removeNendAd(){
+		//画面上から削除
+		iconView.removeFromSuperview()
+		iconView2.removeFromSuperview()
 	}
     
     override func viewWillAppear(animated: Bool) {

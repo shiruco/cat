@@ -163,6 +163,11 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
         contentLayer?.runAction(contentDownAction,completion: { () -> Void in
             
             self.uiContainer.hidden = false
+			
+			if self.controller != nil {
+				let c = self.controller as GameViewController
+				c.addNendAd()
+			}
             
             //タイマー
             self.gameTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "onTimerTrigger:", userInfo: nil, repeats: true)
@@ -306,6 +311,12 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
         //time
         currentRemainTime -= 1
         if(currentRemainTime < 0){
+			
+			if controller != nil {
+				let c = controller as GameViewController
+				c.removeNendAd()
+			}
+			
             currentRemainTime = remainTime
             timeLabel.text = "0"
             
