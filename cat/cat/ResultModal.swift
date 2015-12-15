@@ -11,9 +11,9 @@ import SpriteKit
 protocol ResultDelegate {
     func topTouched()
     func retryTouched()
-	func tweetBtnTouched(pt:Int)
-	func fbBtnTouched(pt:Int)
-	func bestScoreUpdate()
+    func tweetBtnTouched(pt:Int)
+    func fbBtnTouched(pt:Int)
+    func bestScoreUpdate()
 }
 
 class ResultModal: SKNode {
@@ -25,17 +25,17 @@ class ResultModal: SKNode {
     
     let modalHead = SKSpriteNode(imageNamed: "result_head.png")
     let modalFoot = SKSpriteNode(imageNamed: "result_foot.png")
-	
-	let tweetBtn = SKSpriteNode(imageNamed: "tweet_btn.png")
-	let fbBtn = SKSpriteNode(imageNamed: "fb_btn.png")
-	
+    
+    let tweetBtn = SKSpriteNode(imageNamed: "tweet_btn.png")
+    let fbBtn = SKSpriteNode(imageNamed: "fb_btn.png")
+    
     let topBtn = SKSpriteNode(imageNamed: "stop_btn.png")
     let retryBtn = SKSpriteNode(imageNamed: "retry_btn.png")
     
     let btnSound = SKAction.playSoundFileNamed("btn.mp3", waitForCompletion: false)
     let ptSound = SKAction.playSoundFileNamed("pt.mp3", waitForCompletion: false)
     let sumSound = SKAction.playSoundFileNamed("sum.mp3", waitForCompletion: false)
-	
+    
     var sumPoint = 0
     
     let rowHeight = 100
@@ -101,7 +101,7 @@ class ResultModal: SKNode {
         
         //calc summary
         for(var i=0; i < resultData.count; i++){
-            let data = self.resultData[i] as Dictionary<String, String>
+            let data = self.resultData[i] as! Dictionary<String, String>
             
             if(data["type"] == "baby"){
                 sumPoint -= (data["point"]!.toInt()!)
@@ -118,7 +118,7 @@ class ResultModal: SKNode {
         var data:[String:String] = [:]
         
         if(resultData.count > 0){
-            data = resultData[0] as Dictionary<String, String>
+            data = resultData[0] as! Dictionary<String, String>
         }else{
             self.showSum()
             return
@@ -140,8 +140,6 @@ class ResultModal: SKNode {
         let a2 = SKAction.moveToY(-(modalHead.frame.size.height + modalHaeNumRow.frame.size.height) - CGFloat(contentHeight - 1), duration: 0.4)
         //a2.timingMode = SKActionTimingMode.EaseOut
         modalFoot.runAction(a2,completion: { () -> Void in
-            //self.addChild(SKSpriteNode(imageNamed: "hae_1.png"))
-            
             var hae:SKSpriteNode!
             if(data["type"] == "baby"){
                 hae = SKSpriteNode(imageNamed: "baby_1.png")
@@ -228,24 +226,24 @@ class ResultModal: SKNode {
     }
     
     func showSprite(timer : NSTimer){
-        let dict = timer.userInfo as Dictionary<String, SKSpriteNode>
+        let dict = timer.userInfo as! Dictionary<String, SKSpriteNode>
         dict["target"]!.hidden = false
     }
     
     func showLabel(timer : NSTimer){
-        let dict = timer.userInfo as Dictionary<String, SKLabelNode>
+        let dict = timer.userInfo as! Dictionary<String, SKLabelNode>
         dict["target"]!.hidden = false
     }
-	
-	func showBest(timer : NSTimer){
-		runAction(sumSound)
-		let container = timer.userInfo as SKSpriteNode
-		let bestScore = SKSpriteNode(imageNamed: "best.png")
-		bestScore.position = CGPoint(x:70, y:-15)
-		bestScore.zPosition = 1
-		container.addChild(bestScore)
-	}
-	
+    
+    func showBest(timer : NSTimer){
+        runAction(sumSound)
+        let container = timer.userInfo as! SKSpriteNode
+        let bestScore = SKSpriteNode(imageNamed: "best.png")
+        bestScore.position = CGPoint(x:70, y:-15)
+        bestScore.zPosition = 1
+        container.addChild(bestScore)
+    }
+    
     func addRowComplete(timer : NSTimer){
         resultData.removeAtIndex(0)
         addRow()
@@ -254,24 +252,23 @@ class ResultModal: SKNode {
     func addSumComplete(timer : NSTimer){
         showBtns()
     }
-
     
     func showSum(){
-		
-		//best score判定
-		var isBestScore = false
-		var bestPt = UserDataUtil.getPointData()
-		
-		if(bestPt <= 0){
-			UserDataUtil.setPointData(self.sumPoint)
-			bestPt = self.sumPoint
-			isBestScore = true
-		}else if(bestPt < self.sumPoint){
-			UserDataUtil.setPointData(self.sumPoint)
-			isBestScore = true
-		}
-		
-		
+        
+        //best score判定
+        var isBestScore = false
+        var bestPt = UserDataUtil.getPointData()
+        
+        if(bestPt <= 0){
+            UserDataUtil.setPointData(self.sumPoint)
+            bestPt = self.sumPoint
+            isBestScore = true
+        }else if(bestPt < self.sumPoint){
+            UserDataUtil.setPointData(self.sumPoint)
+            isBestScore = true
+        }
+        
+        
         let modalHaeNumRow = SKSpriteNode(imageNamed: "result_content.png")
         modalHaeNumRow.anchorPoint = CGPointMake(0.5, 1.0)
         modalHaeNumRow.position = CGPoint(x: 0, y: -modalHead.frame.size.height - CGFloat(contentHeight))
@@ -304,11 +301,11 @@ class ResultModal: SKNode {
             sptl.position = CGPoint(x:240, y:-60)
             sptl.hidden = true
             modalHaeNumRow.addChild(sptl)
-			
-			if(isBestScore){
-				self.delegate!.bestScoreUpdate()
-				var timer4 = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "showBest:", userInfo: modalHaeNumRow, repeats: false)
-			}
+            
+            if(isBestScore){
+                self.delegate!.bestScoreUpdate()
+                var timer4 = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "showBest:", userInfo: modalHaeNumRow, repeats: false)
+            }
             
             let dict2 = ["target":sptl]
             var timer2 = NSTimer.scheduledTimerWithTimeInterval(0.3, target: self, selector: "showLabel:", userInfo: dict2, repeats: false)
@@ -330,6 +327,7 @@ class ResultModal: SKNode {
         modalHaeNumRow.runAction(a1)
         
         let a2 = SKAction.moveToY(-(modalHead.frame.size.height + modalHaeNumRow.frame.size.height) - CGFloat(contentHeight - 1), duration: 0.4)
+        
         modalFoot.runAction(a2,completion: { () -> Void in
             self.topBtn.zPosition = 1
             self.topBtn.name = "top_btn"
@@ -340,24 +338,22 @@ class ResultModal: SKNode {
             self.retryBtn.name = "retry_btn"
             self.retryBtn.position = CGPoint(x:110,y:-85)
             modalHaeNumRow.addChild(self.retryBtn)
-			
-			//share btns
-			self.tweetBtn.zPosition = 1
-			self.tweetBtn.name = "tweet_btn"
-			self.tweetBtn.position = CGPoint(x:150,y:-45)
-			self.modalHead.addChild(self.tweetBtn)
-			
-			self.fbBtn.zPosition = 1
-			self.fbBtn.name = "fb_btn"
-			self.fbBtn.position = CGPoint(x:220,y:-45)
-			self.modalHead.addChild(self.fbBtn)
+            
+            //share btns
+            self.tweetBtn.zPosition = 1
+            self.tweetBtn.name = "tweet_btn"
+            self.tweetBtn.position = CGPoint(x:150,y:-45)
+            self.modalHead.addChild(self.tweetBtn)
+            
+            self.fbBtn.zPosition = 1
+            self.fbBtn.name = "fb_btn"
+            self.fbBtn.position = CGPoint(x:220,y:-45)
+            self.modalHead.addChild(self.fbBtn)
 
         })
     }
-	
+    
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        
-        //self.delegate!.haeTouched(self)
         
         for touch: AnyObject in touches {
             //var t: UITouch = touch as UITouch
@@ -365,25 +361,24 @@ class ResultModal: SKNode {
             let touchedNode = self.nodeAtPoint(location)
             if(touchedNode.name == "top_btn"){
                 self.delegate!.topTouched()
-				self.tweetBtn.removeFromParent()
-				self.fbBtn.removeFromParent()
+                self.tweetBtn.removeFromParent()
+                self.fbBtn.removeFromParent()
                 runAction(btnSound)
             }else if(touchedNode.name == "retry_btn"){
                 self.delegate!.retryTouched()
-				self.tweetBtn.removeFromParent()
-				self.fbBtn.removeFromParent()
+                self.tweetBtn.removeFromParent()
+                self.fbBtn.removeFromParent()
                 runAction(btnSound)
-			}else if(touchedNode.name == "tweet_btn"){
-				self.delegate!.tweetBtnTouched(self.sumPoint)
-				runAction(btnSound)
-			}else if(touchedNode.name == "fb_btn"){
-				self.delegate!.fbBtnTouched(self.sumPoint)
-				runAction(btnSound)
-			}
+            }else if(touchedNode.name == "tweet_btn"){
+                self.delegate!.tweetBtnTouched(self.sumPoint)
+                runAction(btnSound)
+            }else if(touchedNode.name == "fb_btn"){
+                self.delegate!.fbBtnTouched(self.sumPoint)
+                runAction(btnSound)
+            }
         }
     }
-
-	
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

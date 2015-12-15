@@ -12,7 +12,7 @@ import Social
 
 extension SKNode {
     class func unarchiveFromFile(file : NSString) -> SKNode? {
-        if let path = NSBundle.mainBundle().pathForResource(file, ofType: "sks") {
+        if let path = NSBundle.mainBundle().pathForResource(file as String, ofType: "sks") {
             var sceneData = NSData(contentsOfFile: path, options: .DataReadingMappedIfSafe, error: nil)!
             var archiver = NSKeyedUnarchiver(forReadingWithData: sceneData)
             
@@ -31,14 +31,14 @@ class GameViewController: UIViewController, MainSceneDelegate,NADIconLoaderDeleg
     var mainScene:MainScene?
     
     var gameScene:GameScene?
-	
-	var howtoScene:HowtoScene?
-	
-	var interstitialView:GADInterstitial?
-	
-	var iconLoader: NADIconLoader!
-	var iconView: NADIconView!
-	var iconView2: NADIconView!
+    
+    var howtoScene:HowtoScene?
+    
+    var interstitialView:GADInterstitial?
+    
+    var iconLoader: NADIconLoader!
+    var iconView: NADIconView!
+    var iconView2: NADIconView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,40 +59,39 @@ class GameViewController: UIViewController, MainSceneDelegate,NADIconLoaderDeleg
         )
         
         self.view.addSubview(bannerView)
-		
-		//test
-		var request:GADRequest = GADRequest()
-		//request.testDevices = [GAD_SIMULATOR_ID]
-		
-		bannerView.loadRequest(request)
-		
-		
-		//NADIconViewクラスの生成
-		iconView = NADIconView(frame: CGRect(x: 0, y: 100, width: 75, height: 75))
-		iconView.frame.origin = CGPointMake(0, 10)
-		
-		iconView2 = NADIconView(frame: CGRect(x: 0, y: 100, width: 75, height: 75))
-		iconView2.frame.origin = CGPointMake(70, 10)
-		
-		//NADIconLoaderクラスの生成
-		iconLoader = NADIconLoader()
-		//loaderへ追加
-		iconLoader.addIconView(iconView)
-		iconLoader.addIconView(iconView2)
-		//loaderへの設定
-		iconLoader.setNendID(AD_NEND_API_KEY,spotID: AD_NEND_SPOT_ID)
-		iconLoader.delegate = self
-		iconLoader.isOutputLog = true
-		//load開始
-		iconLoader.load()
-		
-
+        
+        //test
+        var request:GADRequest = GADRequest()
+        //request.testDevices = [GAD_SIMULATOR_ID]
+        
+        bannerView.loadRequest(request)
+        
+        
+        //NADIconViewクラスの生成
+        iconView = NADIconView(frame: CGRect(x: 0, y: 100, width: 75, height: 75))
+        iconView.frame.origin = CGPointMake(0, 10)
+        
+        iconView2 = NADIconView(frame: CGRect(x: 0, y: 100, width: 75, height: 75))
+        iconView2.frame.origin = CGPointMake(70, 10)
+        
+        //NADIconLoaderクラスの生成
+        iconLoader = NADIconLoader()
+        //loaderへ追加
+        iconLoader.addIconView(iconView)
+        iconLoader.addIconView(iconView2)
+        //loaderへの設定
+        iconLoader.setNendID(AD_NEND_API_KEY,spotID: AD_NEND_SPOT_ID)
+        iconLoader.delegate = self
+        iconLoader.isOutputLog = true
+        //load開始
+        iconLoader.load()
+        
         if let scene = MainScene.unarchiveFromFile("MainScene") as? MainScene {
             
             mainScene = scene
             
             // Configure the view.
-            let skView = self.view as SKView
+            let skView = self.view as! SKView
             
             /* Sprite Kit applies additional optimizations to improve rendering performance */
             skView.ignoresSiblingOrder = true
@@ -106,22 +105,22 @@ class GameViewController: UIViewController, MainSceneDelegate,NADIconLoaderDeleg
             skView.presentScene(scene)
         }
     }
-	
-	func bestScoreUpdate(){
-		self.reportScores(UserDataUtil.getPointData(), leaderboardid:LEADER_BORD_ID)
-	}
-	
-	func addNendAd(){
-		//画面上へ追加
-		self.view.addSubview(iconView)
-		self.view.addSubview(iconView2)
-	}
-	
-	func removeNendAd(){
-		//画面上から削除
-		iconView.removeFromSuperview()
-		iconView2.removeFromSuperview()
-	}
+    
+    func bestScoreUpdate(){
+        self.reportScores(UserDataUtil.getPointData(), leaderboardid:LEADER_BORD_ID)
+    }
+    
+    func addNendAd(){
+        //画面上へ追加
+        self.view.addSubview(iconView)
+        self.view.addSubview(iconView2)
+    }
+    
+    func removeNendAd(){
+        //画面上から削除
+        iconView.removeFromSuperview()
+        iconView2.removeFromSuperview()
+    }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -132,11 +131,11 @@ class GameViewController: UIViewController, MainSceneDelegate,NADIconLoaderDeleg
         return true
     }
 
-    override func supportedInterfaceOrientations() -> Int {
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
         if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
-            return Int(UIInterfaceOrientationMask.AllButUpsideDown.rawValue)
+            return UIInterfaceOrientationMask.AllButUpsideDown
         } else {
-            return Int(UIInterfaceOrientationMask.All.rawValue)
+            return UIInterfaceOrientationMask.All
         }
     }
 
@@ -154,7 +153,7 @@ class GameViewController: UIViewController, MainSceneDelegate,NADIconLoaderDeleg
             gameScene = scene
             
             // Configure the view.
-            let skView = self.view as SKView
+            let skView = self.view as! SKView
             
             /* Sprite Kit applies additional optimizations to improve rendering performance */
             skView.ignoresSiblingOrder = true
@@ -173,124 +172,120 @@ class GameViewController: UIViewController, MainSceneDelegate,NADIconLoaderDeleg
             skView.presentScene(scene, transition: t)
         }
     }
-	
-	func howtoBtnTouched(){
-		if let scene = HowtoScene.unarchiveFromFile("HowtoScene") as? HowtoScene {
-			howtoScene = scene
-			howtoScene?.controller = self
-			
-			// Configure the view.
-			let skView = self.view as SKView
-			
-			/* Sprite Kit applies additional optimizations to improve rendering performance */
-			skView.ignoresSiblingOrder = true
-			
-			skView.backgroundColor = UIColor.whiteColor()
-			
-			/* Set the scale mode to scale to fit the window */
-			//scene.scaleMode = .AspectFill
-			scene.scaleMode = .AspectFill
-			
-//			scene.skView = skView
-//			scene.controller = self
-			
-			let t:SKTransition = SKTransition.flipVerticalWithDuration(0.7)
-			skView.presentScene(scene, transition: t)
-		}
-	}
-	
-	func tweet(pt:Int){
-		//投稿画面を作る
-		let twitterPostView:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeTwitter)!
-		
-		var mg = NSLocalizedString("tweetMsg", comment: "").stringByReplacingOccurrencesOfString("$score", withString: String(pt) + "pt", options: nil, range: nil)
-		twitterPostView.setInitialText(mg)
-		
-		self.presentViewController(twitterPostView, animated: true, completion: nil)
-	}
-	
-	func fbPost(pt:Int){
-		//投稿画面を作る
-		let fbPostView:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeFacebook)!
-		
-		var mg = NSLocalizedString("fbMsg", comment: "").stringByReplacingOccurrencesOfString("$score", withString: String(pt) + "pt", options: nil, range: nil)
-		fbPostView.setInitialText(mg)
-		
-		self.presentViewController(fbPostView, animated: true, completion: nil)
-	}
-	
-	func rankingBtnTouched(){
-		showLeaderboard()
-	}
-	
-	func backTouched(){
-		if let scene = MainScene.unarchiveFromFile("MainScene") as? MainScene {
-			mainScene = scene
-			
-			// Configure the view.
-			let skView = self.view as SKView
-			
-			/* Sprite Kit applies additional optimizations to improve rendering performance */
-			skView.ignoresSiblingOrder = true
-			
-			/* Set the scale mode to scale to fit the window */
-			//scene.scaleMode = .AspectFill
-			scene.scaleMode = .AspectFill
-			
-			scene.mainSceneDelegate = self
-			
-			let t:SKTransition = SKTransition.flipVerticalWithDuration(0.7)
-			skView.presentScene(scene, transition: t)
-		}
-	}
-	
-	func showInterstitial(){
-		if(getRandomNumber(Min:0,Max:10) % 2 == 1){
-			var timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "_showInterstitial:", userInfo: nil, repeats: false)
-		}
-	}
-	func _showInterstitial(timer : NSTimer){
-		interstitialView = GADInterstitial()
-		interstitialView!.adUnitID = AD_POPUP_ID
-		interstitialView!.delegate = self
-		interstitialView!.loadRequest(GADRequest())
-		
-	}
-	func getRandomNumber(Min _Min : Int, Max _Max : Int)->Int {
-		return Int(arc4random_uniform(UInt32(_Max))) + _Min
-	}
+    
+    func howtoBtnTouched(){
+        if let scene = HowtoScene.unarchiveFromFile("HowtoScene") as? HowtoScene {
+            howtoScene = scene
+            howtoScene?.controller = self
+            
+            // Configure the view.
+            let skView = self.view as! SKView
+            
+            /* Sprite Kit applies additional optimizations to improve rendering performance */
+            skView.ignoresSiblingOrder = true
+            
+            skView.backgroundColor = UIColor.whiteColor()
+            
+            /* Set the scale mode to scale to fit the window */
+            scene.scaleMode = .AspectFill
+            
+            let t:SKTransition = SKTransition.flipVerticalWithDuration(0.7)
+            skView.presentScene(scene, transition: t)
+        }
+    }
+    
+    func tweet(pt:Int){
+        //投稿画面を作る
+        let twitterPostView:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeTwitter)!
+        
+        let mg = NSLocalizedString("tweetMsg", comment: "").stringByReplacingOccurrencesOfString("$score", withString: String(pt) + "pt", options: [], range: nil)
+        twitterPostView.setInitialText(mg)
+        
+        self.presentViewController(twitterPostView, animated: true, completion: nil)
+    }
+    
+    func fbPost(pt:Int){
+        //投稿画面を作る
+        let fbPostView:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeFacebook)!
+        
+        let mg = NSLocalizedString("fbMsg", comment: "").stringByReplacingOccurrencesOfString("$score", withString: String(pt) + "pt", options: [], range: nil)
+        fbPostView.setInitialText(mg)
+        
+        self.presentViewController(fbPostView, animated: true, completion: nil)
+    }
+    
+    func rankingBtnTouched(){
+        showLeaderboard()
+    }
+    
+    func backTouched(){
+        if let scene = MainScene.unarchiveFromFile("MainScene") as? MainScene {
+            mainScene = scene
+            
+            // Configure the view.
+            let skView = self.view as! SKView
+            
+            /* Sprite Kit applies additional optimizations to improve rendering performance */
+            skView.ignoresSiblingOrder = true
+            
+            /* Set the scale mode to scale to fit the window */
+            //scene.scaleMode = .AspectFill
+            scene.scaleMode = .AspectFill
+            
+            scene.mainSceneDelegate = self
+            
+            let t:SKTransition = SKTransition.flipVerticalWithDuration(0.7)
+            skView.presentScene(scene, transition: t)
+        }
+    }
+    
+    func showInterstitial(){
+        if(getRandomNumber(Min:0,Max:10) % 2 == 1){
+            var _ = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "_showInterstitial:", userInfo: nil, repeats: false)
+        }
+    }
+    func _showInterstitial(timer : NSTimer){
+        interstitialView = GADInterstitial()
+        interstitialView!.adUnitID = AD_POPUP_ID
+        interstitialView!.delegate = self
+        interstitialView!.loadRequest(GADRequest())
+        
+    }
+    func getRandomNumber(Min _Min : Int, Max _Max : Int)->Int {
+        return Int(arc4random_uniform(UInt32(_Max))) + _Min
+    }
     func adViewDidReceiveAd(adView: GADBannerView){
-        println("adViewDidReceiveAd:\(adView)")
+        print("adViewDidReceiveAd:\(adView)")
     }
     func adView(adView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError){
-        println("error:\(error)")
+        print("error:\(error)")
     }
     func adViewWillPresentScreen(adView: GADBannerView){
-        println("adViewWillPresentScreen")
+        print("adViewWillPresentScreen")
     }
     func adViewWillDismissScreen(adView: GADBannerView){
-        println("adViewWillDismissScreen")
+        print("adViewWillDismissScreen")
     }
     func adViewDidDismissScreen(adView: GADBannerView){
-        println("adViewDidDismissScreen")
+        print("adViewDidDismissScreen")
     }
     func adViewWillLeaveApplication(adView: GADBannerView){
-        println("adViewWillLeaveApplication")
+        print("adViewWillLeaveApplication")
     }
-	func interstitialDidReceiveAd(interstitial: GADInterstitial){
-		println("interstitialDidReceiveAd:\(interstitial)")
-		interstitialView!.presentFromRootViewController(self)
-	}
+    func interstitialDidReceiveAd(interstitial: GADInterstitial){
+        print("interstitialDidReceiveAd:\(interstitial)")
+        interstitialView!.presentFromRootViewController(self)
+    }
 }
 
 extension GameViewController: GKGameCenterControllerDelegate {
     
-    func gameCenterViewControllerDidFinish(gameCenterViewController: GKGameCenterViewController!) {
+    func gameCenterViewControllerDidFinish(gameCenterViewController: GKGameCenterViewController) {
         gameCenterViewController.dismissViewControllerAnimated(true, completion: nil)
     }
     
     private func showLeaderboard() {
-        var gameCenterViewController = GKGameCenterViewController()
+        let gameCenterViewController = GKGameCenterViewController()
         gameCenterViewController.gameCenterDelegate = self
         gameCenterViewController.viewState = GKGameCenterViewControllerState.Leaderboards
         //gameCenterViewController.leaderboardIdentifier = "brain.spead_match.score"
@@ -301,14 +296,15 @@ extension GameViewController: GKGameCenterControllerDelegate {
         var localPlayer = GKLocalPlayer.localPlayer()
         localPlayer.authenticateHandler = {
             (viewController, error) -> Void in
-            if ((viewController) != nil) { // ログイン確認処理：失敗-ログイン画面を表示
+            if ((viewController) != nil) {
+                // ログイン確認処理：失敗-ログイン画面を表示
                 self.presentViewController(viewController, animated: true, completion: nil)
             }else{
                 if (error == nil){
-                    println("SUCCESS LOGIN GAME CENTER")
+                    print("SUCCESS LOGIN GAME CENTER")
                     self.reportScores(UserDataUtil.getPointData(), leaderboardid:LEADER_BORD_ID)
                 }else{
-                    println("FAIL TO LOGIN GAME CENTER",error)
+                    print("FAIL TO LOGIN GAME CENTER",error)
                     // ログイン認証失敗 なにもしない
                 }
             }
@@ -316,15 +312,15 @@ extension GameViewController: GKGameCenterControllerDelegate {
     }
     
     private func reportScores(value:Int, leaderboardid:String){
-        var score:GKScore = GKScore();
+        let score:GKScore = GKScore();
         score.value = Int64(value);
         score.leaderboardIdentifier = leaderboardid;
-        var scoreArr:[GKScore] = [score];
-        GKScore.reportScores(scoreArr, withCompletionHandler:{(error:NSError!) -> Void in
+        let scoreArr:[GKScore] = [score];
+        GKScore.reportScores(scoreArr, withCompletionHandler:{(error:NSError?) -> Void in
             if( (error != nil)){
-                println("Sucess to reposrt \(leaderboardid)")
+                print("Sucess to reposrt \(leaderboardid)")
             }else{
-                println("Faild to reposrt \(leaderboardid)")
+                print("Faild to reposrt \(leaderboardid)")
             }
         });
     }

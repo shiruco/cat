@@ -86,7 +86,7 @@ class HaeBaby: SKNode {
         }
         
         
-        var _y = self.position.y + (sin(angle) * range)
+        let _y = self.position.y + (sin(angle) * range)
         self.position = CGPoint(x:_x,y:_y)
         angle += s;
     }
