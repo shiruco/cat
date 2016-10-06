@@ -31,14 +31,14 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
     let timeLabel = SKLabelNode(fontNamed:"Verdana-Bold")
     let sound = SKAction.playSoundFileNamed("hit.mp3", waitForCompletion: false)
     let flySound = SKAction.playSoundFileNamed("fly.mp3", waitForCompletion: false)
-    let deviceWidth = UIScreen.mainScreen().nativeBounds.width
+    let deviceWidth = UIScreen.main.nativeBounds.width
     
     var resultModal:ResultModal? = nil
     
-    var gameTimer:NSTimer? = nil
-    var createTimer:NSTimer? = nil
-    var createBabyTimer:NSTimer? = nil
-    var createKingTimer:NSTimer? = nil
+    var gameTimer:Timer? = nil
+    var createTimer:Timer? = nil
+    var createBabyTimer:Timer? = nil
+    var createKingTimer:Timer? = nil
     
     //result data
     var resultHaeNum = 0
@@ -50,21 +50,21 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
     var resultBossHaeNum = 0
     var resultBossHaeNumPoint = 0
     
-    override func didMoveToView(view: SKView) {
+    override func didMove(to view: SKView) {
         
         //layer
-        contentLayer = childNodeWithName("contentLayer")
-        bgLayer = contentLayer!.childNodeWithName("bgLayer")
-        haeLayer = bgLayer!.childNodeWithName("haeLayer")
-        uiLayer = haeLayer!.childNodeWithName("uiLayer")
+        contentLayer = childNode(withName: "contentLayer")
+        bgLayer = contentLayer!.childNode(withName: "bgLayer")
+        haeLayer = bgLayer!.childNode(withName: "haeLayer")
+        uiLayer = haeLayer!.childNode(withName: "uiLayer")
         
         //bg 350
-        bg.position = CGPoint(x:CGRectGetMidX(self.frame) - 200, y:CGRectGetHeight(self.frame) - 650)
+        bg.position = CGPoint(x:self.frame.midX - 200, y:self.frame.height - 650)
         bgLayer!.addChild(bg)
         
         //UI
-        uiContainer.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetHeight(self.frame) - 370)
-        uiContainer.hidden = true
+        uiContainer.position = CGPoint(x:self.frame.midX, y:self.frame.height - 370)
+        uiContainer.isHidden = true
         uiLayer!.addChild(uiContainer)
         
         //score
@@ -73,8 +73,9 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
         
         scoreLabel.text = "0"
         scoreLabel.fontSize = 40
+        scoreLabel.zPosition = 10
         scoreLabel.fontColor = SKColor(red: 0.19, green: 0.40, blue: 0.00, alpha: 1)
-        scoreLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Right
+        scoreLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.right
         scoreLabel.position = CGPoint(x:80, y:-20)
         ptBg.addChild(scoreLabel)
         
@@ -87,15 +88,15 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
         timeLabel.fontSize = 50
         timeLabel.zPosition = 2
         timeLabel.fontColor = SKColor(red: 0.19, green: 0.40, blue: 0.00, alpha: 1)
-        timeLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        timeLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
         timeLabel.position = CGPoint(x:0, y:-20)
         timeBg.addChild(timeLabel)
         
         //resultModal
         resultModal = ResultModal()
-        resultModal!.initY = CGRectGetMidY(self.frame) + 1000
-        resultModal!.moveY = CGRectGetMidY(self.frame) + 400
-        resultModal!.position = CGPoint(x:CGRectGetMidX(self.frame), y:resultModal!.initY)
+        resultModal!.initY = self.frame.midY + 1000
+        resultModal!.moveY = self.frame.midY + 400
+        resultModal!.position = CGPoint(x:self.frame.midX, y:resultModal!.initY)
         resultModal!.zPosition = 100
         resultModal!.delegate = self
         uiLayer!.addChild(resultModal!)
@@ -103,16 +104,16 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
         self.start()
     }
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         /* Called when a touch begins */
         
-        for touch: AnyObject in touches {
+        for _: AnyObject in touches {
             //do something
 
         }
     }
    
-    override func update(currentTime: CFTimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         
         for node : AnyObject in haeLayer!.children{
             
@@ -122,7 +123,7 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
             else{
                 if(node.name == "hae"){
                     //Nodes.append(Node as SKNode)
-                    var hae = node as! Hae
+                    let hae = node as! Hae
                     if(!hae.isDead){
                         hae.update()
                     }
@@ -130,7 +131,7 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
                 
                 if(node.name == "hae_baby"){
                     //Nodes.append(Node as SKNode)
-                    var baby = node as! HaeBaby
+                    let baby = node as! HaeBaby
                     if(!baby.isDead){
                         baby.update()
                     }
@@ -138,7 +139,7 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
                 
                 if(node.name == "hae_king"){
                     //Nodes.append(Node as SKNode)
-                    var king = node as! HaeKing
+                    let king = node as! HaeKing
                     if(!king.isDead){
                         king.update()
                     }
@@ -158,11 +159,11 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
         resultBossHaeNum = 0
         resultBossHaeNumPoint = 0
         
-        let contentDownAction = SKAction.moveToY(300, duration: 0.7)
-        contentDownAction.timingMode = SKActionTimingMode.EaseInEaseOut
-        contentLayer?.runAction(contentDownAction,completion: { () -> Void in
+        let contentDownAction = SKAction.moveTo(y: 300, duration: 0.7)
+        contentDownAction.timingMode = SKActionTimingMode.easeInEaseOut
+        contentLayer?.run(contentDownAction,completion: { () -> Void in
             
-            self.uiContainer.hidden = false
+            self.uiContainer.isHidden = false
             
             if self.controller != nil {
                 let c = self.controller as! GameViewController
@@ -170,13 +171,13 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
             }
             
             //タイマー
-            self.gameTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "onTimerTrigger:", userInfo: nil, repeats: true)
+            self.gameTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(GameScene.onTimerTrigger(_:)), userInfo: nil, repeats: true)
             
-            self.createTimer = NSTimer.scheduledTimerWithTimeInterval(0.3, target: self, selector: "createHae:", userInfo: nil, repeats: true)
+            self.createTimer = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(GameScene.createHae(_:)), userInfo: nil, repeats: true)
             
-            self.createBabyTimer = NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: "createHaeBaby:", userInfo: nil, repeats: true)
+            self.createBabyTimer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(GameScene.createHaeBaby(_:)), userInfo: nil, repeats: true)
             
-            self.createKingTimer = NSTimer.scheduledTimerWithTimeInterval(10, target: self, selector: "createHaeKing:", userInfo: nil, repeats: true)
+            self.createKingTimer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(GameScene.createHaeKing(_:)), userInfo: nil, repeats: true)
         })
     }
     
@@ -217,12 +218,12 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
         return Int(arc4random_uniform(UInt32(_Max))) + _Min
     }
     
-    func createHae(timer : NSTimer){
+    func createHae(_ timer : Timer){
         //create hae normal
         let hae = Hae()
         hae.name = "hae"
         
-        var _dir = 0 //0:left 1:right
+        _ = 0 //0:left 1:right
         var _x = 0
         let _y = getRandomNumber(Min:0,Max:400)
         
@@ -230,7 +231,7 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
         hae.xs = CGFloat(getRandomNumber(Min:2,Max:10))
         
         if(_y > 300){
-            runAction(flySound)
+            run(flySound)
         }
         
         if(_y % 2 == 1){
@@ -247,12 +248,12 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
         haeLayer!.addChild(hae)
     }
     
-    func createHaeBaby(timer : NSTimer){
+    func createHaeBaby(_ timer : Timer){
         //create hae baby
         let baby = HaeBaby()
         baby.name = "hae_baby"
         
-        var _dir = 0 //0:left 1:right
+        _ = 0 //0:left 1:right
         var _x = 0
         let _y = getRandomNumber(Min:0,Max:400)
         
@@ -260,7 +261,7 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
         baby.xs = CGFloat(getRandomNumber(Min:2,Max:4))
         
         if(_y > 300){
-            runAction(flySound)
+            run(flySound)
         }
         
         if(_y % 2 == 1){
@@ -277,19 +278,19 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
         haeLayer!.addChild(baby)
     }
     
-    func createHaeKing(timer : NSTimer){
+    func createHaeKing(_ timer : Timer){
         
         let king = HaeKing()
         king.name = "hae_king"
         
-        var _dir = 0 //0:left 1:right
+        _ = 0 //0:left 1:right
         var _x = 0
         let _y = self.getRandomNumber(Min:0,Max:400)
         
         king.range = CGFloat(self.getRandomNumber(Min:2,Max:4))
         king.xs = CGFloat(self.getRandomNumber(Min:14,Max:16))
         
-        self.runAction(self.flySound)
+        self.run(self.flySound)
         
         if(_y % 2 == 1){
             king.dir = 0
@@ -306,7 +307,7 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
         self.haeLayer!.addChild(king)
     }
     
-    func onTimerTrigger(timer : NSTimer){
+    func onTimerTrigger(_ timer : Timer){
         
         //time
         currentRemainTime -= 1
@@ -320,18 +321,18 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
             currentRemainTime = remainTime
             timeLabel.text = "0"
             
-            uiContainer.hidden = true
+            uiContainer.isHidden = true
             
-            let contentDownAction = SKAction.moveToY(0, duration: 0.7)
-            contentDownAction.timingMode = SKActionTimingMode.EaseInEaseOut
-            contentLayer?.runAction(contentDownAction,completion: { () -> Void in
+            let contentDownAction = SKAction.moveTo(y: 0, duration: 0.7)
+            contentDownAction.timingMode = SKActionTimingMode.easeInEaseOut
+            contentLayer?.run(contentDownAction,completion: { () -> Void in
                 //self.uiLayer!.addChild(self.resultModal!)
             })
             
             //get result data
             let data = getResultData()
             
-            resultModal!.show(data)
+            resultModal!.show(data as Array<NSDictionary>)
             
             gameTimer!.invalidate()
             createTimer!.invalidate()
@@ -341,15 +342,15 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
             for node : AnyObject in haeLayer!.children{
                 
                 if((node as! SKNode).name != nil && node.name == "hae"){
-                    var _node = node as! Hae
+                    let _node = node as! Hae
                     _node.disableTouch()
                 }
                 if((node as! SKNode).name != nil && node.name == "hae_baby"){
-                    var _node = node as! HaeBaby
+                    let _node = node as! HaeBaby
                     _node.disableTouch()
                 }
                 if((node as! SKNode).name != nil && node.name == "hae_king"){
-                    var _node = node as! HaeKing
+                    let _node = node as! HaeKing
                     _node.disableTouch()
                 }
                 
@@ -361,12 +362,12 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
         
     }
     
-    func haeTouched(hae:Hae){
+    func haeTouched(_ hae:Hae){
         
         let score = Int(100 * hae.xs / 2)
         currentScore += score
         
-        resultHaeNum++
+        resultHaeNum += 1
         resultHaeNumPoint += score
         
         let pointLabel = SKLabelNode(fontNamed:"Verdana-Bold")
@@ -375,39 +376,39 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
         pointLabel.fontSize = 40
         pointLabel.position = CGPoint(x:hae.position.x, y:hae.position.y)
         
-        let a1 = SKAction.fadeAlphaTo(0, duration: 1)
-        let a2 = SKAction.moveToY(hae.position.y + 100, duration: 1)
+        let a1 = SKAction.fadeAlpha(to: 0, duration: 1)
+        let a2 = SKAction.moveTo(y: hae.position.y + 100, duration: 1)
         let ag = SKAction.group([a1, a2])
-        pointLabel.runAction(ag, completion: { () -> Void in
+        pointLabel.run(ag, completion: { () -> Void in
             pointLabel.removeFromParent()
         })
         
         haeLayer!.addChild(pointLabel)
         
         scoreLabel.text = String(currentScore)
-        runAction(sound)
+        run(sound)
         
-        let a3 = SKAction.fadeAlphaTo(0, duration: 0.5)
-        hae.runAction(a3)
+        let a3 = SKAction.fadeAlpha(to: 0, duration: 0.5)
+        hae.run(a3)
     }
     
-    func haeBabyTouched(hae: HaeBaby) {
+    func haeBabyTouched(_ hae: HaeBaby) {
         let score = Int(100 * hae.xs / 2) * 5
         resultBabyHaeNumPoint += score
-        resultBabyHaeNum++
+        resultBabyHaeNum += 1
         
-        runAction(sound)
+        run(sound)
         
-        let a3 = SKAction.fadeAlphaTo(0, duration: 0.5)
-        hae.runAction(a3)
+        let a3 = SKAction.fadeAlpha(to: 0, duration: 0.5)
+        hae.run(a3)
     }
     
-    func haeKingTouched(hae: HaeKing) {
+    func haeKingTouched(_ hae: HaeKing) {
         
         let score = Int(100 * hae.xs / 2) * 5
         currentScore += score
         
-        resultBossHaeNum++
+        resultBossHaeNum += 1
         resultBossHaeNumPoint += score
         
         let pointLabel = SKLabelNode(fontNamed:"Verdana-Bold")
@@ -416,27 +417,30 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
         pointLabel.fontSize = 40
         pointLabel.position = CGPoint(x:hae.position.x, y:hae.position.y)
         
-        let a1 = SKAction.fadeAlphaTo(0, duration: 1)
-        let a2 = SKAction.moveToY(hae.position.y + 100, duration: 1)
+        let a1 = SKAction.fadeAlpha(to: 0, duration: 1)
+        let a2 = SKAction.moveTo(y: hae.position.y + 100, duration: 1)
         let ag = SKAction.group([a1, a2])
-        pointLabel.runAction(ag, completion: { () -> Void in
+        pointLabel.run(ag, completion: { () -> Void in
             pointLabel.removeFromParent()
         })
         
         haeLayer!.addChild(pointLabel)
         
-        scoreLabel.text = String(currentScore)
-        runAction(sound)
+        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>")
+        print(currentScore)
         
-        let a3 = SKAction.fadeAlphaTo(0, duration: 0.5)
-        hae.runAction(a3)
+        scoreLabel.text = String(currentScore)
+        run(sound)
+        
+        let a3 = SKAction.fadeAlpha(to: 0, duration: 0.5)
+        hae.run(a3)
     }
     
     func topTouched() {
         if controller != nil {
             let c = controller as! GameViewController
-            let t:SKTransition = SKTransition.flipVerticalWithDuration(0.7)
-            skView!.presentScene(c.mainScene, transition: t)
+            let t:SKTransition = SKTransition.flipVertical(withDuration: 0.7)
+            skView!.presentScene(c.mainScene!, transition: t)
             c.showInterstitial()
         }
     }
@@ -448,14 +452,14 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
         }
     }
     
-    func tweetBtnTouched(pt:Int){
+    func tweetBtnTouched(_ pt:Int){
         if controller != nil {
             let c = controller as! GameViewController
             c.tweet(pt)
         }
     }
     
-    func fbBtnTouched(pt:Int){
+    func fbBtnTouched(_ pt:Int){
         if controller != nil {
             let c = controller as! GameViewController
             c.fbPost(pt)
@@ -466,17 +470,17 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
         for node : AnyObject in haeLayer!.children{
             
             if((node as! SKNode).name != nil && node.name == "hae"){
-                var _node = node as! Hae
+                let _node = node as! Hae
                 _node.removeFromParent()
                 
             }
             if((node as! SKNode).name != nil && node.name == "hae_baby"){
-                var _node = node as! HaeBaby
+                let _node = node as! HaeBaby
                 _node.removeFromParent()
                 
             }
             if((node as! SKNode).name != nil && node.name == "hae_king"){
-                var _node = node as! HaeKing
+                let _node = node as! HaeKing
                 _node.removeFromParent()
                 
             }

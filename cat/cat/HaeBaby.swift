@@ -9,7 +9,7 @@
 import SpriteKit
 
 protocol HaeBabyDelegate {
-    func haeBabyTouched(hae:HaeBaby)
+    func haeBabyTouched(_ hae:HaeBaby)
 }
 
 class HaeBaby: SKNode {
@@ -31,23 +31,23 @@ class HaeBaby: SKNode {
     
     var delegate: HaeBabyDelegate! = nil
     
-    let sp:SKSpriteNode! = nil
-    let spHit:SKSpriteNode! = nil
-    let hitArea:SKSpriteNode! = nil
+    var sp:SKSpriteNode! = nil
+    var spHit:SKSpriteNode! = nil
+    var hitArea:SKSpriteNode! = nil
     
     override init() {
         super.init()
         
-        self.userInteractionEnabled = true
+        self.isUserInteractionEnabled = true
         
         let atlas = SKTextureAtlas(named: "hae")
         let hae1 = atlas.textureNamed("baby_1.png")
         let hae2 = atlas.textureNamed("baby_2.png")
         
         sp = SKSpriteNode(texture: hae1)
-        let haneAction = SKAction.animateWithTextures([hae1,hae2], timePerFrame: 0.01)
-        let flyAction = SKAction.repeatActionForever(haneAction)
-        sp.runAction(flyAction)
+        let haneAction = SKAction.animate(with: [hae1,hae2], timePerFrame: 0.01)
+        let flyAction = SKAction.repeatForever(haneAction)
+        sp.run(flyAction)
         self.addChild(sp)
         
         spHit = SKSpriteNode(imageNamed: "baby_hit.png")
@@ -60,7 +60,7 @@ class HaeBaby: SKNode {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         if(self.isDead){
             return
@@ -68,7 +68,7 @@ class HaeBaby: SKNode {
         
         self.delegate!.haeBabyTouched(self)
         
-        for touch: AnyObject in touches {
+        for _: AnyObject in touches {
             sp.removeFromParent()
             //self.removeFromParent()
             self.addChild(spHit)
@@ -92,10 +92,10 @@ class HaeBaby: SKNode {
     }
     
     func disableTouch(){
-        self.userInteractionEnabled = false
+        self.isUserInteractionEnabled = false
     }
     
     func enableTouch(){
-        self.userInteractionEnabled = true
+        self.isUserInteractionEnabled = true
     }
 }

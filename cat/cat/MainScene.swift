@@ -30,7 +30,7 @@ class MainScene: SKScene {
     let howtoBtn = SKSpriteNode(imageNamed: "howto_btn.png")
     let rankingBtn = SKSpriteNode(imageNamed: "ranking_btn.png")
     
-    let deviceWidth = UIScreen.mainScreen().nativeBounds.width
+    let deviceWidth = UIScreen.main.nativeBounds.width
     
     //layers
     var bgLayer:SKNode? = nil
@@ -39,43 +39,43 @@ class MainScene: SKScene {
     let bg = SKSpriteNode(imageNamed: "room.png")
     let bgInitialPosX:CGFloat = 750.0
     
-    var createTimer:NSTimer? = nil
-    var createBabyTimer:NSTimer? = nil
+    var createTimer:Timer? = nil
+    var createBabyTimer:Timer? = nil
     
-    override func didMoveToView(view: SKView) {
+    override func didMove(to view: SKView) {
         
         //layer
-        bgLayer = self.childNodeWithName("bgLayer")
-        haeLayer = bgLayer!.childNodeWithName("haeLayer")
+        bgLayer = self.childNode(withName: "bgLayer")
+        haeLayer = bgLayer!.childNode(withName: "haeLayer")
         
         //bg 350
-        bg.position = CGPoint(x:bgInitialPosX, y:CGRectGetHeight(self.frame) - 350)
+        bg.position = CGPoint(x:bgInitialPosX, y:self.frame.height - 350)
         
         if(!initialized){
             
             bgLayer!.addChild(bg)
             
             bgLayer!.addChild(title)
-            title.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) + 400)
+            title.position = CGPoint(x:self.frame.midX, y:self.frame.midY + 400)
             title.zPosition = 1
             
             bgLayer!.addChild(verLabel)
             verLabel.text = "ver." + APP_VER
-            verLabel.fontColor = UIColor.blackColor()
-            verLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) + 300)
+            verLabel.fontColor = UIColor.black
+            verLabel.position = CGPoint(x:self.frame.midX, y:self.frame.midY + 300)
             verLabel.zPosition = 1
             
-            startBtn.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
+            startBtn.position = CGPoint(x:self.frame.midX, y:self.frame.midY)
             startBtn.name = "startbtn"
             startBtn.zPosition = 100
             haeLayer!.addChild(startBtn)
             
-            howtoBtn.position = CGPoint(x:CGRectGetMidX(self.frame) - 120, y:CGRectGetMidY(self.frame) - 150)
+            howtoBtn.position = CGPoint(x:self.frame.midX - 120, y:self.frame.midY - 150)
             howtoBtn.name = "howtobtn"
             howtoBtn.zPosition = 100
             haeLayer!.addChild(howtoBtn)
             
-            rankingBtn.position = CGPoint(x:CGRectGetMidX(self.frame) + 120, y:CGRectGetMidY(self.frame) - 150)
+            rankingBtn.position = CGPoint(x:self.frame.midX + 120, y:self.frame.midY - 150)
             rankingBtn.name = "rankingbtn"
             rankingBtn.zPosition = 100
             haeLayer!.addChild(rankingBtn)
@@ -83,18 +83,18 @@ class MainScene: SKScene {
             initialized = true
         }
         
-        self.createTimer = NSTimer.scheduledTimerWithTimeInterval(20, target: self, selector: "createHae:", userInfo: nil, repeats: true)
+        self.createTimer = Timer.scheduledTimer(timeInterval: 20, target: self, selector: #selector(MainScene.createHae(_:)), userInfo: nil, repeats: true)
         
-        self.createBabyTimer = NSTimer.scheduledTimerWithTimeInterval(20.5, target: self, selector: "createHaeBaby:", userInfo: nil, repeats: true)
+        self.createBabyTimer = Timer.scheduledTimer(timeInterval: 20.5, target: self, selector: #selector(MainScene.createHaeBaby(_:)), userInfo: nil, repeats: true)
         
     }
     
-    func createHae(timer : NSTimer){
+    func createHae(_ timer : Timer){
         //create hae normal
         let hae = Hae()
         hae.name = "hae"
         hae.disableTouch()
-        var _dir = 0 //0:left 1:right
+        _ = 0 //0:left 1:right
         var _x = 0
         let _y = 350
         
@@ -108,12 +108,12 @@ class MainScene: SKScene {
         haeLayer!.addChild(hae)
     }
     
-    func createHaeBaby(timer : NSTimer){
+    func createHaeBaby(_ timer : Timer){
         //create hae baby
         let baby = HaeBaby()
         baby.name = "hae_baby"
         baby.disableTouch()
-        var _dir = 0 //0:left 1:right
+        _ = 0 //0:left 1:right
         var _x = 0
         let _y = 350
         
@@ -127,30 +127,30 @@ class MainScene: SKScene {
         haeLayer!.addChild(baby)
     }
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         /* Called when a touch begins */
         
         for touch: AnyObject in touches {
             //do something
-            let location = touch.locationInNode(self)
-            let touchedNode = self.nodeAtPoint(location)
+            let location = touch.location(in: self)
+            let touchedNode = self.atPoint(location)
             print(touchedNode)
             if(touchedNode.name == "startbtn"){
                 self.createTimer!.invalidate()
                 self.createBabyTimer!.invalidate()
                 self.mainSceneDelegate!.startBtnTouched()
-                runAction(btnSound)
+                run(btnSound)
             }else if(touchedNode.name == "howtobtn"){
                 self.mainSceneDelegate!.howtoBtnTouched()
-                runAction(btnSound)
+                run(btnSound)
             }else if(touchedNode.name == "rankingbtn"){
                 self.mainSceneDelegate!.rankingBtnTouched()
-                runAction(btnSound)
+                run(btnSound)
             }
         }
     }
     
-    override func update(currentTime: CFTimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         if(bg.position.x < 350){
             return
         }
@@ -163,14 +163,14 @@ class MainScene: SKScene {
             }
             else{
                 if(node.name == "hae"){
-                    var hae = node as! Hae
+                    let hae = node as! Hae
                     if(!hae.isDead){
                         hae.update()
                     }
                 }
                 
                 if(node.name == "hae_baby"){
-                    var baby = node as! HaeBaby
+                    let baby = node as! HaeBaby
                     if(!baby.isDead){
                         baby.update()
                     }

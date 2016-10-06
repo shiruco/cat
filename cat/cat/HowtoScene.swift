@@ -16,29 +16,30 @@ class HowtoScene: SKScene {
     var controller:UIViewController?
     let btnSound = SKAction.playSoundFileNamed("btn.mp3", waitForCompletion: false)
     
-    override func didMoveToView(view: SKView) {
+    override func didMove(to view: SKView) {
         howto.xScale = 0.7
         howto.yScale = 0.7
-        howto.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) + 100)
+        howto.position = CGPoint(x:self.frame.midX, y:self.frame.midY + 100)
         self.addChild(howto)
         
         back.name = "back_btn"
-        back.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) - 350)
+        back.position = CGPoint(x:self.frame.midX, y:self.frame.midY - 350)
         self.addChild(back)
     }
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
         /* Called when a touch begins */
         
         for touch: AnyObject in touches {
             //do something
-            let location = touch.locationInNode(self)
-            let touchedNode = self.nodeAtPoint(location)
+            let location = touch.location(in: self)
+            let touchedNode = self.atPoint(location)
             if(touchedNode.name == "back_btn"){
                 if controller != nil {
                     self.back.removeFromParent()
                     self.howto.removeFromParent()
-                    runAction(btnSound)
+                    run(btnSound)
                     
                     let c = controller as! GameViewController
                     c.backTouched()

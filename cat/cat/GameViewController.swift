@@ -11,13 +11,13 @@ import SpriteKit
 import Social
 
 extension SKNode {
-    class func unarchiveFromFile(file : NSString) -> SKNode? {
-        if let path = NSBundle.mainBundle().pathForResource(file as String, ofType: "sks") {
-            var sceneData = NSData(contentsOfFile: path, options: .DataReadingMappedIfSafe, error: nil)!
-            var archiver = NSKeyedUnarchiver(forReadingWithData: sceneData)
+    class func unarchiveFromFile(_ file : NSString) -> SKNode? {
+        if let path = Bundle.main.path(forResource: file as String, ofType: "sks") {
+            let sceneData = try! NSData(contentsOfFile: path, options: .mappedIfSafe)
+            let archiver = NSKeyedUnarchiver(forReadingWith: sceneData as Data)
             
             archiver.setClass(self.classForKeyedUnarchiver(), forClassName: "SKScene")
-            let scene = archiver.decodeObjectForKey(NSKeyedArchiveRootObjectKey) as SKNode
+            let scene = archiver.decodeObject(forKey: NSKeyedArchiveRootObjectKey) as! SKNode
             archiver.finishDecoding()
             return scene
         } else {
@@ -46,39 +46,39 @@ class GameViewController: UIViewController, MainSceneDelegate,NADIconLoaderDeleg
         var bannerView:GADBannerView = GADBannerView()
         bannerView = GADBannerView(adSize: kGADAdSizeBanner)
         bannerView.adUnitID = AD_BANNER_ID
-        bannerView.frame.origin = CGPointMake(0, self.view.frame.size.height-50)
-        bannerView.frame.size = CGSizeMake(self.view.frame.size.width,50)
+        bannerView.frame.origin = CGPoint(x: 0, y: self.view.frame.size.height-50)
+        bannerView.frame.size = CGSize(width: self.view.frame.size.width,height: 50)
         bannerView.rootViewController = self
         bannerView.delegate = self
         
-        bannerView.frame = CGRectMake(
-            (self.view.bounds.size.width - bannerView.bounds.size.width) / 2,
-            self.view.bounds.size.height - bannerView.bounds.size.height,
-            bannerView.bounds.size.width,
-            bannerView.bounds.size.height
+        bannerView.frame = CGRect(
+            x: (self.view.bounds.size.width - bannerView.bounds.size.width) / 2,
+            y: self.view.bounds.size.height - bannerView.bounds.size.height,
+            width: bannerView.bounds.size.width,
+            height: bannerView.bounds.size.height
         )
         
         self.view.addSubview(bannerView)
         
         //test
-        var request:GADRequest = GADRequest()
+        let request:GADRequest = GADRequest()
         //request.testDevices = [GAD_SIMULATOR_ID]
         
-        bannerView.loadRequest(request)
+        bannerView.load(request)
         
         
         //NADIconViewクラスの生成
         iconView = NADIconView(frame: CGRect(x: 0, y: 100, width: 75, height: 75))
-        iconView.frame.origin = CGPointMake(0, 10)
+        iconView.frame.origin = CGPoint(x: 0, y: 10)
         
         iconView2 = NADIconView(frame: CGRect(x: 0, y: 100, width: 75, height: 75))
-        iconView2.frame.origin = CGPointMake(70, 10)
+        iconView2.frame.origin = CGPoint(x: 70, y: 10)
         
         //NADIconLoaderクラスの生成
         iconLoader = NADIconLoader()
         //loaderへ追加
-        iconLoader.addIconView(iconView)
-        iconLoader.addIconView(iconView2)
+        iconLoader.add(iconView)
+        iconLoader.add(iconView2)
         //loaderへの設定
         iconLoader.setNendID(AD_NEND_API_KEY,spotID: AD_NEND_SPOT_ID)
         iconLoader.delegate = self
@@ -98,7 +98,7 @@ class GameViewController: UIViewController, MainSceneDelegate,NADIconLoaderDeleg
             
             /* Set the scale mode to scale to fit the window */
             //scene.scaleMode = .AspectFill
-            scene.scaleMode = .AspectFill
+            scene.scaleMode = .aspectFill
             
             scene.mainSceneDelegate = self
             
@@ -122,20 +122,20 @@ class GameViewController: UIViewController, MainSceneDelegate,NADIconLoaderDeleg
         iconView2.removeFromSuperview()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.updateGameCenter()
     }
 
-    override func shouldAutorotate() -> Bool {
+    override var shouldAutorotate : Bool {
         return true
     }
 
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
-            return UIInterfaceOrientationMask.AllButUpsideDown
+    override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            return UIInterfaceOrientationMask.allButUpsideDown
         } else {
-            return UIInterfaceOrientationMask.All
+            return UIInterfaceOrientationMask.all
         }
     }
 
@@ -144,7 +144,7 @@ class GameViewController: UIViewController, MainSceneDelegate,NADIconLoaderDeleg
         // Release any cached data, images, etc that aren't in use.
     }
 
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden : Bool {
         return true
     }
     
@@ -158,16 +158,16 @@ class GameViewController: UIViewController, MainSceneDelegate,NADIconLoaderDeleg
             /* Sprite Kit applies additional optimizations to improve rendering performance */
             skView.ignoresSiblingOrder = true
             
-            skView.backgroundColor = UIColor.whiteColor()
+            skView.backgroundColor = UIColor.white
             
             /* Set the scale mode to scale to fit the window */
             //scene.scaleMode = .AspectFill
-            scene.scaleMode = .AspectFill
+            scene.scaleMode = .aspectFill
             
             scene.skView = skView
             scene.controller = self
             
-            let t:SKTransition = SKTransition.flipVerticalWithDuration(0.7)
+            let t:SKTransition = SKTransition.flipVertical(withDuration: 0.7)
             
             skView.presentScene(scene, transition: t)
         }
@@ -184,34 +184,34 @@ class GameViewController: UIViewController, MainSceneDelegate,NADIconLoaderDeleg
             /* Sprite Kit applies additional optimizations to improve rendering performance */
             skView.ignoresSiblingOrder = true
             
-            skView.backgroundColor = UIColor.whiteColor()
+            skView.backgroundColor = UIColor.white
             
             /* Set the scale mode to scale to fit the window */
-            scene.scaleMode = .AspectFill
+            scene.scaleMode = .aspectFill
             
-            let t:SKTransition = SKTransition.flipVerticalWithDuration(0.7)
+            let t:SKTransition = SKTransition.flipVertical(withDuration: 0.7)
             skView.presentScene(scene, transition: t)
         }
     }
     
-    func tweet(pt:Int){
+    func tweet(_ pt:Int){
         //投稿画面を作る
         let twitterPostView:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeTwitter)!
         
-        let mg = NSLocalizedString("tweetMsg", comment: "").stringByReplacingOccurrencesOfString("$score", withString: String(pt) + "pt", options: [], range: nil)
+        let mg = NSLocalizedString("tweetMsg", comment: "").replacingOccurrences(of: "$score", with: String(pt) + "pt", options: [], range: nil)
         twitterPostView.setInitialText(mg)
         
-        self.presentViewController(twitterPostView, animated: true, completion: nil)
+        self.present(twitterPostView, animated: true, completion: nil)
     }
     
-    func fbPost(pt:Int){
+    func fbPost(_ pt:Int){
         //投稿画面を作る
         let fbPostView:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeFacebook)!
         
-        let mg = NSLocalizedString("fbMsg", comment: "").stringByReplacingOccurrencesOfString("$score", withString: String(pt) + "pt", options: [], range: nil)
+        let mg = NSLocalizedString("fbMsg", comment: "").replacingOccurrences(of: "$score", with: String(pt) + "pt", options: [], range: nil)
         fbPostView.setInitialText(mg)
         
-        self.presentViewController(fbPostView, animated: true, completion: nil)
+        self.present(fbPostView, animated: true, completion: nil)
     }
     
     func rankingBtnTouched(){
@@ -230,75 +230,75 @@ class GameViewController: UIViewController, MainSceneDelegate,NADIconLoaderDeleg
             
             /* Set the scale mode to scale to fit the window */
             //scene.scaleMode = .AspectFill
-            scene.scaleMode = .AspectFill
+            scene.scaleMode = .aspectFill
             
             scene.mainSceneDelegate = self
             
-            let t:SKTransition = SKTransition.flipVerticalWithDuration(0.7)
+            let t:SKTransition = SKTransition.flipVertical(withDuration: 0.7)
             skView.presentScene(scene, transition: t)
         }
     }
     
     func showInterstitial(){
         if(getRandomNumber(Min:0,Max:10) % 2 == 1){
-            var _ = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "_showInterstitial:", userInfo: nil, repeats: false)
+            var _ = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(GameViewController._showInterstitial(_:)), userInfo: nil, repeats: false)
         }
     }
-    func _showInterstitial(timer : NSTimer){
+    func _showInterstitial(_ timer : Timer){
         interstitialView = GADInterstitial()
         interstitialView!.adUnitID = AD_POPUP_ID
         interstitialView!.delegate = self
-        interstitialView!.loadRequest(GADRequest())
+        interstitialView!.load(GADRequest())
         
     }
     func getRandomNumber(Min _Min : Int, Max _Max : Int)->Int {
         return Int(arc4random_uniform(UInt32(_Max))) + _Min
     }
-    func adViewDidReceiveAd(adView: GADBannerView){
+    func adViewDidReceiveAd(_ adView: GADBannerView){
         print("adViewDidReceiveAd:\(adView)")
     }
-    func adView(adView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError){
+    func adView(_ adView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError){
         print("error:\(error)")
     }
-    func adViewWillPresentScreen(adView: GADBannerView){
+    func adViewWillPresentScreen(_ adView: GADBannerView){
         print("adViewWillPresentScreen")
     }
-    func adViewWillDismissScreen(adView: GADBannerView){
+    func adViewWillDismissScreen(_ adView: GADBannerView){
         print("adViewWillDismissScreen")
     }
-    func adViewDidDismissScreen(adView: GADBannerView){
+    func adViewDidDismissScreen(_ adView: GADBannerView){
         print("adViewDidDismissScreen")
     }
-    func adViewWillLeaveApplication(adView: GADBannerView){
+    func adViewWillLeaveApplication(_ adView: GADBannerView){
         print("adViewWillLeaveApplication")
     }
-    func interstitialDidReceiveAd(interstitial: GADInterstitial){
+    func interstitialDidReceiveAd(_ interstitial: GADInterstitial){
         print("interstitialDidReceiveAd:\(interstitial)")
-        interstitialView!.presentFromRootViewController(self)
+        interstitialView!.present(fromRootViewController: self)
     }
 }
 
 extension GameViewController: GKGameCenterControllerDelegate {
     
-    func gameCenterViewControllerDidFinish(gameCenterViewController: GKGameCenterViewController) {
-        gameCenterViewController.dismissViewControllerAnimated(true, completion: nil)
+    func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
+        gameCenterViewController.dismiss(animated: true, completion: nil)
     }
     
-    private func showLeaderboard() {
+    fileprivate func showLeaderboard() {
         let gameCenterViewController = GKGameCenterViewController()
         gameCenterViewController.gameCenterDelegate = self
-        gameCenterViewController.viewState = GKGameCenterViewControllerState.Leaderboards
+        gameCenterViewController.viewState = GKGameCenterViewControllerState.leaderboards
         //gameCenterViewController.leaderboardIdentifier = "brain.spead_match.score"
-        self.presentViewController(gameCenterViewController, animated: true, completion: nil)
+        self.present(gameCenterViewController, animated: true, completion: nil)
     }
     
-    private func updateGameCenter() {
-        var localPlayer = GKLocalPlayer.localPlayer()
+    fileprivate func updateGameCenter() {
+        let localPlayer = GKLocalPlayer.localPlayer()
         localPlayer.authenticateHandler = {
             (viewController, error) -> Void in
             if ((viewController) != nil) {
                 // ログイン確認処理：失敗-ログイン画面を表示
-                self.presentViewController(viewController, animated: true, completion: nil)
+                self.present(viewController!, animated: true, completion: nil)
             }else{
                 if (error == nil){
                     print("SUCCESS LOGIN GAME CENTER")
@@ -311,12 +311,12 @@ extension GameViewController: GKGameCenterControllerDelegate {
         }
     }
     
-    private func reportScores(value:Int, leaderboardid:String){
+    fileprivate func reportScores(_ value:Int, leaderboardid:String){
         let score:GKScore = GKScore();
         score.value = Int64(value);
         score.leaderboardIdentifier = leaderboardid;
         let scoreArr:[GKScore] = [score];
-        GKScore.reportScores(scoreArr, withCompletionHandler:{(error:NSError?) -> Void in
+        GKScore.report(scoreArr, withCompletionHandler:{(error:Error?) -> Void in
             if( (error != nil)){
                 print("Sucess to reposrt \(leaderboardid)")
             }else{

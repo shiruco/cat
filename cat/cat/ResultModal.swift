@@ -11,8 +11,8 @@ import SpriteKit
 protocol ResultDelegate {
     func topTouched()
     func retryTouched()
-    func tweetBtnTouched(pt:Int)
-    func fbBtnTouched(pt:Int)
+    func tweetBtnTouched(_ pt:Int)
+    func fbBtnTouched(_ pt:Int)
     func bestScoreUpdate()
 }
 
@@ -49,13 +49,13 @@ class ResultModal: SKNode {
         
         super.init()
         
-        self.userInteractionEnabled = true
+        self.isUserInteractionEnabled = true
         
-        modalHead.anchorPoint = CGPointMake(0.5, 1.0)
-        modalFoot.anchorPoint = CGPointMake(0.5, 1.0)
+        modalHead.anchorPoint = CGPoint(x: 0.5, y: 1.0)
+        modalFoot.anchorPoint = CGPoint(x: 0.5, y: 1.0)
         
         modalHead.position = CGPoint(x: 0, y: 0)
-        modalHead.color = UIColor.redColor()
+        modalHead.color = UIColor.red
         
         modalFoot.position = CGPoint(x: 0, y: -modalHead.frame.size.height)
         
@@ -63,22 +63,22 @@ class ResultModal: SKNode {
         self.addChild(modalFoot)
     }
     
-    func show(data:Array<NSDictionary>){
+    func show(_ data:Array<NSDictionary>){
         resultData = data
         
         if(resultData.count > 0){
-            let a1 = SKAction.moveToY(self.moveY, duration: 1.0)
-            a1.timingMode = SKActionTimingMode.EaseIn
-            self.runAction(a1,completion: { () -> Void in
+            let a1 = SKAction.moveTo(y: self.moveY, duration: 1.0)
+            a1.timingMode = SKActionTimingMode.easeIn
+            self.run(a1,completion: { () -> Void in
                 self.showResult()
             })
         }
     }
     
     func hide(){
-        let a1 = SKAction.moveToY(self.initY, duration: 1.0)
-        a1.timingMode = SKActionTimingMode.EaseIn
-        self.runAction(a1,completion: { () -> Void in
+        let a1 = SKAction.moveTo(y: self.initY, duration: 1.0)
+        a1.timingMode = SKActionTimingMode.easeIn
+        self.run(a1,completion: { () -> Void in
             self.initRows()
             self.sumPoint = 0
         })
@@ -88,8 +88,8 @@ class ResultModal: SKNode {
         self.topBtn.removeFromParent()
         self.retryBtn.removeFromParent()
         
-        for(var i=0; i < self.rows.count; i++){
-            self.rows[i].removeFromParent()
+        self.rows.forEach {
+            $0.removeFromParent()
         }
         
         modalFoot.position = CGPoint(x: 0, y: -modalHead.frame.size.height)
@@ -100,13 +100,15 @@ class ResultModal: SKNode {
     func showResult(){
         
         //calc summary
-        for(var i=0; i < resultData.count; i++){
-            let data = self.resultData[i] as! Dictionary<String, String>
-            
-            if(data["type"] == "baby"){
-                sumPoint -= (data["point"]!.toInt()!)
+        resultData.forEach {
+            var type: String
+            var point: String
+            type = $0["type"] as! String
+            point = $0["point"] as! String
+            if(type == "baby"){
+                sumPoint -= NumberFormatter().number(from: point) as! Int
             }else{
-                sumPoint += (data["point"]!.toInt()!)
+                sumPoint += NumberFormatter().number(from: point) as! Int
             }
         }
         
@@ -125,7 +127,7 @@ class ResultModal: SKNode {
         }
         
         let modalHaeNumRow = SKSpriteNode(imageNamed: "result_content.png")
-        modalHaeNumRow.anchorPoint = CGPointMake(0.5, 1.0)
+        modalHaeNumRow.anchorPoint = CGPoint(x: 0.5, y: 1.0)
         modalHaeNumRow.position = CGPoint(x: 0, y: -modalHead.frame.size.height - CGFloat(contentHeight))
         self.addChild(modalHaeNumRow)
         
@@ -133,13 +135,13 @@ class ResultModal: SKNode {
         
         contentHeight += 100
         
-        let a1 = SKAction.resizeToHeight(CGFloat(rowHeight), duration: 0.3)
+        let a1 = SKAction.resize(toHeight: CGFloat(rowHeight), duration: 0.3)
         //a1.timingMode = SKActionTimingMode.EaseOut
-        modalHaeNumRow.runAction(a1)
+        modalHaeNumRow.run(a1)
         
-        let a2 = SKAction.moveToY(-(modalHead.frame.size.height + modalHaeNumRow.frame.size.height) - CGFloat(contentHeight - 1), duration: 0.4)
+        let a2 = SKAction.moveTo(y: -(modalHead.frame.size.height + modalHaeNumRow.frame.size.height) - CGFloat(contentHeight - 1), duration: 0.4)
         //a2.timingMode = SKActionTimingMode.EaseOut
-        modalFoot.runAction(a2,completion: { () -> Void in
+        modalFoot.run(a2,completion: { () -> Void in
             var hae:SKSpriteNode!
             if(data["type"] == "baby"){
                 hae = SKSpriteNode(imageNamed: "baby_1.png")
@@ -147,7 +149,7 @@ class ResultModal: SKNode {
                 hae.yScale = 0.8
                 hae.zPosition = 1
                 hae.position = CGPoint(x:-210,y:-50)
-                hae.hidden = true
+                hae.isHidden = true
                 modalHaeNumRow.addChild(hae)
             }else if(data["type"] == "boss"){
                 hae = SKSpriteNode(imageNamed: "boss_1.png")
@@ -155,7 +157,7 @@ class ResultModal: SKNode {
                 hae.yScale = 0.8
                 hae.zPosition = 1
                 hae.position = CGPoint(x:-210,y:-50)
-                hae.hidden = true
+                hae.isHidden = true
                 modalHaeNumRow.addChild(hae)
             }else{
                 hae = SKSpriteNode(imageNamed: "hae_1.png")
@@ -163,7 +165,7 @@ class ResultModal: SKNode {
                 hae.yScale = 0.8
                 hae.zPosition = 1
                 hae.position = CGPoint(x:-210,y:-50)
-                hae.hidden = true
+                hae.isHidden = true
                 modalHaeNumRow.addChild(hae)
             }
             
@@ -173,7 +175,7 @@ class ResultModal: SKNode {
             xl.fontSize = 40
             xl.fontColor = SKColor(red: 0.19, green: 0.40, blue: 0.00, alpha: 1)
             xl.position = CGPoint(x:-145, y:-80)
-            xl.hidden = true
+            xl.isHidden = true
             modalHaeNumRow.addChild(xl)
             
             let numl = SKLabelNode(fontNamed:"Verdana-Bold")
@@ -182,7 +184,7 @@ class ResultModal: SKNode {
             numl.fontSize = 40
             numl.fontColor = SKColor(red: 0.19, green: 0.40, blue: 0.00, alpha: 1)
             numl.position = CGPoint(x:-90, y:-80)
-            numl.hidden = true
+            numl.isHidden = true
             modalHaeNumRow.addChild(numl)
             
             let ptl = SKLabelNode(fontNamed:"Verdana-Bold")
@@ -195,14 +197,14 @@ class ResultModal: SKNode {
             }
             
             ptl.fontSize = 40
-            ptl.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Right
+            ptl.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.right
             ptl.fontColor = SKColor(red: 0.19, green: 0.40, blue: 0.00, alpha: 1)
             ptl.position = CGPoint(x:240, y:-80)
-            ptl.hidden = true
+            ptl.isHidden = true
             modalHaeNumRow.addChild(ptl)
             
-            var points = [CGPointMake(0, 0),CGPointMake(485.0, 0.0)]
-            let line = SKShapeNode(points: &points, count: UInt(points.count))
+            var points = [CGPoint(x: 0, y: 0),CGPoint(x: 485.0, y: 0.0)]
+            let line = SKShapeNode(points: &points, count: points.count)
             line.zPosition = 1
             line.lineWidth = 2
             line.position = CGPoint(x:-240.0,y:-100.0)
@@ -210,33 +212,33 @@ class ResultModal: SKNode {
             modalHaeNumRow.addChild(line)
             
             let dict1 = ["target":hae]
-            var timer1 = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "showSprite:", userInfo: dict1, repeats: false)
+            _ = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(ResultModal.showSprite(_:)), userInfo: dict1, repeats: false)
             
             let dict2 = ["target":xl]
-            var timer2 = NSTimer.scheduledTimerWithTimeInterval(0.3, target: self, selector: "showLabel:", userInfo: dict2, repeats: false)
+            _ = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(ResultModal.showLabel(_:)), userInfo: dict2, repeats: false)
             
             let dict3 = ["target":numl]
-            var timer3 = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "showLabel:", userInfo: dict3, repeats: false)
+            _ = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(ResultModal.showLabel(_:)), userInfo: dict3, repeats: false)
             
             let dict4 = ["target":ptl]
-            var timer4 = NSTimer.scheduledTimerWithTimeInterval(1.2, target: self, selector: "showLabel:", userInfo: dict4, repeats: false)
+            _ = Timer.scheduledTimer(timeInterval: 1.2, target: self, selector: #selector(ResultModal.showLabel(_:)), userInfo: dict4, repeats: false)
             
-            var timer5 = NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: "addRowComplete:", userInfo: nil, repeats: false)
+            _ = Timer.scheduledTimer(timeInterval: 1.5, target: self, selector: #selector(ResultModal.addRowComplete(_:)), userInfo: nil, repeats: false)
         })
     }
     
-    func showSprite(timer : NSTimer){
+    func showSprite(_ timer : Timer){
         let dict = timer.userInfo as! Dictionary<String, SKSpriteNode>
-        dict["target"]!.hidden = false
+        dict["target"]!.isHidden = false
     }
     
-    func showLabel(timer : NSTimer){
+    func showLabel(_ timer : Timer){
         let dict = timer.userInfo as! Dictionary<String, SKLabelNode>
-        dict["target"]!.hidden = false
+        dict["target"]!.isHidden = false
     }
     
-    func showBest(timer : NSTimer){
-        runAction(sumSound)
+    func showBest(_ timer : Timer){
+        run(sumSound)
         let container = timer.userInfo as! SKSpriteNode
         let bestScore = SKSpriteNode(imageNamed: "best.png")
         bestScore.position = CGPoint(x:70, y:-15)
@@ -244,12 +246,12 @@ class ResultModal: SKNode {
         container.addChild(bestScore)
     }
     
-    func addRowComplete(timer : NSTimer){
-        resultData.removeAtIndex(0)
+    func addRowComplete(_ timer : Timer){
+        resultData.remove(at: 0)
         addRow()
     }
     
-    func addSumComplete(timer : NSTimer){
+    func addSumComplete(_ timer : Timer){
         showBtns()
     }
     
@@ -270,65 +272,65 @@ class ResultModal: SKNode {
         
         
         let modalHaeNumRow = SKSpriteNode(imageNamed: "result_content.png")
-        modalHaeNumRow.anchorPoint = CGPointMake(0.5, 1.0)
+        modalHaeNumRow.anchorPoint = CGPoint(x: 0.5, y: 1.0)
         modalHaeNumRow.position = CGPoint(x: 0, y: -modalHead.frame.size.height - CGFloat(contentHeight))
         self.addChild(modalHaeNumRow)
         rows.append(modalHaeNumRow)
         
         contentHeight += 60
         
-        let a1 = SKAction.resizeToHeight(CGFloat(rowHeight), duration: 0.3)
-        modalHaeNumRow.runAction(a1)
+        let a1 = SKAction.resize(toHeight: CGFloat(rowHeight), duration: 0.3)
+        modalHaeNumRow.run(a1)
         
-        let a2 = SKAction.moveToY(-(modalHead.frame.size.height + modalHaeNumRow.frame.size.height) - CGFloat(contentHeight + 20), duration: 0.3)
-        modalFoot.runAction(a2,completion: { () -> Void in
+        let a2 = SKAction.moveTo(y: -(modalHead.frame.size.height + modalHaeNumRow.frame.size.height) - CGFloat(contentHeight + 20), duration: 0.3)
+        modalFoot.run(a2,completion: { () -> Void in
             
             let sum = SKSpriteNode(imageNamed: "sum.png")
-            sum.hidden = true
+            sum.isHidden = true
             sum.position = CGPoint(x:0, y:-50)
             modalHaeNumRow.addChild(sum)
             
             let dict1 = ["target":sum]
-            var timer1 = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "showSprite:", userInfo: dict1, repeats: false)
+            _ = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(ResultModal.showSprite(_:)), userInfo: dict1, repeats: false)
             
             let sptl = SKLabelNode(fontNamed:"Verdana-Bold")
             sptl.zPosition = 1
             
             sptl.text = String(self.sumPoint) + "pt"
             sptl.fontSize = 40
-            sptl.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Right
+            sptl.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.right
             sptl.fontColor = SKColor(red: 0.19, green: 0.40, blue: 0.00, alpha: 1)
             sptl.position = CGPoint(x:240, y:-60)
-            sptl.hidden = true
+            sptl.isHidden = true
             modalHaeNumRow.addChild(sptl)
             
             if(isBestScore){
                 self.delegate!.bestScoreUpdate()
-                var timer4 = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "showBest:", userInfo: modalHaeNumRow, repeats: false)
+                _ = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(ResultModal.showBest(_:)), userInfo: modalHaeNumRow, repeats: false)
             }
             
             let dict2 = ["target":sptl]
-            var timer2 = NSTimer.scheduledTimerWithTimeInterval(0.3, target: self, selector: "showLabel:", userInfo: dict2, repeats: false)
+            _ = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(ResultModal.showLabel(_:)), userInfo: dict2, repeats: false)
             
-            var timer3 = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "addSumComplete:", userInfo: nil, repeats: false)
+            _ = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(ResultModal.addSumComplete(_:)), userInfo: nil, repeats: false)
         })
     }
     
     func showBtns(){
         let modalHaeNumRow = SKSpriteNode(imageNamed: "result_content.png")
-        modalHaeNumRow.anchorPoint = CGPointMake(0.5, 1.0)
+        modalHaeNumRow.anchorPoint = CGPoint(x: 0.5, y: 1.0)
         modalHaeNumRow.position = CGPoint(x: 0, y: -modalHead.frame.size.height - CGFloat(contentHeight))
         self.addChild(modalHaeNumRow)
         rows.append(modalHaeNumRow)
         
         contentHeight += 80
         
-        let a1 = SKAction.resizeToHeight(CGFloat(rowHeight), duration: 0.3)
-        modalHaeNumRow.runAction(a1)
+        let a1 = SKAction.resize(toHeight: CGFloat(rowHeight), duration: 0.3)
+        modalHaeNumRow.run(a1)
         
-        let a2 = SKAction.moveToY(-(modalHead.frame.size.height + modalHaeNumRow.frame.size.height) - CGFloat(contentHeight - 1), duration: 0.4)
+        let a2 = SKAction.moveTo(y: -(modalHead.frame.size.height + modalHaeNumRow.frame.size.height) - CGFloat(contentHeight - 1), duration: 0.4)
         
-        modalFoot.runAction(a2,completion: { () -> Void in
+        modalFoot.run(a2,completion: { () -> Void in
             self.topBtn.zPosition = 1
             self.topBtn.name = "top_btn"
             self.topBtn.position = CGPoint(x:-110,y:-85)
@@ -353,28 +355,28 @@ class ResultModal: SKNode {
         })
     }
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         for touch: AnyObject in touches {
             //var t: UITouch = touch as UITouch
-            let location = touch.locationInNode(self)
-            let touchedNode = self.nodeAtPoint(location)
+            let location = touch.location(in: self)
+            let touchedNode = self.atPoint(location)
             if(touchedNode.name == "top_btn"){
                 self.delegate!.topTouched()
                 self.tweetBtn.removeFromParent()
                 self.fbBtn.removeFromParent()
-                runAction(btnSound)
+                run(btnSound)
             }else if(touchedNode.name == "retry_btn"){
                 self.delegate!.retryTouched()
                 self.tweetBtn.removeFromParent()
                 self.fbBtn.removeFromParent()
-                runAction(btnSound)
+                run(btnSound)
             }else if(touchedNode.name == "tweet_btn"){
                 self.delegate!.tweetBtnTouched(self.sumPoint)
-                runAction(btnSound)
+                run(btnSound)
             }else if(touchedNode.name == "fb_btn"){
                 self.delegate!.fbBtnTouched(self.sumPoint)
-                runAction(btnSound)
+                run(btnSound)
             }
         }
     }

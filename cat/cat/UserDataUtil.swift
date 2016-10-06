@@ -10,14 +10,14 @@ import Foundation
 
 class UserDataUtil {
     
-    class func setPointData(pt:Int){
-        let ud = NSUserDefaults.standardUserDefaults()
-        ud.setObject(pt, forKey: "pt")
+    class func setPointData(_ pt:Int){
+        let ud = UserDefaults.standard
+        ud.set(pt, forKey: "pt")
     }
 
     class func getPointData() -> Int{
-        let ud = NSUserDefaults.standardUserDefaults()
-        let udId : AnyObject! = ud.objectForKey("pt")
+        let ud = UserDefaults.standard
+        let udId : AnyObject! = ud.object(forKey: "pt") as AnyObject!
         var score = 0
         if(udId != nil) {
             score = udId as! Int

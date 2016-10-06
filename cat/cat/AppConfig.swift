@@ -8,7 +8,7 @@
 
 import Foundation
 
-let APP_VER: String = "1.0.0"
+let APP_VER: String = "1.1.0"
 
 //AdMob
 //おやじバナー
