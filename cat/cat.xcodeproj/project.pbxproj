@@ -71,7 +71,6 @@
 		A9A0C2381A77E96600583FC5 /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9A0C2371A77E96600583FC5 /* EventKit.framework */; };
 		A9A0C23A1A77E97000583FC5 /* EventKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9A0C2391A77E97000583FC5 /* EventKitUI.framework */; };
 		A9A0C23C1A77E97A00583FC5 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9A0C23B1A77E97A00583FC5 /* MessageUI.framework */; };
-		A9A0C23E1A77E98300583FC5 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9A0C23D1A77E98300583FC5 /* StoreKit.framework */; };
 		A9A0C2401A77E98C00583FC5 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9A0C23F1A77E98C00583FC5 /* SystemConfiguration.framework */; };
 		A9A0C2431A7CBD1900583FC5 /* hit.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A9A0C2421A7CBD1900583FC5 /* hit.mp3 */; };
 		A9A0C24E1A7FB1D300583FC5 /* pt_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = A9A0C24D1A7FB1D300583FC5 /* pt_bg.png */; };
@@ -194,7 +193,6 @@
 		A9A0C2371A77E96600583FC5 /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
 		A9A0C2391A77E97000583FC5 /* EventKitUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKitUI.framework; path = System/Library/Frameworks/EventKitUI.framework; sourceTree = SDKROOT; };
 		A9A0C23B1A77E97A00583FC5 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		A9A0C23D1A77E98300583FC5 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		A9A0C23F1A77E98C00583FC5 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		A9A0C2411A77EB1200583FC5 /* cat-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "cat-Bridging-Header.h"; sourceTree = "<group>"; };
 		A9A0C2421A7CBD1900583FC5 /* hit.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = hit.mp3; sourceTree = "<group>"; };
@@ -214,7 +212,6 @@
 				A90CE57C1AA8B0F200F3A565 /* Social.framework in Frameworks */,
 				A9939D871AA1DEDD008A9239 /* GameKit.framework in Frameworks */,
 				A9A0C2401A77E98C00583FC5 /* SystemConfiguration.framework in Frameworks */,
-				A9A0C23E1A77E98300583FC5 /* StoreKit.framework in Frameworks */,
 				A9A0C23C1A77E97A00583FC5 /* MessageUI.framework in Frameworks */,
 				A9A0C23A1A77E97000583FC5 /* EventKitUI.framework in Frameworks */,
 				A9A0C2381A77E96600583FC5 /* EventKit.framework in Frameworks */,
@@ -289,7 +286,6 @@
 				A90CE57B1AA8B0F200F3A565 /* Social.framework */,
 				A9939D861AA1DEDD008A9239 /* GameKit.framework */,
 				A9A0C23F1A77E98C00583FC5 /* SystemConfiguration.framework */,
-				A9A0C23D1A77E98300583FC5 /* StoreKit.framework */,
 				A9A0C23B1A77E97A00583FC5 /* MessageUI.framework */,
 				A9A0C2391A77E97000583FC5 /* EventKitUI.framework */,
 				A9A0C2371A77E96600583FC5 /* EventKit.framework */,
@@ -486,7 +482,13 @@
 				TargetAttributes = {
 					A997B2051A5AD8FC00E0319A = {
 						CreatedOnToolsVersion = 6.1;
+						DevelopmentTeam = JKK37487L2;
 						LastSwiftMigration = 0800;
+						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 0;
+							};
+						};
 					};
 					A997B21E1A5AD8FC00E0319A = {
 						CreatedOnToolsVersion = 6.1;
@@ -790,6 +792,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -838,6 +841,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -861,6 +865,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = JKK37487L2;
 				INFOPLIST_FILE = cat/Base.lproj/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -872,7 +877,8 @@
 				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.maroton.oyajibae;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ad919fa2-1f61-4feb-9fef-5c177a29186f";
+				PROVISIONING_PROFILE = "3b65fb5f-5959-4902-9723-5c88c1fa81a8";
+				PROVISIONING_PROFILE_SPECIFIER = oyajibae_dev;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT)/cat-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
@@ -882,6 +888,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				DEVELOPMENT_TEAM = JKK37487L2;
 				INFOPLIST_FILE = cat/Base.lproj/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -893,7 +901,8 @@
 				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.maroton.oyajibae;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ad919fa2-1f61-4feb-9fef-5c177a29186f";
+				PROVISIONING_PROFILE = "cb99989e-07e9-44c1-a138-67a0d294cae8";
+				PROVISIONING_PROFILE_SPECIFIER = oyajibae_distribution;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT)/cat-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
