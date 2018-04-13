@@ -17,7 +17,7 @@ class UserDataUtil {
 
     class func getPointData() -> Int{
         let ud = UserDefaults.standard
-        let udId : AnyObject! = ud.object(forKey: "pt") as AnyObject!
+        let udId : AnyObject! = ud.object(forKey: "pt") as AnyObject?
         var score = 0
         if(udId != nil) {
             score = udId as! Int
