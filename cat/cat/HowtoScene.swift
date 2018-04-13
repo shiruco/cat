@@ -16,9 +16,27 @@ class HowtoScene: SKScene {
     var controller:UIViewController?
     let btnSound = SKAction.playSoundFileNamed("btn.mp3", waitForCompletion: false)
     
+    let is_iPhoneX: Bool = {
+        guard #available(iOS 11.0, *),
+            UIDevice().userInterfaceIdiom == .phone else {
+                return false
+        }
+        let nativeSize = UIScreen.main.nativeBounds.size
+        let (w, h) = (nativeSize.width, nativeSize.height)
+        let (d1, d2): (CGFloat, CGFloat) = (1125.0, 2436.0)
+        return (w == d1 && h == d2) || (w == d2 && h == d1)
+    }()
+    
     override func didMove(to view: SKView) {
-        howto.xScale = 0.7
-        howto.yScale = 0.7
+        
+        if (is_iPhoneX) {
+            howto.xScale = 0.6
+            howto.yScale = 0.6
+        } else {
+            howto.xScale = 0.7
+            howto.yScale = 0.7
+        }
+        
         howto.position = CGPoint(x:self.frame.midX, y:self.frame.midY + 100)
         self.addChild(howto)
         

@@ -33,6 +33,17 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
     let flySound = SKAction.playSoundFileNamed("fly.mp3", waitForCompletion: false)
     let deviceWidth = UIScreen.main.nativeBounds.width
     
+    let is_iPhoneX: Bool = {
+        guard #available(iOS 11.0, *),
+            UIDevice().userInterfaceIdiom == .phone else {
+                return false
+        }
+        let nativeSize = UIScreen.main.nativeBounds.size
+        let (w, h) = (nativeSize.width, nativeSize.height)
+        let (d1, d2): (CGFloat, CGFloat) = (1125.0, 2436.0)
+        return (w == d1 && h == d2) || (w == d2 && h == d1)
+    }()
+    
     var resultModal:ResultModal? = nil
     
     var gameTimer:Timer? = nil
@@ -63,7 +74,11 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
         bgLayer!.addChild(bg)
         
         //UI
-        uiContainer.position = CGPoint(x:self.frame.midX, y:self.frame.height - 370)
+        if (is_iPhoneX) {
+            uiContainer.position = CGPoint(x:self.frame.midX - 20, y:self.frame.height - 400)
+        } else {
+            uiContainer.position = CGPoint(x:self.frame.midX, y:self.frame.height - 370)
+        }
         uiContainer.isHidden = true
         uiLayer!.addChild(uiContainer)
         
