@@ -42,6 +42,7 @@
 		A96590461A88F24300F49D2F /* result_foot.png in Resources */ = {isa = PBXBuildFile; fileRef = A96590451A88F24300F49D2F /* result_foot.png */; };
 		A96590481A8A6EA700F49D2F /* fly.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A96590471A8A6EA700F49D2F /* fly.mp3 */; };
 		A96590521A94F1E400F49D2F /* MainScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = A96590511A94F1E400F49D2F /* MainScene.sks */; };
+		A9686D2B2080426C00AAB4BD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A9686D2A2080416900AAB4BD /* GoogleService-Info.plist */; };
 		A973B03C1AAF2E6D000E094E /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A973B03B1AAF2E6D000E094E /* ImageIO.framework */; };
 		A973B03E1AAF2E8C000E094E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A973B03D1AAF2E8C000E094E /* Security.framework */; };
 		A973B04E1AAF33B4000E094E /* libAdapterNend.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A973B0411AAF33B4000E094E /* libAdapterNend.a */; };
@@ -147,6 +148,7 @@
 		A96590451A88F24300F49D2F /* result_foot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = result_foot.png; sourceTree = "<group>"; };
 		A96590471A8A6EA700F49D2F /* fly.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = fly.mp3; sourceTree = "<group>"; };
 		A96590511A94F1E400F49D2F /* MainScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MainScene.sks; sourceTree = "<group>"; };
+		A9686D2A2080416900AAB4BD /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A973B03B1AAF2E6D000E094E /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		A973B03D1AAF2E8C000E094E /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		A973B0411AAF33B4000E094E /* libAdapterNend.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAdapterNend.a; sourceTree = "<group>"; };
@@ -367,6 +369,7 @@
 		A997B2081A5AD8FC00E0319A /* cat */ = {
 			isa = PBXGroup;
 			children = (
+				A9686D2A2080416900AAB4BD /* GoogleService-Info.plist */,
 				A9A0C2441A7E67DE00583FC5 /* images */,
 				A9A0C21B1A72C99A00583FC5 /* hae.atlas */,
 				A9A7DEB11A6197F20086A830 /* sound */,
@@ -522,6 +525,7 @@
 						CreatedOnToolsVersion = 6.1;
 						DevelopmentTeam = JKK37487L2;
 						LastSwiftMigration = 0800;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.InAppPurchase = {
 								enabled = 0;
@@ -530,7 +534,9 @@
 					};
 					A997B21E1A5AD8FC00E0319A = {
 						CreatedOnToolsVersion = 6.1;
+						DevelopmentTeam = JKK37487L2;
 						LastSwiftMigration = 0800;
+						ProvisioningStyle = Manual;
 						TestTargetID = A997B2051A5AD8FC00E0319A;
 					};
 				};
@@ -570,6 +576,7 @@
 				A90CE5E41AAD7A3E00F3A565 /* sum.png in Resources */,
 				A91609B41AA5EA8D006FD716 /* boss_1.png in Resources */,
 				A973B0511AAF33B4000E094E /* NADView_readme.txt in Resources */,
+				A9686D2B2080426C00AAB4BD /* GoogleService-Info.plist in Resources */,
 				A973B04F1AAF33B4000E094E /* libAdapterNend_readme.txt in Resources */,
 				A9A7DEB31A6197FC0086A830 /* coin.mp3 in Resources */,
 				A90CE5FC1AAD7D4B00F3A565 /* stop_btn.png in Resources */,
@@ -656,11 +663,13 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-cat/Pods-cat-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -932,6 +941,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_BITCODE = NO;
@@ -981,7 +991,8 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1008,6 +1019,8 @@
 			baseConfigurationReference = 6F80F50BEB3FFDFD55C3DF93 /* Pods-cat.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = JKK37487L2;
 				INFOPLIST_FILE = cat/Base.lproj/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1017,10 +1030,9 @@
 					"$(PROJECT_DIR)/NendSDK_iOS-2.5.7/AdMobMediationAdapter",
 					"$(PROJECT_DIR)/NendSDK_iOS-2.5.7/Nend/NendAd",
 				);
-				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.maroton.oyajibae;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3b65fb5f-5959-4902-9723-5c88c1fa81a8";
+				PROVISIONING_PROFILE = "69e8f7ad-9bf0-492a-8ce5-8d2f334b8b35";
 				PROVISIONING_PROFILE_SPECIFIER = oyajibae_dev;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT)/cat-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
@@ -1032,7 +1044,9 @@
 			baseConfigurationReference = D2772CC5F9E9B6BD40806966 /* Pods-cat.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = JKK37487L2;
 				INFOPLIST_FILE = cat/Base.lproj/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1042,10 +1056,9 @@
 					"$(PROJECT_DIR)/NendSDK_iOS-2.5.7/AdMobMediationAdapter",
 					"$(PROJECT_DIR)/NendSDK_iOS-2.5.7/Nend/NendAd",
 				);
-				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.maroton.oyajibae;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "cb99989e-07e9-44c1-a138-67a0d294cae8";
+				PROVISIONING_PROFILE = "b1effc97-c9e7-464c-bb60-127c4da7cfa3";
 				PROVISIONING_PROFILE_SPECIFIER = oyajibae_distribution;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT)/cat-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
@@ -1057,6 +1070,9 @@
 			baseConfigurationReference = DA5AB822A1DB347DF6311B59 /* Pods-catTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = JKK37487L2;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -1069,6 +1085,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "tkt.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/cat.app/cat";
 			};
@@ -1079,6 +1096,9 @@
 			baseConfigurationReference = 7D61F3125FABA693C93DD4F5 /* Pods-catTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = JKK37487L2;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -1087,6 +1107,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "tkt.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/cat.app/cat";
 			};
