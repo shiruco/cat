@@ -8,7 +8,7 @@
 
 import Foundation
 
-let APP_VER: String = "1.2.0"
+let APP_VER: String = "1.2.1"
 
 //game center
 let LEADER_BORD_ID:String = "oyajibae.score"
