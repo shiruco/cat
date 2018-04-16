@@ -26,65 +26,16 @@ extension SKNode {
     }
 }
 
-class GameViewController: UIViewController, MainSceneDelegate,NADIconLoaderDelegate,  GADBannerViewDelegate, GADInterstitialDelegate {
+class GameViewController: UIViewController, MainSceneDelegate {
     
     var mainScene:MainScene?
     
     var gameScene:GameScene?
     
     var howtoScene:HowtoScene?
-    
-    var interstitialView:GADInterstitial?
-    
-    var iconLoader: NADIconLoader!
-    var iconView: NADIconView!
-    var iconView2: NADIconView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        var bannerView:GADBannerView = GADBannerView()
-        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
-        bannerView.adUnitID = AD_BANNER_ID
-        bannerView.frame.origin = CGPoint(x: 0, y: self.view.frame.size.height-50)
-        bannerView.frame.size = CGSize(width: self.view.frame.size.width,height: 50)
-        bannerView.rootViewController = self
-        bannerView.delegate = self
-        
-        bannerView.frame = CGRect(
-            x: (self.view.bounds.size.width - bannerView.bounds.size.width) / 2,
-            y: self.view.bounds.size.height - bannerView.bounds.size.height,
-            width: bannerView.bounds.size.width,
-            height: bannerView.bounds.size.height
-        )
-        
-        self.view.addSubview(bannerView)
-        
-        //test
-        let request:GADRequest = GADRequest()
-        //request.testDevices = [GAD_SIMULATOR_ID]
-        
-        bannerView.load(request)
-        
-        
-        //NADIconViewクラスの生成
-        iconView = NADIconView(frame: CGRect(x: 0, y: 100, width: 75, height: 75))
-        iconView.frame.origin = CGPoint(x: 0, y: 10)
-        
-        iconView2 = NADIconView(frame: CGRect(x: 0, y: 100, width: 75, height: 75))
-        iconView2.frame.origin = CGPoint(x: 70, y: 10)
-        
-        //NADIconLoaderクラスの生成
-        iconLoader = NADIconLoader()
-        //loaderへ追加
-        iconLoader.add(iconView)
-        iconLoader.add(iconView2)
-        //loaderへの設定
-        iconLoader.setNendID(AD_NEND_API_KEY,spotID: AD_NEND_SPOT_ID)
-        iconLoader.delegate = self
-        iconLoader.isOutputLog = true
-        //load開始
-        iconLoader.load()
         
         if let scene = MainScene.unarchiveFromFile("MainScene") as? MainScene {
             
@@ -108,18 +59,6 @@ class GameViewController: UIViewController, MainSceneDelegate,NADIconLoaderDeleg
     
     func bestScoreUpdate(){
         self.reportScores(UserDataUtil.getPointData(), leaderboardid:LEADER_BORD_ID)
-    }
-    
-    func addNendAd(){
-        //画面上へ追加
-        self.view.addSubview(iconView)
-        self.view.addSubview(iconView2)
-    }
-    
-    func removeNendAd(){
-        //画面上から削除
-        iconView.removeFromSuperview()
-        iconView2.removeFromSuperview()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -239,42 +178,8 @@ class GameViewController: UIViewController, MainSceneDelegate,NADIconLoaderDeleg
         }
     }
     
-    func showInterstitial(){
-        if(getRandomNumber(Min:0,Max:10) % 2 == 1){
-            var _ = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(GameViewController._showInterstitial(_:)), userInfo: nil, repeats: false)
-        }
-    }
-    func _showInterstitial(_ timer : Timer){
-        interstitialView = GADInterstitial()
-        interstitialView!.adUnitID = AD_POPUP_ID
-        interstitialView!.delegate = self
-        interstitialView!.load(GADRequest())
-        
-    }
     func getRandomNumber(Min _Min : Int, Max _Max : Int)->Int {
         return Int(arc4random_uniform(UInt32(_Max))) + _Min
-    }
-    func adViewDidReceiveAd(_ adView: GADBannerView){
-        print("adViewDidReceiveAd:\(adView)")
-    }
-    func adView(_ adView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError){
-        print("error:\(error)")
-    }
-    func adViewWillPresentScreen(_ adView: GADBannerView){
-        print("adViewWillPresentScreen")
-    }
-    func adViewWillDismissScreen(_ adView: GADBannerView){
-        print("adViewWillDismissScreen")
-    }
-    func adViewDidDismissScreen(_ adView: GADBannerView){
-        print("adViewDidDismissScreen")
-    }
-    func adViewWillLeaveApplication(_ adView: GADBannerView){
-        print("adViewWillLeaveApplication")
-    }
-    func interstitialDidReceiveAd(_ interstitial: GADInterstitial){
-        print("interstitialDidReceiveAd:\(interstitial)")
-        interstitialView!.present(fromRootViewController: self)
     }
 }
 

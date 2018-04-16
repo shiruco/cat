@@ -9,9 +9,6 @@
 #ifndef cat_cat_Bridging_Header_h
 #define cat_cat_Bridging_Header_h
 
-#import "GADBannerView.h"
-#import "GADInterstitial.h"
-#import "NADIconLoader.h"
 #import <GameKit/GameKit.h>
 
 #endif

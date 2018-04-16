@@ -180,11 +180,6 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
             
             self.uiContainer.isHidden = false
             
-            if self.controller != nil {
-                let c = self.controller as! GameViewController
-                c.addNendAd()
-            }
-            
             //タイマー
             self.gameTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(GameScene.onTimerTrigger(_:)), userInfo: nil, repeats: true)
             
@@ -328,11 +323,6 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
         currentRemainTime -= 1
         if(currentRemainTime < 0){
             
-            if controller != nil {
-                let c = controller as! GameViewController
-                c.removeNendAd()
-            }
-            
             currentRemainTime = remainTime
             timeLabel.text = "0"
             
@@ -456,7 +446,6 @@ class GameScene: SKScene, HaeDelegate, HaeBabyDelegate, HaeKingDelegate, ResultD
             let c = controller as! GameViewController
             let t:SKTransition = SKTransition.flipVertical(withDuration: 0.7)
             skView!.presentScene(c.mainScene!, transition: t)
-            c.showInterstitial()
         }
     }
     
